@@ -2,7 +2,7 @@ import "./globals.css";
 import type { Metadata as MetaData } from "next";
 import { Inter } from "next/font/google";
 import Navbar from '../components/navbar';
-// import Footer from '../../components/footer';
+import Footer from '../components/footer';
 
 // Inter Font Redeclaration (Only Take the Latin Subset)
 const inter = Inter({ subsets: ["latin"] });
@@ -24,7 +24,7 @@ export default function RootLayout({
       <body className={inter.className}>
         <Navbar />
         <main className="flex-grow">{children}</main>
-        {/* <Footer /> */}
+        <Footer />
       </body>
     </html>
   );
