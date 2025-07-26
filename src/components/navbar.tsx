@@ -19,15 +19,14 @@ export default function Navbar() {
 
   return (
     <nav className="bg-white shadow-sm top-0 z-50 border-b sticky">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center h-16">
+      <div className="mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex justify-between items-center h-18">
           {/* Logo */}
-          <Link href="/" className="flex items-center space-x-2">
+          <Link href="/" className="flex items-center w-18 space-x-2">
             <Image
               src={permisiLogo}
+              className="w-full"
               alt="PERMISI HK Logo"
-              width={50}
-              height={50}
             />
           </Link>
 
@@ -59,6 +58,7 @@ export default function Navbar() {
             </Button>
           </div>
         </div>
+        
         {/* Mobile Navbar */}
         {isMenuOpen && (
           <div className="md:hidden">
