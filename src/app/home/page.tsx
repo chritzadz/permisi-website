@@ -17,7 +17,7 @@ const HomePage = () => {
                     ></Image>
                 </div>
                 <div className="flex justify-center p-15">
-                    <h1 className="font-bold text-8xl">WELCOME BLA BLA BLA</h1>
+                    <h1 className="font-bold text-8xl">WELCOME TO CITY UNIVERSITY OF HONG KONG</h1>
                 </div>
             </div>
             <Footer />
