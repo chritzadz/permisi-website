@@ -7,9 +7,19 @@ import Typewriter from "@/components/text-animation/typewritter";
 import ppiOlympic from "../../../public/assets/ppi-olym.png";
 import indoFest from "../../../public/assets/indo-fest.png";
 import hikingPermisi from "../../../public/assets/hiking-permisi.png";
-import welcomingFeshman from "../../../public/assets/welcoming-freshman.png";
+import welcomingFreshman from "../../../public/assets/welcoming-freshman.png";
 import permisiTemp from "../../../public/assets/permisi-exco-temp.png";
 import FutsalOlym from "../../../public/assets/futsal-olym.png";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Calendar, ArrowRight } from "lucide-react";
+import Link from "next/link";
+import { Button } from "@/components/ui/button";
 
 const robotoSlab = Roboto_Slab({
   subsets: ["latin"],
@@ -103,7 +113,7 @@ const HomePage = () => {
               </div>
               <div className="relative aspect-video w-full h-auto min-h-[200px]">
                 <Image
-                  src={welcomingFeshman}
+                  src={welcomingFreshman}
                   alt="Group activity"
                   fill
                   className="object-cover rounded-lg"
@@ -124,7 +134,7 @@ const HomePage = () => {
         {/* PERMISI description */}
         <section className="py-20 bg-white">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="text-center mb-16">
+            <div className="text-center mb-10">
               <h2
                 className={`text-4xl font-bold text-gray-900 mb-8 ${robotoMono.className}`}
               >
@@ -174,6 +184,60 @@ const HomePage = () => {
                   </div>
                 </div>
               </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Latest Event */}
+        <section className="py-10">
+          <div className="max-w-7xlmx-auto px-4 sm:px-6 md:px-8">
+            <div className="text-center mb-16">
+              <h2
+                className={`text-4xl font-bold text-gray-900 mb-12 ${robotoMono.className}`}
+              >
+                Latest Event
+              </h2>
+              <Card className="max-w-4xl mx-auto">
+                <CardContent className="p-8">
+                  <div className="grid md:grid-cols-2 gap-8 items-center">
+                    <div className="relative aspect-video w-full h-[250px]">
+                      <Image
+                        src={welcomingFreshman}
+                        alt="Group activity"
+                        fill
+                        className="object-cover rounded-lg"
+                      />
+                    </div>
+                    <div className="text-left">
+                      <div className="flex items-center mb-4">
+                        <Calendar className="h-5 w-5 text-red-800 mr-2" />
+                        <span
+                          className={`text-sm text-gray-900 ${fontInter.className} font-medium`}
+                        >
+                          20 July 2025
+                        </span>
+                      </div>
+                      <h3 className={`text-2xl font-bold text-gray-900 mb-4 ${robotoMono.className}`}>
+                        Welcoming Sessions Student in Jakarta
+                      </h3>
+                      <p
+                        className={`text-gray-600 mb-6 ${fontSaira.className}`}
+                      >
+                        Join us for an exciting welcoming session for new
+                        Indonesian students! This event will feature orientation
+                        activities, cultural performances, and networking
+                        opportunities to help new members integrate into our
+                        community.
+                      </p>
+                      <Button asChild className="bg-red-900 hover:bg-red-950">
+                        <Link href="/events">
+                          See Details <ArrowRight className="h-4 w-4 ml-2" />
+                        </Link>
+                      </Button>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
             </div>
           </div>
         </section>
