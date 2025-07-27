@@ -50,7 +50,7 @@ const HomePage = () => {
     <>
       <Navbar />
       <div className="min-h-screen">
-        <section className="bg-gradient-to-b from-red-50 to-white py-20">
+        <section className="py-20 bg-white">
           <div className="max-w-7xl mx-auto sm:px-6 lg:px-8 text-center">
             {/* Headings */}
             <Typewriter
@@ -110,6 +110,10 @@ const HomePage = () => {
             </div>
           </div>
         </section>
+
+        {/* PERMISI description */}
+        <section className="py-20 bg-white"></section>
+
       </div>
       <Footer />
     </>
