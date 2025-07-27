@@ -2,12 +2,14 @@ import React from "react";
 import Image from "next/image";
 import Navbar from "@/components/navbar";
 import Footer from "@/components/footer";
-import { Roboto_Slab, Inter } from "next/font/google";
+import { Roboto_Slab, Inter, Roboto_Mono, Saira } from "next/font/google";
 import Typewriter from "@/components/text-animation/typewritter";
 import ppiOlympic from "../../../public/assets/ppi-olym.png";
 import indoFest from "../../../public/assets/indo-fest.png";
 import hikingPermisi from "../../../public/assets/hiking-permisi.png";
 import welcomingFeshman from "../../../public/assets/welcoming-freshman.png";
+import permisiTemp from "../../../public/assets/permisi-exco-temp.png";
+import FutsalOlym from "../../../public/assets/futsal-olym.png";
 
 const robotoSlab = Roboto_Slab({
   subsets: ["latin"],
@@ -15,6 +17,14 @@ const robotoSlab = Roboto_Slab({
 });
 
 const fontInter = Inter({
+  subsets: ["latin"],
+});
+
+const robotoMono = Roboto_Mono({
+  subsets: ["latin"],
+});
+
+const fontSaira = Saira({
   subsets: ["latin"],
 });
 
@@ -112,8 +122,61 @@ const HomePage = () => {
         </section>
 
         {/* PERMISI description */}
-        <section className="py-20 bg-white"></section>
+        <section className="py-20 bg-white">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="text-center mb-16">
+              <h2
+                className={`text-4xl font-bold text-gray-900 mb-8 ${robotoMono.className}`}
+              >
+                Who are We?
+              </h2>
+              <div className="max-w-7xl mx-auto">
+                <p
+                  className={`text-lg text-gray-600 leading-relaxed mb-12 ${fontSaira.className}`}
+                >
+                  <span className={`font-extrabold ${robotoSlab.className}`}>
+                    PERMISI HK
+                  </span>{" "}
+                  is a vibrant community of Indonesian students studying at{" "}
+                  <a
+                    href="https://www.cityu.edu.hk"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className={`font-bold text-red-800 hover:underline ${robotoSlab.className}`}
+                  >
+                    City University of Hong Kong
+                  </a>
+                  . We serve as a bridge connecting Indonesian culture with the
+                  international academic environment, fostering friendship,
+                  academic excellence, and cultural exchange. Our association
+                  provides support, networking opportunities, and a home away
+                  from home for Indonesian students pursuing their dreams in
+                  Hong Kong.
+                </p>
 
+                {/* Photo Gallery */}
+                <div className="flex justify-center gap-8">
+                  <div className="relative aspect-video w-full h-auto min-h-[200px]">
+                    <Image
+                      src={permisiTemp}
+                      alt="Group activity"
+                      fill
+                      className="object-cover rounded-lg"
+                    />
+                  </div>
+                  <div className="relative aspect-video w-full h-auto min-h-[200px]">
+                    <Image
+                      src={FutsalOlym}
+                      alt="Group activity"
+                      fill
+                      className="object-cover rounded-lg"
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
       </div>
       <Footer />
     </>
