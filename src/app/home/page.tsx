@@ -217,7 +217,9 @@ const HomePage = () => {
                           20 July 2025
                         </span>
                       </div>
-                      <h3 className={`text-2xl font-bold text-gray-900 mb-4 ${robotoMono.className}`}>
+                      <h3
+                        className={`text-2xl font-bold text-gray-900 mb-4 ${robotoMono.className}`}
+                      >
                         Welcoming Sessions Student in Jakarta
                       </h3>
                       <p
@@ -229,7 +231,7 @@ const HomePage = () => {
                         opportunities to help new members integrate into our
                         community.
                       </p>
-                      <Button asChild className="bg-red-900 hover:bg-red-950">
+                      <Button asChild className="bg-red-800 hover:bg-red-950">
                         <Link href="/events">
                           See Details <ArrowRight className="h-4 w-4 ml-2" />
                         </Link>
@@ -239,6 +241,30 @@ const HomePage = () => {
                 </CardContent>
               </Card>
             </div>
+          </div>
+        </section>
+
+        {/* Curious Section */}
+        <section className="py-10 bg-white">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <h2
+              className={`text-4xl font-bold text-gray-900 mb-8 ${robotoMono.className}`}
+            >
+              Curious about What We Do?
+            </h2>
+            <p
+              className={`text-lg text-gray-600 max-w-3xl mx-auto mb-8 ${fontSaira.className}`}
+            >
+              Discover our wide range of activities, from cultural celebrations
+              and academic support to networking events and community service.
+              Learn how PERMISI HK creates meaningful experiences for Indonesian
+              students in Hong Kong.
+            </p>
+            <Button size="lg" asChild className="bg-red-800 hover:bg-red-950">
+              <Link href="/about">
+                Learn More <ArrowRight className="h-4 w-4 ml-2" />
+              </Link>
+            </Button>
           </div>
         </section>
       </div>
