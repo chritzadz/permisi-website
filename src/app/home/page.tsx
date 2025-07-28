@@ -91,7 +91,7 @@ const HomePage = () => {
                         >
                         {animatedLetters}
                         </h2>
-                        <p className={`text-xl md:text-2xl text-gray-400 mb-12 max-w-4xl mx-auto ${robotoSlab.className}`}>
+                        <p className={`text-xl md:text-2xl text-gray-700 mb-12 max-w-4xl mx-auto ${robotoSlab.className}`}>
                             Indonesian Students Association in City University of Hong Kong
                         </p>
 
