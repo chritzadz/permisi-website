@@ -83,6 +83,11 @@ const HomePage = () => {
         let lastProgress = 0;
         let smoothProgress = 0;
         const smoothFactor = 1;
+
+        gsap.to(titleRef.current, {
+            y: "75vh",
+            ease: "none"
+        });
         
         ScrollTrigger.create({
             trigger: heroSectionRef.current,
@@ -130,13 +135,13 @@ const HomePage = () => {
                 </div>
                 
                 <div ref={titleRef} className='absolute inset-0 flex flex-col items-center mt-20'>
-                    <div className={`${inter.className} font-bold relative text-[#82181A] text-9xl`}>
+                    <div className={`${inter.className} font-bold relative text-[#82181A] text-7xl lg:text-9xl md:text-7xl sm:text-7xl justify-center`}>
                         PERMISI
                     </div>
-                    <div className={`${inter.className} font-bold relative text-white text-2xl mt-4`}>
+                    <div className={`${inter.className} font-bold relative text-white lg:text-2xl md:text-xl mt-2 justify-center`}>
                         Persaatuan Mahasiswa Indonesian CityU Hong Kong
                     </div>
-                    <div className={`${inter.className} font-bold relative text-white text-2xl mt-2`}>
+                    <div className={`${inter.className} font-bold relative text-white lg:text-2xl md:text-xl mt-2 justify-center`}>
                         Indonesian Students' Association of City University of Hong Kong
                     </div>
                 </div>
