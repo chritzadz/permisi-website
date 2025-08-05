@@ -1,43 +1,19 @@
 "use client";
 
-import React from "react";
+import React, { useRef, useEffect } from 'react';
 import Image from "next/image";
 import Navbar from "@/components/navbar";
 import Footer from "@/components/footer";
+import sunsetHikeBg from "../../../public/assets/sunset_hike_bg_cropped.png";
+import sunsetHikeBgRemove from "../../../public/assets/sunset_hike_bg_cropped_remove.png"; //just for testing very ugly quality lah
+import { gsap } from "gsap"
+import { ScrollTrigger } from "gsap/ScrollTrigger"
+import { useGSAP } from '@gsap/react';
+
 import { Roboto_Slab, Inter, Roboto_Mono, Saira } from "next/font/google";
-import Typewriter from "@/components/text-animation/typewritter";
-import ppiOlympic from "../../../public/assets/ppi-olym.png";
-import indoFest from "../../../public/assets/indo-fest.png";
-import hikingPermisi from "../../../public/assets/hiking-permisi.png";
-import welcomingFreshman from "../../../public/assets/welcoming-freshman.png";
-import permisiTemp from "../../../public/assets/permisi-exco-temp.png";
-import FutsalOlym from "../../../public/assets/futsal-olym.png";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import { Calendar, ArrowRight } from "lucide-react";
-import Link from "next/link";
-import { Button } from "@/components/ui/button";
 
-const robotoSlab = Roboto_Slab({
-  subsets: ["latin"],
-  weight: "700",
-});
-
-const fontInter = Inter({
-  subsets: ["latin"],
-});
-
-const robotoMono = Roboto_Mono({
-  subsets: ["latin"],
-});
-
-const fontSaira = Saira({
-  subsets: ["latin"],
+const inter = Inter({
+    subsets: ["latin"],
 });
 
 const styles = `
@@ -56,241 +32,128 @@ const styles = `
 `;
 
 const HomePage = () => {
-  const permisiText = "PERMISI";
+    const heroSectionRef = useRef(null);
+    const titleRef = useRef(null);
+    const imageContainerRef = useRef(null);
 
-  const animatedLetters = permisiText.split("").map((letter, index) => (
-    <span
-      key={index}
-      className="bounce-letter"
-      style={{ animationDelay: `${index * 0.1}s` }}
-    >
-      {letter === " " ? "\u00A0" : letter}
-    </span>
-  ));
+    useEffect(() => {
+        gsap.registerPlugin(ScrollTrigger);
+        
+        if (!titleRef.current || !heroSectionRef.current) return;
 
-  return (
-    <>
-      <div className="w-full relative">
-        <div className="fixed w-full top-0 left-0 z-50">
-          <Navbar />
-        </div>
-      </div>
-      <div className="min-h-screen">
-        <section className="mt-16 sm:mt-20 py-12 sm:py-20 bg-white">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            {/* Headings */}
-            <Typewriter
-              text={["Hi there!", "Welcome to"]}
-              speed={100}
-              className={`text-2xl sm:text-4xl md:text-6xl font-bold mb-3 text-gray-800 ${fontInter.className}`}
-              waitTime={1500}
-              deleteSpeed={40}
-              cursorChar={"_"}
-            />
-            <style>{styles}</style>
-            <h2
-              className={`text-4xl sm:text-6xl md:text-8xl font-bold text-red-700 mb-4 sm:mb-6 ${robotoSlab.className}`}
-            >
-              {animatedLetters}
-            </h2>
-            <p
-              className={`text-base sm:text-xl md:text-2xl text-gray-700 mb-8 sm:mb-12 max-w-4xl mx-auto px-2 ${robotoSlab.className}`}
-            >
-              Indonesian Students Association in City University of Hong Kong
-            </p>
+        const tl = gsap.timeline();
 
-            {/* Photo Gallery - Responsive Grid */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 max-w-7xl mx-auto">
-              <div className="relative aspect-[4/3] sm:aspect-video w-full">
-                <Image
-                  src={ppiOlympic}
-                  alt="PPI Olympic event"
-                  fill
-                  className="object-cover rounded-lg"
-                  sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
-                />
-              </div>
-              <div className="relative aspect-[4/3] sm:aspect-video w-full">
-                <Image
-                  src={indoFest}
-                  alt="Indonesian Festival"
-                  fill
-                  className="object-cover rounded-lg"
-                  sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
-                />
-              </div>
-              <div className="relative aspect-[4/3] sm:aspect-video w-full">
-                <Image
-                  src={welcomingFreshman}
-                  alt="Welcoming freshman event"
-                  fill
-                  className="object-cover rounded-lg"
-                  sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
-                />
-              </div>
-              <div className="relative aspect-[4/3] sm:aspect-video w-full">
-                <Image
-                  src={hikingPermisi}
-                  alt="PERMISI hiking activity"
-                  fill
-                  className="object-cover rounded-lg"
-                  sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
-                />
-              </div>
-            </div>
-          </div>
-        </section>
+        gsap.set(titleRef.current, { opacity: 0, y: 50 });
+        gsap.set(titleRef.current.children[0], { opacity: 0, y: -300 });
+        gsap.set(titleRef.current.children[1], { opacity: 0, x: -50 });
+        gsap.set(titleRef.current.children[2], { opacity: 0, x: 50 });
 
-        {/* PERMISI description */}
-        <section className="py-12 sm:py-20 bg-white">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="text-center mb-8 sm:mb-10">
-              <h2
-                className={`text-2xl sm:text-4xl font-bold text-gray-900 mb-6 sm:mb-8 ${robotoMono.className}`}
-              >
-                Who are We?
-              </h2>
-              <div className="max-w-7xl mx-auto">
-                <p
-                  className={`text-base sm:text-lg text-gray-600 leading-relaxed mb-8 sm:mb-12 px-2 ${fontSaira.className}`}
-                >
-                  <span className={`font-extrabold ${robotoSlab.className}`}>
-                    PERMISI HK
-                  </span>{" "}
-                  is a vibrant community of Indonesian students studying at{" "}
-                  <a
-                    href="https://www.cityu.edu.hk"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className={`font-bold text-red-800 hover:underline ${robotoSlab.className}`}
-                  >
-                    City University of Hong Kong
-                  </a>
-                  . We serve as a bridge connecting Indonesian culture with the
-                  international academic environment, fostering friendship,
-                  academic excellence, and cultural exchange. Our association
-                  provides support, networking opportunities, and a home away
-                  from home for Indonesian students pursuing their dreams in
-                  Hong Kong.
-                </p>
+        tl.to(titleRef.current, {
+            opacity: 1,
+            y: 0,
+            duration: 1,
+            ease: "power2.out"
+        })
+        .to(titleRef.current.children[0], {
+            opacity: 1,
+            scale: 1,
+            y: 0,
+            duration: 1.5,
+            ease: "back.out(1.7)"
+        }, "-=0.3")
+        .to(titleRef.current.children[1], {
+            opacity: 1,
+            x: 0,
+            duration: 0.8,
+            ease: "power2.out"
+        }, "-=0.5")
+        .to(titleRef.current.children[2], {
+            opacity: 1,
+            x: 0,
+            duration: 0.8,
+            ease: "power2.out"
+        }, "-=0.6");
 
-                {/* Photo Gallery - Mobile Responsive */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-8 max-w-4xl mx-auto">
-                  <div className="relative aspect-[4/3] sm:aspect-video w-full">
-                    <Image
-                      src={permisiTemp}
-                      alt="PERMISI executive committee"
-                      fill
-                      className="object-cover rounded-lg"
-                      sizes="(max-width: 640px) 100vw, 50vw"
-                    />
-                  </div>
-                  <div className="relative aspect-[4/3] sm:aspect-video w-full">
-                    <Image
-                      src={FutsalOlym}
-                      alt="Futsal Olympic event"
-                      fill
-                      className="object-cover rounded-lg"
-                      sizes="(max-width: 640px) 100vw, 50vw"
-                    />
-                  </div>
+        let tween = gsap.to(titleRef.current, {
+            y: window.innerHeight * 0.8,
+            ease: "none",
+            paused: true
+        });
+
+        let lastProgress = 0;
+        let smoothProgress = 0;
+        const smoothFactor = 1;
+        
+        ScrollTrigger.create({
+            trigger: heroSectionRef.current,
+            start: "top top",
+            end: "bottom top",
+            scrub: 0.1,
+            pin: heroSectionRef.current,
+            pinSpacing: true,
+            markers: true,
+            onUpdate: self => {
+                smoothProgress += (self.progress - smoothProgress) * smoothFactor;
+                
+                tween.progress(smoothProgress);
+                
+                lastProgress = self.progress;
+            }
+        });
+
+        return () => {
+            ScrollTrigger.getAll().forEach(trigger => trigger.kill());
+            if (tween) tween.kill();
+        };
+    }, []);
+
+    return (
+        <div className='flex flex-col'>
+            <div className="w-full relative">
+                <div className="fixed w-full top-0 left-0 z-50">
+                    <Navbar />
                 </div>
-              </div>
             </div>
-          </div>
-        </section>
-
-        {/* Latest Event */}
-        <section className="py-8 sm:py-10">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
-            <div className="text-center mb-12 sm:mb-16">
-              <h2
-                className={`text-2xl sm:text-4xl font-bold text-gray-900 mb-8 sm:mb-12 ${robotoMono.className}`}
-              >
-                Latest Event
-              </h2>
-              <Card className="max-w-4xl mx-auto">
-                <CardContent className="p-4 sm:p-8">
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8 items-center">
-                    <div className="relative aspect-[4/3] sm:aspect-video w-full order-1 md:order-1">
-                      <Image
-                        src={welcomingFreshman}
-                        alt="Welcoming freshman event"
-                        fill
-                        className="object-cover rounded-lg"
-                        sizes="(max-width: 768px) 100vw, 50vw"
-                      />
+            
+            <div ref={heroSectionRef} className="hero-section relative h-screen overflow-hidden mt-18">
+                <div ref={imageContainerRef} className="absolute inset-0 w-full h-full">
+                    <Image
+                        src={sunsetHikeBg}
+                        className="absolute inset-0 w-full h-full object-cover"
+                        alt="bg-main-1"
+                    />
+                    <Image
+                        src={sunsetHikeBgRemove}
+                        className="absolute inset-0 w-full h-full object-cover z-60"
+                        alt="bg-main-1"
+                    />
+                </div>
+                
+                <div ref={titleRef} className='absolute inset-0 flex flex-col items-center mt-20'>
+                    <div className={`${inter.className} font-bold relative text-[#82181A] text-9xl`}>
+                        PERMISI
                     </div>
-                    <div className="text-left order-2 md:order-2">
-                      <div className="flex items-center mb-4">
-                        <Calendar className="h-4 w-4 sm:h-5 sm:w-5 text-red-800 mr-2" />
-                        <span
-                          className={`text-sm text-gray-900 ${fontInter.className} font-medium`}
-                        >
-                          20 July 2025
-                        </span>
-                      </div>
-                      <h3
-                        className={`text-lg sm:text-2xl font-bold text-gray-900 mb-4 ${robotoMono.className}`}
-                      >
-                        Welcoming Sessions Student in Jakarta
-                      </h3>
-                      <p
-                        className={`text-sm sm:text-base text-gray-600 mb-6 ${fontSaira.className}`}
-                      >
-                        Join us for an exciting welcoming session for new
-                        Indonesian students! This event will feature orientation
-                        activities, cultural performances, and networking
-                        opportunities to help new members integrate into our
-                        community.
-                      </p>
-                      <Button
-                        asChild
-                        className="bg-red-800 hover:bg-red-950 w-full sm:w-auto"
-                      >
-                        <Link href="/events">
-                          See Details <ArrowRight className="h-4 w-4 ml-2" />
-                        </Link>
-                      </Button>
+                    <div className={`${inter.className} font-bold relative text-white text-2xl mt-4`}>
+                        Persaatuan Mahasiswa Indonesian CityU Hong Kong
                     </div>
-                  </div>
-                </CardContent>
-              </Card>
+                    <div className={`${inter.className} font-bold relative text-white text-2xl mt-2`}>
+                        Indonesian Students' Association of City University of Hong Kong
+                    </div>
+                </div>
             </div>
-          </div>
-        </section>
 
-        {/* Curious Section */}
-        <section className="py-8 sm:py-10 bg-white">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <h2
-              className={`text-2xl sm:text-4xl font-bold text-gray-900 mb-6 sm:mb-8 ${robotoMono.className}`}
-            >
-              Curious about What We Do?
-            </h2>
-            <p
-              className={`text-sm sm:text-lg text-gray-600 max-w-3xl mx-auto mb-6 sm:mb-8 px-2 ${fontSaira.className}`}
-            >
-              Discover our wide range of activities, from cultural celebrations
-              and academic support to networking events and community service.
-              Learn how PERMISI HK creates meaningful experiences for Indonesian
-              students in Hong Kong.
-            </p>
-            <Button
-              size="lg"
-              asChild
-              className="bg-red-800 hover:bg-red-950 w-full sm:w-auto"
-            >
-              <Link href="/about">
-                Learn More <ArrowRight className="h-4 w-4 ml-2" />
-              </Link>
-            </Button>
-          </div>
-        </section>
-      </div>
-      <Footer />
-    </>
-  );
+            {/* temp content for test parallax scrolling */}
+            <div className="h-screen bg-gray-100 flex items-center justify-center">
+                <h2 className="text-4xl font-bold">Next Section</h2>
+            </div>
+
+            <div>
+                <Footer />
+            </div>
+            
+            <style jsx global>{styles}</style>
+        </div>
+    );
 };
 
 export default HomePage;
