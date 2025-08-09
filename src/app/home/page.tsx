@@ -8,7 +8,6 @@ import sunsetHikeBg from "../../../public/assets/sunset_hike_bg_cropped.png";
 import sunsetHikeBgRemove from "../../../public/assets/sunset_hike_bg_cropped_remove.png"; //just for testing very ugly quality lah
 import { gsap } from "gsap"
 import { ScrollTrigger } from "gsap/ScrollTrigger"
-import { useGSAP } from '@gsap/react';
 
 import { Roboto_Slab, Inter, Roboto_Mono, Saira } from "next/font/google";
 
@@ -74,41 +73,28 @@ const HomePage = () => {
             ease: "power2.out"
         }, "-=0.6");
 
-        let tween = gsap.to(titleRef.current, {
-            y: window.innerHeight * 0.8,
-            ease: "none",
-            paused: true
-        });
-
-        let lastProgress = 0;
-        let smoothProgress = 0;
-        const smoothFactor = 1;
-
-        gsap.to(titleRef.current, {
-            y: "75vh",
-            ease: "none"
-        });
-        
-        ScrollTrigger.create({
-            trigger: heroSectionRef.current,
-            start: "top top",
-            end: "bottom top",
-            scrub: 0.1,
-            pin: heroSectionRef.current,
-            pinSpacing: true,
-            markers: true,
-            onUpdate: self => {
-                smoothProgress += (self.progress - smoothProgress) * smoothFactor;
-                
-                tween.progress(smoothProgress);
-                
-                lastProgress = self.progress;
+        gsap.fromTo(titleRef.current,
+            { y: 0 },
+            {
+                y: "75vh",
+                ease: "none",
+                scrollTrigger: {
+                    trigger: heroSectionRef.current,
+                    start: "top top",
+                    end: "bottom top",
+                    scrub: 0.5,
+                    pin: heroSectionRef.current,
+                    pinSpacing: true,
+                    markers: true,
+                    onUpdate: (self) => {
+                        //later
+                    }
+                }
             }
-        });
+        );
 
         return () => {
             ScrollTrigger.getAll().forEach(trigger => trigger.kill());
-            if (tween) tween.kill();
         };
     }, []);
 
@@ -139,7 +125,7 @@ const HomePage = () => {
                         PERMISI
                     </div>
                     <div className={`${inter.className} font-bold relative text-white lg:text-2xl md:text-xl mt-2 justify-center`}>
-                        Persaatuan Mahasiswa Indonesian CityU Hong Kong
+                        Persatuan Mahasiswa Indonesian CityU Hong Kong
                     </div>
                     <div className={`${inter.className} font-bold relative text-white lg:text-2xl md:text-xl mt-2 justify-center`}>
                         Indonesian Students' Association of City University of Hong Kong
@@ -149,7 +135,61 @@ const HomePage = () => {
 
             {/* temp content for test parallax scrolling */}
             <div className="h-screen bg-gray-100 flex items-center justify-center">
-                <h2 className="text-4xl font-bold">Next Section</h2>
+                <section className="py-20 bg-white">
+                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <div className="text-center mb-10">
+                    <h2
+                        className={`text-4xl font-bold text-gray-900 mb-8`}
+                    >
+                        Who are We?
+                    </h2>
+                    <div className="max-w-7xl mx-auto">
+                        <p
+                        className={`text-lg text-gray-600 leading-relaxed mb-12`}
+                        >
+                        <span className={`font-extrabold`}>
+                            PERMISI HK
+                        </span>{" "}
+                        is a vibrant community of Indonesian students studying at{" "}
+                        <a
+                            href="https://www.cityu.edu.hk"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className={`font-bold text-red-800 hover:underline`}
+                        >
+                            City University of Hong Kong
+                        </a>
+                        . We serve as a bridge connecting Indonesian culture with the
+                        international academic environment, fostering friendship,
+                        academic excellence, and cultural exchange. Our association
+                        provides support, networking opportunities, and a home away
+                        from home for Indonesian students pursuing their dreams in
+                        Hong Kong.
+                        </p>
+
+                        {/* Photo Gallery */}
+                        <div className="flex justify-center gap-8">
+                        {/* <div className="relative aspect-video w-full h-auto min-h-[200px]">
+                            <Image
+                            src={}
+                            alt="Group activity"
+                            fill
+                            className="object-cover rounded-lg"
+                            />
+                        </div>
+                        <div className="relative aspect-video w-full h-auto min-h-[200px]">
+                            <Image
+                            src={FutsalOlym}
+                            alt="Group activity"
+                            fill
+                            className="object-cover rounded-lg"
+                            />
+                        </div> */}
+                        </div>
+                    </div>
+                    </div>
+                </div>
+                </section>
             </div>
 
             <div>
