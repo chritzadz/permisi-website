@@ -91,7 +91,7 @@ const AdminHomePage = () => {
                 }
             </div>
             <div className="bg-amber-200 w-full flex flex-col">
-                <div className="w-full p-6 text-4xl">
+                <div className="w-full p-6 text-4xl font-bold">
                     Welcome, Admin!
                 </div>
             </div>
