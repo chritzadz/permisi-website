@@ -23,13 +23,13 @@ const AdminHomePage = () => {
         if (panelRef.current) {
             if (isInitialRender) {
                 gsap.set(panelRef.current, {
-                    width: panelIsOpen ? "20%" : "4.166%",
+                    width: panelIsOpen ? "300px" : "60px",
                 });
                 setIsInitialRender(false);
             } else {
                 gsap.to(panelRef.current, {
                     duration: 0.5,
-                    width: panelIsOpen ? "20%" : "4.166%",
+                    width: panelIsOpen ? "300px" : "60px",
                     ease: "power3.out",
                 });
             }
@@ -76,7 +76,7 @@ const AdminHomePage = () => {
     ]
 
     return(
-        <div className="bg-normal-creme h-screen">
+        <div className="bg-normal-creme h-screen flex flex-row">
             <div className="h-full flex overflow-hidden bg-white shadow-md" ref={panelRef}>
                 {
                     panelIsOpen?(
@@ -89,6 +89,11 @@ const AdminHomePage = () => {
                         </div>
                     )
                 }
+            </div>
+            <div className="bg-amber-200 w-full flex flex-col">
+                <div className="w-full p-6 text-4xl">
+                    Welcome, Admin!
+                </div>
             </div>
         </div>
     );
