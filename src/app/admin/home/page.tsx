@@ -7,17 +7,20 @@ const AdminHomePage = () => {
         {
             text: "Dashboard",
             onClick: () => {},
-            routePath: "admin/home"
+            routePath: "admin/home",
+            icon: "House"
         },
         {
             text: "Custom Form",
             onClick: () => {},
-            routePath: "admin/form"
+            routePath: "admin/form",
+            icon: "BookText"
         },
         {
             text: "Update Member",
             onClick: () => {},
-            routePath: "admin/member/update"
+            routePath: "admin/member/update",
+            icon: "LayoutList"
         },
     ]
 
