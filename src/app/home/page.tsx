@@ -25,9 +25,11 @@ const HomePage = () => {
     const titleRef = useRef(null);
     const imageContainerRef = useRef(null);
     const navBarRef = useRef(null);
+    const whoAreWeRef = useRef(null);
 
 
     //use effects for gsap animation
+    //title beginning animation
     useEffect(() => {
         gsap.registerPlugin(ScrollTrigger, ScrollSmoother);
 
@@ -101,6 +103,7 @@ const HomePage = () => {
         };
     }, []);
 
+    //navbar
     useEffect(() => {
         const showAnim = gsap.from(navBarRef.current, { 
             yPercent: -100,
@@ -117,6 +120,23 @@ const HomePage = () => {
             }
         });
     }, [])
+
+    //who are we
+    useEffect(() => {
+        if (whoAreWeRef.current) {
+            gsap.fromTo(
+                whoAreWeRef.current,
+                { opacity: 0, y: 20 },
+                {
+                    opacity: 1,
+                    y: 0,
+                    duration: 0.5,
+                    stagger: 0.1,
+                    ease: "power3.out",
+                }
+            );
+        }
+    }, [])
     
 
     return (
@@ -126,7 +146,7 @@ const HomePage = () => {
                     <Navbar />
                 </div>
             </div>
-            <div id="smooth-content" className='flex flex-col pt-40'>
+            <div id="smooth-content" className='flex flex-col'>
                 <div ref={heroSectionRef} className="hero-section h-screen overflow-hidden">
                     <div ref={imageContainerRef} className="absolute inset-0 w-full h-full">
                         <Image
@@ -154,7 +174,7 @@ const HomePage = () => {
                     </div>
                 </div>
 
-                <div id="definitionBox" className="h-screen bg-white flex items-center justify-center p-20">
+                <div id="definitionBox" className="h-screen bg-white flex items-center justify-center p-20" ref={whoAreWeRef}>
                     <section className="py-10 bg-white">
                     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                         <div className="text-center mb-10">
