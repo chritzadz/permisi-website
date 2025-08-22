@@ -26,6 +26,8 @@ const HomePage = () => {
     const imageContainerRef = useRef(null);
     const navBarRef = useRef(null);
     const whoAreWeRef = useRef(null);
+    const whoAreWeTitleRef = useRef(null);
+    const whoAreWeTextRef = useRef(null);
 
 
     //use effects for gsap animation
@@ -123,20 +125,35 @@ const HomePage = () => {
 
     //who are we
     useEffect(() => {
-        if (whoAreWeRef.current) {
-            gsap.fromTo(
-                whoAreWeRef.current,
-                { opacity: 0, y: 20 },
-                {
-                    opacity: 1,
-                    y: 0,
-                    duration: 0.5,
-                    stagger: 0.1,
-                    ease: "power3.out",
-                }
-            );
-        }
-    }, [])
+      if (whoAreWeTitleRef.current && whoAreWeTextRef.current) {
+          gsap.set([whoAreWeTitleRef.current, whoAreWeTextRef.current], {
+              opacity: 0,
+              y: 50
+          });
+
+          gsap.timeline({
+              scrollTrigger: {
+                  trigger: whoAreWeRef.current,
+                  start: "top 40%",
+                  end: "bottom 50%",
+                  toggleActions: "play reverse play reverse",
+                  markers: true
+              }
+          })
+          .to(whoAreWeTitleRef.current, {
+              opacity: 1,
+              y: 0,
+              duration: 1.5,
+              ease: "power3.out"
+          })
+          .to(whoAreWeTextRef.current, {
+              opacity: 1,
+              y: 0,
+              duration: 1.5,
+              ease: "power3.out"
+          }, "-=0.4");
+      }
+  }, []);
     
 
     return (
@@ -161,7 +178,7 @@ const HomePage = () => {
                         />
                     </div>
                     
-                    <div ref={titleRef} className='inset-0 flex flex-col items-center'>
+                    <div ref={titleRef} className='inset-0 flex flex-col items-center pt-40'>
                         <div className={`${inter.className} font-bold relative text-[#82181A] text-7xl lg:text-9xl md:text-7xl sm:text-7xl justify-center`}>
                             PERMISI
                         </div>
@@ -174,41 +191,50 @@ const HomePage = () => {
                     </div>
                 </div>
 
-                <div id="definitionBox" className="h-screen bg-white flex items-center justify-center p-20" ref={whoAreWeRef}>
-                    <section className="py-10 bg-white">
-                    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                        <div className="text-center mb-10">
-                        <h2
-                            className={`text-4xl font-bold text-gray-900 mb-8`}
-                        >
-                            Who are We?
-                        </h2>
-                        <div className="max-w-7xl mx-auto">
-                            <p
-                            className={`text-lg text-gray-600 leading-relaxed mb-12`}
+                <div id="definitionBox" className="h-screen w-full bg-white flex flex-row" ref={whoAreWeRef}>
+                    <section className='w-1/2 bg-blue-300'>
+                      <div className="00">
+                        <Image
+                          src={sunsetHikeBg}
+                          className="w-full h-full object-cover"
+                          alt = "permisiPhotos"
+                        />
+                      </div>
+                    </section>
+                    <section className="w-1/2 items-center justify-center flex">
+                      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                          <div className="text-center mb-10">
+                            <h2
+                                className={`text-4xl font-bold text-gray-900 mb-8`} ref={whoAreWeTitleRef}
                             >
-                            <span className={`font-extrabold`}>
-                                PERMISI HK
-                            </span>{" "}
-                            is a vibrant community of Indonesian students studying at{" "}
-                            <a
-                                href="https://www.cityu.edu.hk"
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className={`font-bold text-red-800 hover:underline`}
-                            >
-                                City University of Hong Kong
-                            </a>
-                            . We serve as a bridge connecting Indonesian culture with the
-                            international academic environment, fostering friendship,
-                            academic excellence, and cultural exchange. Our association
-                            provides support, networking opportunities, and a home away
-                            from home for Indonesian students pursuing their dreams in
-                            Hong Kong.
-                            </p>
-                        </div>
-                        </div>
-                    </div>
+                                Who are We?
+                            </h2>
+                            <div className="max-w-7xl mx-auto" ref={whoAreWeTextRef}>
+                                <p
+                                className={`text-lg text-gray-600 leading-relaxed mb-12`}
+                                >
+                                <span className={`font-extrabold text-normal-maroon`}>
+                                    PERMISI HK
+                                </span>{" "}
+                                is a vibrant community of Indonesian students studying at{" "}
+                                <a
+                                    href="https://www.cityu.edu.hk"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className={`font-bold text-normal-maroon hover:underline`}
+                                >
+                                    City University of Hong Kong
+                                </a>
+                                . We serve as a bridge connecting Indonesian culture with the
+                                international academic environment, fostering friendship,
+                                academic excellence, and cultural exchange. Our association
+                                provides support, networking opportunities, and a home away
+                                from home for Indonesian students pursuing their dreams in
+                                Hong Kong.
+                                </p>
+                            </div>
+                          </div>
+                      </div>
                     </section>
                 </div>
 
