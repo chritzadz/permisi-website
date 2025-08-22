@@ -23,13 +23,13 @@ const AdminHomePage = () => {
         if (panelRef.current) {
             if (isInitialRender) {
                 gsap.set(panelRef.current, {
-                    width: panelIsOpen ? "300px" : "60px",
+                    width: panelIsOpen ? "100%" : "30%",
                 });
                 setIsInitialRender(false);
             } else {
                 gsap.to(panelRef.current, {
                     duration: 0.5,
-                    width: panelIsOpen ? "300px" : "60px",
+                    width: panelIsOpen ? "100%" : "30%",
                     ease: "power3.out",
                 });
             }
@@ -76,22 +76,25 @@ const AdminHomePage = () => {
     ]
 
     return(
-        <div className="bg-normal-creme h-screen flex flex-row">
-            <div className="h-full flex overflow-hidden bg-white shadow-md" ref={panelRef}>
-                {
-                    panelIsOpen?(
-                        <div className="w-full h-full">
-                            <AdminPanel itemsRef={itemsRef} numberOfItem={numberOfItem} listOfItem={listOfItem} handleClick={handlePanelClick}></AdminPanel>
-                        </div>
-                    ) : (
-                        <div className="w-full h-full flex">
-                            <AdminPanelBefore handleClick={handlePanelClick}></AdminPanelBefore>
-                        </div>
-                    )
-                }
+        <div className="bg-normal-creme h-screen relative">
+            <div className="w-1/5 h-full z-10 fixed">
+                <div className="h-full flex overflow-hidden bg-white shadow-md" ref={panelRef}>
+                    {
+                        panelIsOpen?(
+                            <div className="w-full h-full">
+                                <AdminPanel itemsRef={itemsRef} numberOfItem={numberOfItem} listOfItem={listOfItem} handleClick={handlePanelClick}></AdminPanel>
+                            </div>
+                        ) : (
+                            <div className="w-full h-full flex">
+                                <AdminPanelBefore handleClick={handlePanelClick}></AdminPanelBefore>
+                            </div>
+                        )
+                    }
+                </div>
             </div>
-            <div className="bg-amber-200 w-full flex flex-col">
-                <div className="w-full p-6 text-4xl font-bold">
+            
+            <div className="w-full flex flex-col">
+                <div className="w-full ml-20 p-6 text-4xl font-bold">
                     Welcome, Admin!
                 </div>
             </div>
