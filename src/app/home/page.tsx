@@ -202,17 +202,17 @@ const HomePage = () => {
 						<div className={`${inter.className} font-bold relative text-[#82181A] text-7xl lg:text-9xl md:text-7xl sm:text-7xl justify-center`}>
 							{"PERMISI"}
 						</div>
-						<div className={`${inter.className} font-bold relative text-white lg:text-2xl md:text-xl mt-2 justify-center`}>
+						<div className={`${inter.className} font-bold relative text-white lg:text-2xl md:text-xl sm:text-lg mt-2 text-center mx-4 sm:mx-10`}>
 							{"Persatuan Mahasiswa Indonesian CityU Hong Kong"}
 						</div>
-						<div className={`${inter.className} font-bold relative text-white lg:text-2xl md:text-xl mt-2 justify-center`}>
+						<div className={`${inter.className} font-bold relative text-white lg:text-2xl md:text-xl sm:text-lg mt-2 text-center mx-4 sm:mx-10`}>
 							{"Indonesian Students' Association of City University of Hong Kong"}
 						</div>
 					</div>
 				</div>
 
-				<div id="definitionBox" className="h-screen w-full bg-white flex flex-row" ref={whoAreWeRef}>
-					<section className='w-1/2 bg-blue-300 relative overflow-hidden'>
+				<div id="definitionBox" className="h-screen w-full bg-white flex flex-col md:flex-row" ref={whoAreWeRef}>
+					<section className='hidden md:block md:w-1/2 lg:w-1/2 bg-blue-300 relative overflow-hidden'>
 						<div className="flex flex-col h-[300%]" ref={whoAreWeImageRef}>
 							<div className="h-screen flex-shrink-0">
 								<Image
@@ -237,8 +237,8 @@ const HomePage = () => {
 							</div>
 						</div>
 					</section>
-					<section className="w-1/2 items-center justify-center flex">
-						<div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+					<section className="w-full md:w-1/2 lg:w-1/2 h-screen items-center justify-center flex">
+						<div className="max-w-7xl mx-auto items-center flex justify-center px-4 py-10 sm:px-6 lg:px-8">
 							<div className="text-center mb-10">
 								<h2
 									className={`text-4xl font-bold text-gray-900 mb-8`} ref={whoAreWeTitleRef}
