@@ -1,4 +1,3 @@
-import { Ref, RefObject } from "react";
 import adminPanelItemProp from "./adminPanelItemProp";
 
 export default interface AdminPanelProp{

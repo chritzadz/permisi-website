@@ -11,7 +11,7 @@ import welcomingFreshman from "../../../public/assets/welcoming-freshman.png";
 import { ScrollTrigger } from "gsap/ScrollTrigger"
 import { ScrollSmoother } from "gsap/ScrollSmoother"
 
-import { Roboto_Slab, Inter, Roboto_Mono, Saira } from "next/font/google";
+import { Inter} from "next/font/google";
 import { Card, CardContent } from '@/components/ui/card';
 import { ArrowRight, Calendar, Link } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -29,8 +29,6 @@ const HomePage = () => {
 	const whoAreWeTitleRef = useRef(null);
 	const whoAreWeTextRef = useRef(null);
 	const whoAreWeImageRef = useRef(null);
-	const whoAreWeImageRef2 = useRef(null);
-	const whoAreWeImageRef3 = useRef(null);
 
 
 	//use effects for gsap animation
@@ -38,7 +36,7 @@ const HomePage = () => {
 	useEffect(() => {
 		gsap.registerPlugin(ScrollTrigger, ScrollSmoother);
 
-		const smoother = ScrollSmoother.create({
+		ScrollSmoother.create({
 			wrapper: "#smooth-wrapper",
 			content: "#smooth-content",
 			smooth: 2,
@@ -81,6 +79,7 @@ const HomePage = () => {
 				ease: "power2.out"
 			}, "-=0.6");
 
+		// eslint-disable-next-line @typescript-eslint/no-unused-vars
 		let heroScrollTrigger: globalThis.ScrollTrigger;
 
 		gsap.fromTo(titleRef.current,
@@ -121,6 +120,7 @@ const HomePage = () => {
 			end: "max",
 			markers: true,
 			onUpdate: (self) => {
+				// eslint-disable-next-line @typescript-eslint/no-unused-expressions
 				self.direction === -1 ? showAnim.play() : showAnim.reverse()
 			}
 		});
@@ -200,13 +200,13 @@ const HomePage = () => {
 
 					<div ref={titleRef} className='inset-0 flex flex-col items-center pt-40'>
 						<div className={`${inter.className} font-bold relative text-[#82181A] text-7xl lg:text-9xl md:text-7xl sm:text-7xl justify-center`}>
-							PERMISI
+							{"PERMISI"}
 						</div>
 						<div className={`${inter.className} font-bold relative text-white lg:text-2xl md:text-xl mt-2 justify-center`}>
-							Persatuan Mahasiswa Indonesian CityU Hong Kong
+							{"Persatuan Mahasiswa Indonesian CityU Hong Kong"}
 						</div>
 						<div className={`${inter.className} font-bold relative text-white lg:text-2xl md:text-xl mt-2 justify-center`}>
-							Indonesian Students' Association of City University of Hong Kong
+							{"Indonesian Students' Association of City University of Hong Kong"}
 						</div>
 					</div>
 				</div>
@@ -243,30 +243,25 @@ const HomePage = () => {
 								<h2
 									className={`text-4xl font-bold text-gray-900 mb-8`} ref={whoAreWeTitleRef}
 								>
-									Who are We?
+									{"Who are We?"}
 								</h2>
 								<div className="max-w-7xl mx-auto" ref={whoAreWeTextRef}>
 									<p
 										className={`text-lg text-gray-600 leading-relaxed mb-12`}
 									>
 										<span className={`font-extrabold text-normal-maroon`}>
-											PERMISI HK
+											{"PERMISI HK"}
 										</span>{" "}
-										is a vibrant community of Indonesian students studying at{" "}
+										{"is a vibrant community of Indonesian students studying at"}{" "}
 										<a
 											href="https://www.cityu.edu.hk"
 											target="_blank"
 											rel="noopener noreferrer"
 											className={`font-bold text-normal-maroon hover:underline`}
 										>
-											City University of Hong Kong
+											{"City University of Hong Kong"}
 										</a>
-										. We serve as a bridge connecting Indonesian culture with the
-										international academic environment, fostering friendship,
-										academic excellence, and cultural exchange. Our association
-										provides support, networking opportunities, and a home away
-										from home for Indonesian students pursuing their dreams in
-										Hong Kong.
+										{". We serve as a bridge connecting Indonesian culture with the international academic environment, fostering friendship,academic excellence, and cultural exchange. Our association provides support, networking opportunities, and a home away from home for Indonesian students pursuing their dreams in Hong Kong."}
 									</p>
 								</div>
 							</div>
@@ -281,7 +276,7 @@ const HomePage = () => {
 								<h2
 									className={`text-4xl font-bold text-gray-900 mb-12`}
 								>
-									Latest Event
+									{"Latest Event"}
 								</h2>
 								<Card className="max-w-4xl mx-auto">
 									<CardContent className="p-8">
@@ -300,7 +295,7 @@ const HomePage = () => {
 													<span
 														className={`text-sm text-gray-900 font-medium`}
 													>
-														20 July 2025
+														{"20 July 2025"}
 													</span>
 												</div>
 												<h3

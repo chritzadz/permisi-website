@@ -1,7 +1,5 @@
 import IconFactory from "@/factory/iconFactory";
 import adminPanelItemProp from "./properties/adminPanelItemProp";
-import adminPanelProp from "./properties/adminPanelProp";
-import { House, BookText, LayoutList } from 'lucide-react';
 import { forwardRef } from "react";
 import { useRouter } from 'next/navigation';
 
@@ -11,6 +9,7 @@ const AdminPanelItem = forwardRef<HTMLDivElement, adminPanelItemProp>(
         const handleOnClick = () => {
             router.refresh();
             router.push(routePath);
+            onClick();
         }
 
         return (
