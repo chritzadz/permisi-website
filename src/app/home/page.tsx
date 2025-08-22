@@ -20,26 +20,14 @@ const inter = Inter({
     subsets: ["latin"],
 });
 
-const styles = `
-    @keyframes bounce {
-        0%, 100% {
-        transform: translateY(0);
-        }
-        50% {
-        transform: translateY(-10px);
-        }
-    }
-    .bounce-letter {
-        display: inline-block;
-        animation: bounce 1.5s ease infinite;
-    }
-`;
-
 const HomePage = () => {
     const heroSectionRef = useRef(null);
     const titleRef = useRef(null);
     const imageContainerRef = useRef(null);
+    const navBarRef = useRef(null);
 
+
+    //use effects for gsap animation
     useEffect(() => {
         gsap.registerPlugin(ScrollTrigger, ScrollSmoother);
 
@@ -86,10 +74,7 @@ const HomePage = () => {
             ease: "power2.out"
         }, "-=0.6");
 
-        
-
         let heroScrollTrigger: globalThis.ScrollTrigger;
-        let isTransitioning = false;
 
         gsap.fromTo(titleRef.current,
             { y: 0 },
@@ -116,15 +101,32 @@ const HomePage = () => {
         };
     }, []);
 
+    useEffect(() => {
+        const showAnim = gsap.from(navBarRef.current, { 
+            yPercent: -100,
+            paused: true,
+            duration: 0.3
+        }).progress(1);
+
+        ScrollTrigger.create({
+            start: "top top",
+            end: "max",
+            markers: true,
+            onUpdate: (self) => {
+                self.direction === -1 ? showAnim.play() : showAnim.reverse()
+            }
+        });
+    }, [])
+    
+
     return (
         <div id="smooth-wrapper">
-            <div id="smooth-content" className='flex flex-col'>
-                <div className="w-full relative">
-                    <div className="fixed w-full top-0 left-0 z-50">
-                        <Navbar />
-                    </div>
+            <div className="w-full absolute" ref={navBarRef}>
+                <div className="w-full top-0 left-0 z-50" >
+                    <Navbar />
                 </div>
-                
+            </div>
+            <div id="smooth-content" className='flex flex-col relative'>
                 <div ref={heroSectionRef} className="hero-section relative h-screen overflow-hidden mt-18">
                     <div ref={imageContainerRef} className="absolute inset-0 w-full h-full">
                         <Image
@@ -139,7 +141,7 @@ const HomePage = () => {
                         />
                     </div>
                     
-                    <div ref={titleRef} className='absolute inset-0 flex flex-col items-center mt-20'>
+                    <div ref={titleRef} className='inset-0 flex flex-col items-center'>
                         <div className={`${inter.className} font-bold relative text-[#82181A] text-7xl lg:text-9xl md:text-7xl sm:text-7xl justify-center`}>
                             PERMISI
                         </div>
