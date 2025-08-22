@@ -120,14 +120,14 @@ const HomePage = () => {
     
 
     return (
-        <div id="smooth-wrapper">
-            <div className="w-full absolute" ref={navBarRef}>
-                <div className="w-full top-0 left-0 z-50" >
+        <div id="smooth-wrapper" className='overflow-hidden'>
+            <div className="w-full absolute top-0 left-0 z-50" ref={navBarRef}>
+                <div className="w-full">
                     <Navbar />
                 </div>
             </div>
-            <div id="smooth-content" className='flex flex-col relative'>
-                <div ref={heroSectionRef} className="hero-section relative h-screen overflow-hidden mt-18">
+            <div id="smooth-content" className='flex flex-col pt-40'>
+                <div ref={heroSectionRef} className="hero-section h-screen overflow-hidden">
                     <div ref={imageContainerRef} className="absolute inset-0 w-full h-full">
                         <Image
                             src={sunsetHikeBg}
