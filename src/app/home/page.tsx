@@ -6,15 +6,15 @@ import Navbar from "@/components/navbar";
 import Footer from "@/components/footer";
 import sunsetHikeBg from "../../../public/assets/sunset_hike_bg_cropped.png";
 import sunsetHikeBgRemove from "../../../public/assets/sunset_hike_bg_cropped_remove.png"; //just for testing very ugly quality lah
-import { gsap } from "gsap"
 import welcomingFreshman from "../../../public/assets/welcoming-freshman.png";
+import futsalOlym from "../../../public/assets/futsal-olym.png";
+import hikingPermisi from "../../../public/assets/hiking-permisi.png";
+import { gsap } from "gsap"
 import { ScrollTrigger } from "gsap/ScrollTrigger"
 import { ScrollSmoother } from "gsap/ScrollSmoother"
 
 import { Inter} from "next/font/google";
-import { Card, CardContent } from '@/components/ui/card';
-import { ArrowRight, Calendar, Link } from 'lucide-react';
-import { Button } from '@/components/ui/button';
+import EventCard from '@/components/eventCard';
 
 const inter = Inter({
 	subsets: ["latin"],
@@ -146,13 +146,13 @@ const HomePage = () => {
 				.to(whoAreWeTitleRef.current, {
 					opacity: 1,
 					y: 0,
-					duration: 1.5,
+					duration: 1,
 					ease: "power3.out"
 				})
 				.to(whoAreWeTextRef.current, {
 					opacity: 1,
 					y: 0,
-					duration: 1.5,
+					duration: 1,
 					ease: "power3.out"
 				}, "-=0.4");
 		}
@@ -214,24 +214,31 @@ const HomePage = () => {
 				<div id="definitionBox" className="h-screen w-full bg-white flex flex-col md:flex-row" ref={whoAreWeRef}>
 					<section className='hidden md:block md:w-1/2 lg:w-1/2 bg-blue-300 relative overflow-hidden'>
 						<div className="flex flex-col h-[300%]" ref={whoAreWeImageRef}>
-							<div className="h-screen flex-shrink-0">
+							<div className="h-1/6 w-full">
 								<Image
-									src={sunsetHikeBg}
-									className="w-full h-[120%] object-cover"
+									src={hikingPermisi}
+									className="w-full h-full object-cover"
+									alt="permisiPhotos-layer3"
+								/>
+							</div>
+							<div className="h-1/6 w-full">
+								<Image
+									src={futsalOlym}
+									className="w-full h-full object-cover"
 									alt="permisiPhotos-layer1"
 								/>
 							</div>
-							<div className="h-screen flex-shrink-0">
+							<div className="h-1/6 w-full">
 								<Image
 									src={welcomingFreshman}
-									className="w-full h-[110%] object-cover opacity-70"
+									className="w-full h-full object-cover"
 									alt="permisiPhotos-layer2"
 								/>
 							</div>
-							<div className="h-screen flex-shrink-0">
+							<div className="h-1/6 w-full">
 								<Image
-									src={sunsetHikeBgRemove}
-									className="w-full h-[105%] object-cover opacity-50"
+									src={hikingPermisi}
+									className="w-full h-full object-cover"
 									alt="permisiPhotos-layer3"
 								/>
 							</div>
@@ -270,7 +277,7 @@ const HomePage = () => {
 				</div>
 
 				<div>
-					<section className="py-5">
+					<section className="py-5 h-screen flex items-center justify-center">
 						<div className="max-w-7xlmx-auto px-4 sm:px-6 md:px-8">
 							<div className="text-center mb-16">
 								<h2
@@ -278,49 +285,7 @@ const HomePage = () => {
 								>
 									{"Latest Event"}
 								</h2>
-								<Card className="max-w-4xl mx-auto">
-									<CardContent className="p-8">
-										<div className="grid md:grid-cols-2 gap-8 items-center">
-											<div className="relative aspect-video w-full h-[250px]">
-												<Image
-													src={welcomingFreshman}
-													alt="Group activity"
-													fill
-													className="object-cover rounded-lg"
-												/>
-											</div>
-											<div className="text-left">
-												<div className="flex items-center mb-4">
-													<Calendar className="h-5 w-5 text-red-800 mr-2" />
-													<span
-														className={`text-sm text-gray-900 font-medium`}
-													>
-														{"20 July 2025"}
-													</span>
-												</div>
-												<h3
-													className={`text-2xl font-bold text-gray-900 mb-4`}
-												>
-													Welcoming Sessions Student in Jakarta
-												</h3>
-												<p
-													className={`text-gray-600 mb-6`}
-												>
-													Join us for an exciting welcoming session for new
-													Indonesian students! This event will feature orientation
-													activities, cultural performances, and networking
-													opportunities to help new members integrate into our
-													community.
-												</p>
-												<Button asChild className="bg-red-800 hover:bg-red-950">
-													<Link href="/events">
-														See Details <ArrowRight className="h-4 w-4 ml-2" />
-													</Link>
-												</Button>
-											</div>
-										</div>
-									</CardContent>
-								</Card>
+								<EventCard />
 							</div>
 						</div>
 					</section>
