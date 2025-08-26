@@ -11,7 +11,7 @@ const AdminFormPage = () => {
     const itemsRef = useRef<(HTMLDivElement | null)[]>([])
     const [isInitialRender, setIsInitialRender] = useState(true);
     const [panelIsOpen, setPanelIsOpen] = useState(false);
-    const [forms, setIsForms] = useState<Form[]>([]);
+    const [forms, setForms] = useState<Form[]>([]);
 
     useEffect(() => {
         const fetchForms = async () => {
@@ -21,8 +21,8 @@ const AdminFormPage = () => {
                     'Content-Type': 'application/json',
                 }
             });
-
             const data = await response.json();
+            setForms(data.data as Form[]);
         };
 
         fetchForms();
@@ -116,7 +116,15 @@ const AdminFormPage = () => {
                         Create Form
                     </div>
                     <div className="flex flex-wrap w-full">
-                        
+                        {
+                            forms.map((form, index) => (
+                                <div key={index}>
+                                    <div className="flex justify-center items-center text-md rounded-xl border-2 border-black p-2">
+                                        {form.name}
+                                    </div>
+                                </div>
+                            ))
+                        }
                     </div>
                 </div>
             </div>
