@@ -93,9 +93,12 @@ const AdminHomePage = () => {
                 </div>
             </div>
             
-            <div className="w-full flex flex-col">
-                <div className="w-full ml-20 p-6 text-4xl font-bold">
-                    Welcome, Admin!
+            <div className="flex flex-row">
+                <div className="w-1/15"></div>
+                <div className="w-full flex flex-col">
+                    <div className="w-full p-6 text-4xl font-bold">
+                        Welcome, Admin!
+                    </div>
                 </div>
             </div>
         </div>
