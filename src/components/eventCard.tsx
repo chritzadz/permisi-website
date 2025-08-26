@@ -16,7 +16,7 @@ export default function EventCard({}){
 
     return(<>
         <Card className="max-w-4xl mx-auto">
-            <CardContent className="p-8">
+            <CardContent className="p-8 ">
                 <div className="grid md:grid-cols-2 gap-8 items-center">
                     <div className="relative aspect-video w-full">
                         <Image
