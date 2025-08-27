@@ -1,6 +1,6 @@
 import IconFactory from "@/factory/IconFactory";
 import AdminPanelItem from "./adminPaneltem";
-import AdminPanelItemProp from "./properties/adminPanelItemProp";
+import AdminPanelItemProp from "./properties/AdminPanelItemProp";
 import AdminPanelProp from "./properties/AdminPanelProp";
 
 export default function AdminPanel({numberOfItem, listOfItem, handleClick, itemsRef}: AdminPanelProp) {

@@ -1,7 +1,7 @@
 'use client';
 import AdminPanel from "@/components/adminPanel";
 import AdminPanelBefore from "@/components/adminPanelBefore";
-import adminPanelItemProp from "@/components/properties/adminPanelItemProp";
+import adminPanelItemProp from "@/components/properties/AdminPanelItemProp";
 import { useEffect, useRef, useState } from "react";
 import { gsap } from "gsap";
 import { Form } from "@/model/formInputModel/Form";

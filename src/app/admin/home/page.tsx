@@ -2,7 +2,7 @@
 
 import AdminPanel from "@/components/adminPanel";
 import AdminPanelBefore from "@/components/adminPanelBefore";
-import adminPanelItemProp from "@/components/properties/adminPanelItemProp";
+import adminPanelItemProp from "@/components/properties/AdminPanelItemProp";
 import { useState, useRef, useEffect } from "react";
 import { gsap } from "gsap";
 
