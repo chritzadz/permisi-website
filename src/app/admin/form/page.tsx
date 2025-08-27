@@ -17,7 +17,7 @@ const AdminFormPage = () => {
 
     useEffect(() => {
         const fetchForms = async () => {
-            const response = await fetch('/api/forms', {
+            const response = await fetch('/api/form', {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
