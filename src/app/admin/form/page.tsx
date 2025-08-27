@@ -14,6 +14,8 @@ const AdminFormPage = () => {
     const [isInitialRender, setIsInitialRender] = useState(true);
     const [panelIsOpen, setPanelIsOpen] = useState(false);
     const [forms, setForms] = useState<Form[]>([]);
+    const [createFormPanelIsOpen, setCreateFormPanelIsOpen] = useState(false);
+    const [createNewFormName, setCreateNewFormName] = useState("");
 
     useEffect(() => {
         const fetchForms = async () => {
@@ -74,6 +76,9 @@ const AdminFormPage = () => {
         router.push(`/admin/form/${formName}`);
     }
 
+    const handleCreateFormClick = () => {
+        setCreateFormPanelIsOpen(!createFormPanelIsOpen);
+    }
 
     const numberOfItem: number = 3;
     const listOfItem: adminPanelItemProp[] = [
@@ -118,10 +123,10 @@ const AdminFormPage = () => {
             </div>
             
             <div className="flex flex-row z-10">
-                <div className="w-1/15"></div>
-                <div className="w-full flex flex-col px-5 py-5">
+                <div className="w-[60px]"></div>
+                <div className="w-full flex flex-col px-[30px] py-5">
                     <h1 className="text-4xl font-bold">Custom Form</h1>
-                    <div className="p-2 font-bold border-2 border-black rounded-xl w-[120px] flex items-center justify-center my-5">
+                    <div className="p-2 font-bold border-2 border-black rounded-xl w-[120px] flex items-center justify-center my-5" onClick={handleCreateFormClick}>
                         Create Form
                     </div>
                     <div className="flex flex-wrap w-full">
@@ -137,6 +142,28 @@ const AdminFormPage = () => {
                     </div>
                 </div>
             </div>
+
+            { createFormPanelIsOpen &&
+                <div className="fixed flex items-center justify-center bg-black bg-opacity-50 w-full h-screen top-0 left-0 z-50">
+                    <div className="w-1/3 bg-normal-creme rounded-2xl text-black">
+                        <div className="p-5">
+                            <h1 className="text-2xl font-bold">Create New Form</h1>
+                            <div className="flex flex-col my-5">
+                                <label className="font-bold">Form Name</label>
+                                <input type="text" value={createNewFormName} onChange={e => setCreateNewFormName(e.target.value)} className="border-2 border-black rounded-lg p-2"/>
+                            </div>
+                            <div className="flex flex-row justify-end gap-5">
+                                <div className="p-2 font-bold border-2 border-black rounded-xl w-[120px] flex items-center justify-center my-5 cursor-pointer" onClick={handleCreateFormClick}>
+                                    Cancel
+                                </div>
+                                <div className="p-2 font-bold border-2 border-black rounded-xl w-[120px] flex items-center justify-center my-5 cursor-pointer" onClick={() => {}}>
+                                    Create
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
         </div>
     );
 }
