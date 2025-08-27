@@ -4,10 +4,10 @@ import { FormInputModel } from "@/model/formInputModel/FormInputModel";
 import { JSX } from "react";
 
 export default abstract class FormInputEditFactory {
-    public static getFormInput(formInput: FormInputModel): JSX.Element | null {
+    public static getFormInput(formInput: FormInputModel, onDelete: (id: number) => void): JSX.Element | null {
         switch(formInput.type){
             case "text":
-                return(<FormInputTextEditBox type={formInput.type} question={formInput.question} id={formInput.id}></FormInputTextEditBox>);
+                return(<FormInputTextEditBox type={formInput.type} question={formInput.question} id={formInput.id} onDelete={() => {onDelete(formInput.id)}}></FormInputTextEditBox>);
             case "option":
                 return(<FormInputOptionEditBox type={formInput.type} form_input_id={formInput.id} question={formInput.question}></FormInputOptionEditBox>);
             default:

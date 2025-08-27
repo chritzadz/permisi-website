@@ -3,7 +3,7 @@ import { FormInputTextBoxProp } from "./properties/FormInputTextBoxProp";
 import { Trash2, Check } from 'lucide-react';
 import { FormInputModel } from "@/model/formInputModel/FormInputModel";
 
-export default function formInputTextEditBox({type, question, id}: FormInputTextBoxProp) {
+export default function formInputTextEditBox({type, question, id, onDelete}: FormInputTextBoxProp) {
     const handleDoubleClick = () => {
         setIsEditMode(true);
         setQuestionState(finalQuestionState);   
@@ -14,7 +14,7 @@ export default function formInputTextEditBox({type, question, id}: FormInputText
     }
 
     const handleCheckClick = async () => {
-         const response = await fetch('/api/formInputs', {
+        const response = await fetch('/api/formInputs', {
             method: 'PATCH',
             body: JSON.stringify({
                 id: id,
@@ -27,14 +27,9 @@ export default function formInputTextEditBox({type, question, id}: FormInputText
         const data = await response.json();
         const newFormInput = data.data as FormInputModel;
 
-        console.log(newFormInput.question);
         setFinalQuestionState(newFormInput.question);
         setQuestionState(newFormInput.question);
         setIsEditMode(false);
-    }
-
-    const handleDeleteClick = () => {
-        // setFinalQuestionState = 
     }
 
     const [isEditMode, setIsEditMode] = useState(false);
@@ -49,7 +44,7 @@ export default function formInputTextEditBox({type, question, id}: FormInputText
                         <input type="text" value={questionState} placeholder="Write your question..." onChange={e => setQuestionState(e.target.value)} className="w-full border-2"/>
                         <div className="flex flex-row justify-end gap-2">
                             <Check size={32} onClick={handleCheckClick} />
-                            <Trash2 size={32} onClick={handleDeleteClick} />
+                            <Trash2 size={32} onClick={onDelete} />
                         </div>
                     </div>
                 ) : (

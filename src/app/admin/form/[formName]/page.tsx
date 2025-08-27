@@ -16,6 +16,24 @@ const FormPage = ({ params }: FormPageProp) => {
 	const [formInputs, setFormInputs] = useState<FormInputModel[]>([]);
 	const formName = (params.formName).replace(/%20/g, " ");
 
+	const onFormInputDelete = (id: number) => {
+		const fetchFormComponents = async () => {
+			const response = await fetch(`/api/formInputs`, {
+				method: 'DELETE',
+				body: JSON.stringify({
+					id: id,
+					form_name: formName
+				}),
+				headers: {
+					'Content-Type': 'application/json',
+				}
+			});
+			const data = await response.json();
+			setFormInputs(data.data as FormInputModel[])
+		};
+		fetchFormComponents();
+	}
+
 	//acutally we should check the formName if it exists in the databse, else? should not be able to access this page. (for later is fine)
 
 	useEffect(() => {
@@ -43,7 +61,7 @@ const FormPage = ({ params }: FormPageProp) => {
 						formInputs.map((formInput) => (
 							<div className="w-full text-md" key={formInput.id}>
 								{
-									FormInputEditFactory.getFormInput(formInput)
+									FormInputEditFactory.getFormInput(formInput, onFormInputDelete)
 								}
 							</div>
 						))

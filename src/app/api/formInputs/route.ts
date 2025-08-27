@@ -37,3 +37,24 @@ export async function PATCH(request: Request) {
         headers: { 'Content-Type': 'application/json' }
     });
 }
+
+export async function DELETE(request: Request) {
+    const service: FormInputService = new FormInputService();
+    const body = await request.json();
+    const id: number = body.id;
+    const formName: string = body.form_name;
+
+    const deletedFormInput = await service.deleteById(id);
+    let formInputs;
+    if (deletedFormInput != null) {
+        formInputs = await service.getFormInputsById(formName);
+    }
+    
+    return new Response(JSON.stringify({
+        data: formInputs,
+    }), {
+        status: 200,
+        headers: { 'Content-Type': 'application/json' }
+    });
+}
+

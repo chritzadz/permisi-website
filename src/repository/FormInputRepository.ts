@@ -32,4 +32,18 @@ export class FormInputRepository{
             throw new Error('Failed to update forminput');
         }
     }
+
+    public async deleteById(id: number){
+        try {
+            const task = await pool.query(`
+                DELETE FROM form_inputs WHERE id = $1 RETURNING *;
+                ;
+            `, [id]);
+            
+            return task.rows[0]; 
+        } catch (error) {
+            console.error('Error FormInputRepository.ts: ' + error);
+            throw new Error('Failed to update forminput');
+        }
+    }
 }
