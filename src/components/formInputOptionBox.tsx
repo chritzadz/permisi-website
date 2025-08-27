@@ -1,9 +1,10 @@
-'use client';
+"use client";
+
 import { useEffect, useState } from "react";
 import { FormInputOptionBoxProp } from "./properties/FormInputOptionBoxProp";
 import { Option } from "@/model/formInputModel/Option";
 
-export default function formInputOptionBox({type, form_input_id, question}: FormInputOptionBoxProp) {
+export default function FormInputOptionBox({type, form_input_id, question}: FormInputOptionBoxProp) {
     const [options, setOptions] = useState<Option[]>([]);
     useEffect(() => {
         const fetchOptions = async () => {
