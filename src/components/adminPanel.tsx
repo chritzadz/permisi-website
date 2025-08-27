@@ -1,4 +1,4 @@
-import IconFactory from "@/factory/iconFactory";
+import IconFactory from "@/factory/IconFactory";
 import AdminPanelItem from "./adminPaneltem";
 import AdminPanelItemProp from "./properties/adminPanelItemProp";
 import AdminPanelProp from "./properties/AdminPanelProp";
