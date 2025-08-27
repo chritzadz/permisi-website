@@ -41,7 +41,7 @@ const FormPage = ({ params }: FormPageProp) => {
 						formInputs.map((formInput) => (
 							<div className="w-full text-md" key={formInput.id}>
 								{
-									FormInputFactory.getFormInput(formInput.type)
+									FormInputFactory.getFormInput(formInput)
 								}
 							</div>
 						))
