@@ -20,3 +20,20 @@ export async function GET(request: Request) {
         headers: { 'Content-Type': 'application/json' }
     });
 }
+
+export async function PATCH(request: Request) {
+    const service: FormInputService = new FormInputService();
+    const body = await request.json();
+    const id: number = body.id;
+    const newQuestion: string = body.question;
+
+    const updatedFormInput = await service.updateQuestionById(id, newQuestion);
+    
+    return new Response(JSON.stringify({
+        data: updatedFormInput,
+        success: "update success"
+    }), {
+        status: 200,
+        headers: { 'Content-Type': 'application/json' }
+    });
+}

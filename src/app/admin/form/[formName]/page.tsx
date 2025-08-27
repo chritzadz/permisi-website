@@ -1,6 +1,6 @@
 'use client';
 import { FormPageProp } from '@/components/properties/FormPageProp.ts';
-import FormInputFactory from '@/factory/FormInputFactory';
+import FormInputEditFactory from '@/factory/FormInputEditFactory';
 import { FormInputModel } from '@/model/formInputModel/FormInputModel';
 import { SkipBackIcon } from 'lucide-react';
 import React, { useEffect, useState } from 'react';
@@ -15,6 +15,8 @@ import React, { useEffect, useState } from 'react';
 const FormPage = ({ params }: FormPageProp) => {
 	const [formInputs, setFormInputs] = useState<FormInputModel[]>([]);
 	const formName = (params.formName).replace(/%20/g, " ");
+
+	//acutally we should check the formName if it exists in the databse, else? should not be able to access this page. (for later is fine)
 
 	useEffect(() => {
 		const fetchFormComponents = async () => {
@@ -41,7 +43,7 @@ const FormPage = ({ params }: FormPageProp) => {
 						formInputs.map((formInput) => (
 							<div className="w-full text-md" key={formInput.id}>
 								{
-									FormInputFactory.getFormInput(formInput)
+									FormInputEditFactory.getFormInput(formInput)
 								}
 							</div>
 						))

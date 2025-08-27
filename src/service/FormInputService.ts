@@ -12,4 +12,8 @@ export class FormInputService{
     public async getOptionsByFormInputId(id: string){
         return await this.optionsRepository.getOptionsByFormInputId(id);
     }
+
+    public async updateQuestionById(id: number, newQuestion: string){
+        return await this.repository.updateQuestionById(id, newQuestion);
+    }
 }
