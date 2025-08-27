@@ -1,12 +1,14 @@
 'use client';
 import AdminPanel from "@/components/adminPanel";
 import AdminPanelBefore from "@/components/adminPanelBefore";
-import adminPanelItemProp from "@/components/properties/adminPanelItemProp";
+import adminPanelItemProp from "@/components/properties/AdminPanelItemProp";
 import { useEffect, useRef, useState } from "react";
 import { gsap } from "gsap";
 import { Form } from "@/model/formInputModel/Form";
+import { useRouter } from "next/navigation";
 
 const AdminFormPage = () => {
+    const router = useRouter();
     const panelRef = useRef(null);
     const itemsRef = useRef<(HTMLDivElement | null)[]>([])
     const [isInitialRender, setIsInitialRender] = useState(true);
@@ -38,13 +40,13 @@ const AdminFormPage = () => {
         if (panelRef.current) {
             if (isInitialRender) {
                 gsap.set(panelRef.current, {
-                    width: panelIsOpen ? "100%" : "30%",
+                    width: panelIsOpen ? '200px' : '60px'
                 });
                 setIsInitialRender(false);
             } else {
                 gsap.to(panelRef.current, {
                     duration: 0.5,
-                    width: panelIsOpen ? "100%" : "30%",
+                    width: panelIsOpen ? '200px' : '60px',
                     ease: "power3.out",
                 });
             }
@@ -66,6 +68,11 @@ const AdminFormPage = () => {
             );
         }
     }, [panelIsOpen]);
+
+    const handleFormClick = (formName: string) => {
+        console.log("CLICKED");
+        router.push(`/admin/form/${formName}`);
+    }
 
 
     const numberOfItem: number = 3;
@@ -91,9 +98,11 @@ const AdminFormPage = () => {
     ]
 
     return(
-        <div className="bg-normal-creme h-screen relative">
-            <div className="w-1/5 h-full z-10 fixed">
-                <div className="h-full flex overflow-hidden bg-white shadow-md" ref={panelRef}>
+        <div className="h-screen relative">
+            <div className="h-full fixed">
+                <div className="h-full flex overflow-hidden bg-white shadow-md" 
+                    ref={panelRef}
+                    >
                     {
                         panelIsOpen?(
                             <div className="w-full h-full">
@@ -108,7 +117,7 @@ const AdminFormPage = () => {
                 </div>
             </div>
             
-            <div className="flex flex-row">
+            <div className="flex flex-row z-10">
                 <div className="w-1/15"></div>
                 <div className="w-full flex flex-col px-5 py-5">
                     <h1 className="text-4xl font-bold">Custom Form</h1>
@@ -119,7 +128,7 @@ const AdminFormPage = () => {
                         {
                             forms.map((form, index) => (
                                 <div key={index}>
-                                    <div className="flex justify-center items-center text-md rounded-xl border-2 border-black p-2">
+                                    <div className="flex justify-center items-center text-md rounded-xl border-2 border-black p-2" onClick={() => handleFormClick(form.name)}>
                                         {form.name}
                                     </div>
                                 </div>

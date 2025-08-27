@@ -1,5 +1,5 @@
 import IconFactory from "@/factory/iconFactory";
-import adminPanelItemProp from "./properties/adminPanelItemProp";
+import adminPanelItemProp from "./properties/AdminPanelItemProp";
 import { forwardRef } from "react";
 import { useRouter } from 'next/navigation';
 

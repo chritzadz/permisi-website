@@ -2,7 +2,7 @@
 
 import AdminPanel from "@/components/adminPanel";
 import AdminPanelBefore from "@/components/adminPanelBefore";
-import adminPanelItemProp from "@/components/properties/adminPanelItemProp";
+import adminPanelItemProp from "@/components/properties/AdminPanelItemProp";
 import { useState, useRef, useEffect } from "react";
 import { gsap } from "gsap";
 
@@ -77,7 +77,7 @@ const AdminHomePage = () => {
 
     return(
         <div className="bg-normal-creme h-screen relative">
-            <div className="w-1/5 h-full z-10 fixed">
+            <div className="w-1/5 h-full fixed">
                 <div className="h-full flex overflow-hidden bg-white shadow-md" ref={panelRef}>
                     {
                         panelIsOpen?(
@@ -93,7 +93,7 @@ const AdminHomePage = () => {
                 </div>
             </div>
             
-            <div className="flex flex-row">
+            <div className="flex flex-row z-10">
                 <div className="w-1/15"></div>
                 <div className="w-full flex flex-col">
                     <div className="w-full p-6 text-4xl font-bold">

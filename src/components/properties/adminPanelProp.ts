@@ -1,4 +1,4 @@
-import adminPanelItemProp from "./adminPanelItemProp";
+import adminPanelItemProp from "./AdminPanelItemProp";
 
 export default interface AdminPanelProp{
     numberOfItem: number;
