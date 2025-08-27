@@ -19,7 +19,7 @@ export default function FormInputOptionBox({type, form_input_id, question}: Form
             setOptions(data.data as Option[]);
         };
         fetchOptions();
-    }, [])
+    })
 
     return (
         <div className="w-full border-black">
