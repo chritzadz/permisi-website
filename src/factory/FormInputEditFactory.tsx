@@ -9,7 +9,7 @@ export default abstract class FormInputEditFactory {
             case "text":
                 return(<FormInputTextEditBox type={formInput.type} question={formInput.question} id={formInput.id} onDelete={() => {onDelete(formInput.id)}}></FormInputTextEditBox>);
             case "option":
-                return(<FormInputOptionEditBox type={formInput.type} form_input_id={formInput.id} question={formInput.question}></FormInputOptionEditBox>);
+                return(<FormInputOptionEditBox type={formInput.type} id={formInput.id} question={formInput.question} onDelete={() => {onDelete(formInput.id)}}></FormInputOptionEditBox>);
             default:
                 return null;
         }

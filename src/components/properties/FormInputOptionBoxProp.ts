@@ -1,5 +1,6 @@
 export interface FormInputOptionBoxProp{
     type: string;
-    form_input_id: number;
+    id: number;
     question: string;
+    onDelete: () => void;
 }   

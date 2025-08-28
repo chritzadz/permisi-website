@@ -9,7 +9,7 @@ export class FormInputService{
         return await this.repository.getFormInputsById(id);
     }
 
-    public async getOptionsByFormInputId(id: string){
+    public async getOptionsByFormInputId(id: number){
         return await this.optionsRepository.getOptionsByFormInputId(id);
     }
 
@@ -19,5 +19,14 @@ export class FormInputService{
 
     public async deleteById(id: number){
         return await this.repository.deleteById(id);
+    }
+
+    public async updateOption(id: number, oldStr: string, newStr: string){
+        console.log("in service");
+        return await this.optionsRepository.updateOption(id, oldStr, newStr);
+    }
+
+    public async addOption(id: number, value: string){
+         return await this.optionsRepository.addOption(id, value);
     }
 }

@@ -4,11 +4,11 @@ import { useEffect, useState } from "react";
 import { FormInputOptionBoxProp } from "./properties/FormInputOptionBoxProp";
 import { Option } from "@/model/formInputModel/Option";
 
-export default function FormInputOptionBox({type, form_input_id, question}: FormInputOptionBoxProp) {
+export default function FormInputOptionBox({type, id, question}: FormInputOptionBoxProp) {
     const [options, setOptions] = useState<Option[]>([]);
     useEffect(() => {
         const fetchOptions = async () => {
-            const response = await fetch(`/api/options?forminputid=${form_input_id}`, {
+            const response = await fetch(`/api/options?forminputid=${id}`, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
