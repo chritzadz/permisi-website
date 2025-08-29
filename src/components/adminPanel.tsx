@@ -7,7 +7,7 @@ export default function AdminPanel({numberOfItem, listOfItem, handleClick, items
     console.log(numberOfItem);
     return (
         <div className="sm:w-1/12 md:w-full lg:w-full h-full bg-normal-maroon shadow-2xl">
-            <div className="-full p-3" onClick={handleClick}>
+            <div className="-full p-3 bg-transparent" onClick={handleClick}>
                 {IconFactory.getIcon("TableOfContents")}
             </div>
             {listOfItem.map((item: AdminPanelItemProp, index: number) => (
