@@ -19,17 +19,18 @@ const AdminHomePage = () => {
     }
 
     //animation gsap stuff
+    //animation gsap stuff
     useEffect(() => {
         if (panelRef.current) {
             if (isInitialRender) {
                 gsap.set(panelRef.current, {
-                    width: panelIsOpen ? "100%" : "30%",
+                    width: panelIsOpen ? '200px' : '60px'
                 });
                 setIsInitialRender(false);
             } else {
                 gsap.to(panelRef.current, {
                     duration: 0.5,
-                    width: panelIsOpen ? "100%" : "30%",
+                    width: panelIsOpen ? '200px' : '60px',
                     ease: "power3.out",
                 });
             }
@@ -76,7 +77,7 @@ const AdminHomePage = () => {
     ]
 
     return(
-        <div className="bg-normal-creme h-screen relative">
+        <div className=" h-screen relative">
             <div className="w-1/5 h-full fixed">
                 <div className="h-full flex overflow-hidden bg-white shadow-md" ref={panelRef}>
                     {

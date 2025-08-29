@@ -1,3 +1,4 @@
+import { FormInputModel } from '@/model/formInputModel/FormInputModel';
 import {pool} from '../db/permisidb'
 
 export class FormInputRepository{
@@ -41,6 +42,22 @@ export class FormInputRepository{
             `, [id]);
             
             return task.rows[0]; 
+        } catch (error) {
+            console.error('Error FormInputRepository.ts: ' + error);
+            throw new Error('Failed to update forminput');
+        }
+    }
+
+    public async post(newFormInput: FormInputModel){
+        try {
+            const task = await pool.query(`
+                INSERT INTO form_inputs (form_name, question, type)
+                VALUES ($1, $2, $3)
+                RETURNING *;
+                ;
+            `, [newFormInput.form_name, newFormInput.question, newFormInput.type]);
+
+            return this.getFormInputsById(newFormInput.form_name) 
         } catch (error) {
             console.error('Error FormInputRepository.ts: ' + error);
             throw new Error('Failed to update forminput');

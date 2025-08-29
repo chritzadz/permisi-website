@@ -2,7 +2,7 @@
 import { FormPageProp } from '@/components/properties/FormPageProp.ts';
 import FormInputEditFactory from '@/factory/FormInputEditFactory';
 import { FormInputModel } from '@/model/formInputModel/FormInputModel';
-import { SkipBackIcon } from 'lucide-react';
+import { PlusCircle } from 'lucide-react';
 import React, { useEffect, useState } from 'react';
 
 /**
@@ -12,8 +12,12 @@ import React, { useEffect, useState } from 'react';
  *  
  */
 
+
 const FormPage = ({ params }: FormPageProp) => {
 	const [formInputs, setFormInputs] = useState<FormInputModel[]>([]);
+	const [createFormInputPanel, setCreateFormInputPanel] = useState(false);
+	const [newFormInputType, setNewFormInputType] = useState("");
+	const [newQuestion, setNewQuestion] = useState("");
 	const formName = (params.formName).replace(/%20/g, " ");
 
 	const onFormInputDelete = (id: number) => {
@@ -32,6 +36,40 @@ const FormPage = ({ params }: FormPageProp) => {
 			setFormInputs(data.data as FormInputModel[])
 		};
 		fetchFormComponents();
+	}
+
+	const onAddClick = () => {
+		setCreateFormInputPanel(true);
+	}
+
+	const onCloseModal = () => {
+		setCreateFormInputPanel(false);
+	}
+
+	const onSubmitFormInput = async () => {
+		if (newFormInputType === "" || newFormInputType === "Please select from input type" || newQuestion === "") {
+			//no suybmit
+		} else{
+			const response = await fetch(`/api/formInputs`, {
+				method: 'POST',
+				body: JSON.stringify({
+					form_input: {
+						id: -1,
+						form_name: formName,
+						type: newFormInputType,
+						question: newQuestion
+					}
+				}),
+				headers: {
+					'Content-Type': 'application/json',
+				}
+			});
+			const data = await response.json();
+			setFormInputs(data.data as FormInputModel[])
+			setCreateFormInputPanel(false);
+			setNewQuestion("");
+			setNewFormInputType("");
+		}
 	}
 
 	//acutally we should check the formName if it exists in the databse, else? should not be able to access this page. (for later is fine)
@@ -68,6 +106,27 @@ const FormPage = ({ params }: FormPageProp) => {
 					}
 				</div>
 			</div>
+				<div className="fixed bottom-8 right-8 rounded-full w-12 flex items-center justify-center text-3xl font-bold z-50 cursor-pointer bg-white shadow-lg" onClick={onAddClick}>
+					<PlusCircle color={"#831515"} size={40} className='w-full rounded-full'></PlusCircle>
+				</div>
+
+				{createFormInputPanel && (
+					<div className="fixed inset-0 z-50 flex items-center justify-center bg-black opacity-80">
+						<div className="w-1/3 bg-white rounded-2xl p-8 flex flex-col items-center">
+							<h2 className="text-xl font-bold mb-4">Add New Form Input</h2>
+							<select className="w-full p-2 border-2 border-black rounded-lg mb-4" onChange={e => setNewFormInputType(e.target.value)}>
+								<option value="">Please select form input type</option>
+								<option value="text">text</option>
+								<option value="option">option</option>
+							</select>
+							<input type="text" value={newQuestion} onChange={e => setNewQuestion(e.target.value)} placeholder="Please input your question" className='w-full p-2 border-2 border-black rounded-lg mb-4'></input>
+							<div className='flex flex-row gap-5'>
+								<button className="mt-6 px-4 py-2 bg-normal-maroon text-white rounded-lg" onClick={onCloseModal}>Close</button>
+								<button className="mt-6 px-4 py-2 bg-normal-maroon text-white rounded-lg" onClick={onSubmitFormInput}>Submit</button>
+							</div>
+						</div>
+					</div>
+				)}
 		</div>
 	);
 };

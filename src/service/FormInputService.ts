@@ -1,3 +1,4 @@
+import { FormInputModel } from "@/model/formInputModel/FormInputModel";
 import { FormInputRepository } from "@/repository/FormInputRepository";
 import { OptionRepository } from "@/repository/OptionRepository";
 
@@ -31,5 +32,9 @@ export class FormInputService{
 
     public async deleteOptionsById(id: number){
         return await this.optionsRepository.deleteOptions(id);
+    }
+
+    public async postFormInput(newFormInput: FormInputModel) {
+        return await this.repository.post(newFormInput);
     }
 }

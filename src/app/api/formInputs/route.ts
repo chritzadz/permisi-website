@@ -1,3 +1,4 @@
+import { FormInputModel } from "@/model/formInputModel/FormInputModel";
 import { FormInputService } from "@/service/FormInputService";
 
 export async function GET(request: Request) {
@@ -31,6 +32,22 @@ export async function PATCH(request: Request) {
     
     return new Response(JSON.stringify({
         data: updatedFormInput,
+        success: "update success"
+    }), {
+        status: 200,
+        headers: { 'Content-Type': 'application/json' }
+    });
+}
+
+export async function POST(request: Request) {
+    const service: FormInputService = new FormInputService();
+    const body = await request.json();
+    const newFormInput: FormInputModel = body.form_input;
+
+    const formInputs = await service.postFormInput(newFormInput);
+    
+    return new Response(JSON.stringify({
+        data: formInputs,
         success: "update success"
     }), {
         status: 200,
