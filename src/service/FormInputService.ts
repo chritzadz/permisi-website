@@ -22,7 +22,6 @@ export class FormInputService{
     }
 
     public async updateOption(id: number, oldStr: string, newStr: string){
-        console.log("in service");
         return await this.optionsRepository.updateOption(id, oldStr, newStr);
     }
 

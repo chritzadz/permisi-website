@@ -1,3 +1,4 @@
+import { Option } from "@/model/formInputModel/Option";
 import { FormInputService } from "@/service/FormInputService";
 
 export async function GET(request: Request) {
@@ -25,20 +26,17 @@ export async function PATCH(request: Request) {
     const id: number = body.id;
     const options: string[] = body.options;
     const newOption: string = body.newOption;
-    const oldOptions: string[] = body.oldOptions;
+    const oldOptions: string[] = body.oldOptions.map((o: Option) => o.option); //this is in Option obj becareful lol
 
     console.log("start update option");
     for (let i = 0; i < options.length; i++){
-        console.log("start add option");
         const option = await service.updateOption(id, oldOptions[i], options[i]);
     }
     console.log("end update option");
 
-    console.log("start add option");
     if (newOption != null && newOption != ""){
         const option = await service.addOption(id, newOption);    
     }
-    console.log("end add option");
 
     const getOptionById = await service.getOptionsByFormInputId(id); 
     

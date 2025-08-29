@@ -59,6 +59,7 @@ export default function formInputOptionEditBox({type, id, question, onDelete}: F
     }
 
     const handleMouseLeave = () => {
+        setOptionStates(options.map(o => o.option));
         setIsEditMode(false);
     }
 

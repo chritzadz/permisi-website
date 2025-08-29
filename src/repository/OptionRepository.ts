@@ -18,7 +18,6 @@ export class OptionRepository{
     }
 
     public async addOption(id: number, value: string){
-        console.log("in repo");
         try {
             const task = await pool.query(`
                 INSERT INTO form_input_options VALUES 
@@ -35,16 +34,17 @@ export class OptionRepository{
     }
 
     public async updateOption(id: number, oldStr: string, newStr: string){
-        console.log("in repo");
+        console.log(id + " " + oldStr + " " + newStr);
         try {
             const task = await pool.query(`
                 UPDATE form_input_options 
                 SET option = $3
                 WHERE form_input_id = $1 AND option = $2
+                RETURNING *
                 ;
                 `, [id, oldStr, newStr]);
 
-            console.log("repo:" + task.rows[0]);
+            console.log("updated_option:" + task.rows[0]);
             return task.rows[0];
         } catch (error) {
             console.error('Error OptionRepository.ts: ' + error);
