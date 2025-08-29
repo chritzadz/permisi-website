@@ -44,6 +44,9 @@ export async function DELETE(request: Request) {
     const id: number = body.id;
     const formName: string = body.form_name;
 
+    //delete options first
+    const deleteOptions = await service.deleteOptionsById(id);
+
     const deletedFormInput = await service.deleteById(id);
     let formInputs;
     if (deletedFormInput != null) {

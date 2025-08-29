@@ -28,4 +28,8 @@ export class FormInputService{
     public async addOption(id: number, value: string){
          return await this.optionsRepository.addOption(id, value);
     }
+
+    public async deleteOptionsById(id: number){
+        return await this.optionsRepository.deleteOptions(id);
+    }
 }

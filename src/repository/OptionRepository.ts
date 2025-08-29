@@ -51,4 +51,17 @@ export class OptionRepository{
             throw new Error('Failed to fetch form');
         }
     }
+
+    public async deleteOptions(id: Number){
+        try {
+            const task = await pool.query(`
+                DELETE FROM form_input_options WHERE form_input_id = $1 RETURNING *;
+                `, [id]);
+
+            return task.rows;
+        } catch (error) {
+            console.error('Error OptionRepository.ts: ' + error);
+            throw new Error('Failed to fetch form');
+        }
+    }
 }
