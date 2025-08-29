@@ -6,4 +6,8 @@ export class FormService{
     public async getAllForms(){
         return await this.repository.getAllForms();
     }
+
+    public async postForm(name: string){
+        return await this.repository.post(name);
+    }
 }

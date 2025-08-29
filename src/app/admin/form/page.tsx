@@ -80,6 +80,20 @@ const AdminFormPage = () => {
         setCreateFormPanelIsOpen(!createFormPanelIsOpen);
     }
 
+    const handleCreateForm = async () => {
+        const response = await fetch('/api/forms', {
+            method: 'POST',
+            body: JSON.stringify({
+                name: createNewFormName
+            }),
+            headers: {
+                'Content-Type': 'application/json',
+            }
+        });
+        const data = await response.json();
+        setForms(data.data as Form[]);
+    }
+
     const numberOfItem: number = 3;
     const listOfItem: adminPanelItemProp[] = [
         {
@@ -129,7 +143,7 @@ const AdminFormPage = () => {
                     <div className="p-2 font-bold border-2 border-black rounded-xl w-[120px] flex items-center justify-center my-5" onClick={handleCreateFormClick}>
                         Create Form
                     </div>
-                    <div className="flex flex-wrap w-full">
+                    <div className="flex flex-wrap w-full gap-2">
                         {
                             forms.map((form, index) => (
                                 <div key={index}>
@@ -156,7 +170,7 @@ const AdminFormPage = () => {
                                 <div className="p-2 font-bold border-2 border-black rounded-xl w-[120px] flex items-center justify-center my-5 cursor-pointer" onClick={handleCreateFormClick}>
                                     Cancel
                                 </div>
-                                <div className="p-2 font-bold border-2 border-black rounded-xl w-[120px] flex items-center justify-center my-5 cursor-pointer" onClick={() => {}}>
+                                <div className="p-2 font-bold border-2 border-black rounded-xl w-[120px] flex items-center justify-center my-5 cursor-pointer" onClick={handleCreateForm}>
                                     Create
                                 </div>
                             </div>
