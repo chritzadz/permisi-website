@@ -94,7 +94,7 @@ const FormPage = ({ params }: FormPageProp) => {
 		<div>
 			<div className="w-full justify-center items-center p-5 flex flex-col">
 				<h1 className="text-3xl font-bold">{formName}</h1>
-				<div className="bg-normal-creme w-full h-screen my-5 flex flex-col">
+				<div className="bg-normal-creme w-full h-screen my-5 flex flex-col rounded-2xl">
 					{
 						formInputs.map((formInput) => (
 							<div className="w-full text-md" key={formInput.id}>

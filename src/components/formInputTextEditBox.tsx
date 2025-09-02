@@ -48,9 +48,9 @@ export default function formInputTextEditBox({type, question, id, onDelete}: For
                         </div>
                     </div>
                 ) : (
-                    <div className="w-full p-5" onDoubleClick={handleDoubleClick} onMouseLeave={handleMouseLeave}>
-                        <p>{finalQuestionState}</p>
-                        <input type="text" placeholder="Please enter here..." className="w-full border-2"/>
+                    <div className="w-full p-5 flex flex-col gap-2" onDoubleClick={handleDoubleClick} onMouseLeave={handleMouseLeave}>
+                        <p className="pl-1">{finalQuestionState}</p>
+                        <input type="text" placeholder="Please enter here..." className="w-full border-1 focus:border-dark-maroon focus:border-2 p-2"/>
                     </div>
                 )
             }

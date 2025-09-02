@@ -125,7 +125,7 @@ export default function formInputOptionEditBox({type, id, question, onDelete}: F
                             options.map((option, index) => (
                                 <div key={index} className="ml-5">
                                     <label>
-                                        <input type="radio" value={"option"+index} />
+                                        <input type="radio" value={"option"+index}/>
                                         {option.option}
                                     </label>
                                 </div>
