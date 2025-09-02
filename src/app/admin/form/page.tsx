@@ -149,7 +149,7 @@ const AdminFormPage = () => {
                                 
                             </div>
                             <div className="w-1/2 p-3 items-center justify-end flex">
-                                <div className="px-2 bg-dark-creme w-1/2 rounded-full overflow-x-auto">
+                                <div className="px-2 bg-dark-creme w-1/2 rounded-full overflow-x-auto border-2 border-dark-maroon">
                                     <input type="text" placeholder="Search" className="p-1 focus:border-0 focus:outline-none w-full overflow-x-auto" />
                                 </div>
                             </div>
@@ -157,8 +157,8 @@ const AdminFormPage = () => {
                         {
                             forms.map((form, index) => (
                                 <div className="" key={index}>
-                                    <hr className=" border-normal-maroon" />
-                                    <div className="flex flex-col justify-start text-md text-dark-maroon w-full py-2 px-4" onClick={() => handleFormClick(form.name)}>
+                                    <hr className=" border-black" />
+                                    <div className="flex flex-col justify-start text-md text-black w-full py-2 px-4" onClick={() => handleFormClick(form.name)}>
                                         <p className="text-base font-bold">{form.name}</p>
                                         <p className="text-sm">Created at 10/10/2010</p>
                                     </div>
