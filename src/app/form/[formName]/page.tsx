@@ -3,15 +3,16 @@
 import { FormPageProp } from "@/components/properties/FormPageProp.ts";
 import FormInputFactory from "@/factory/FormInputFactory";
 import { FormInputModel } from "@/model/formInputModel/FormInputModel";
+import React from "react";
 import { useEffect, useState } from "react";
 
 export default function FormPage({ params }: FormPageProp) {
-    const formName = (params.formName).replace(/%20/g, " ");
+    const { formName } = React.use(params);
     const [formInputs, setFormInputs] = useState<FormInputModel[]>([]);
 
     useEffect(() => {
         const fetchFormComponents = async () => {
-            const response = await fetch(`/api/formInputs?formid=${params.formName}`, {
+            const response = await fetch(`/api/formInputs?formid=${formName}`, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
@@ -22,7 +23,7 @@ export default function FormPage({ params }: FormPageProp) {
             setFormInputs(data.data as FormInputModel[])
         };
         fetchFormComponents();
-    }, [params.formName]);
+    }, [formName]);
 
     return(
         <>

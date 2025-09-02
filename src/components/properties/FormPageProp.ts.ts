@@ -1,3 +1,3 @@
 export interface FormPageProp {
-  params: { formName: string };
+  params: Promise<{ formName: string }>;
 }

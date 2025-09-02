@@ -18,7 +18,7 @@ const FormPage = ({ params }: FormPageProp) => {
 	const [createFormInputPanel, setCreateFormInputPanel] = useState(false);
 	const [newFormInputType, setNewFormInputType] = useState("");
 	const [newQuestion, setNewQuestion] = useState("");
-	const formName = (params.formName).replace(/%20/g, " ");
+	const { formName } = React.use(params);
 
 	const onFormInputDelete = (id: number) => {
 		const fetchFormComponents = async () => {
@@ -81,7 +81,7 @@ const FormPage = ({ params }: FormPageProp) => {
 
 	useEffect(() => {
 		const fetchFormComponents = async () => {
-			const response = await fetch(`/api/formInputs?formid=${params.formName}`, {
+			const response = await fetch(`/api/formInputs?formid=${formName}`, {
 				method: 'GET',
 				headers: {
 					'Content-Type': 'application/json',
@@ -92,7 +92,7 @@ const FormPage = ({ params }: FormPageProp) => {
 			setFormInputs(data.data as FormInputModel[])
 		};
 		fetchFormComponents();
-	}, [params.formName]);
+	}, [formName]);
 
 
 	return (

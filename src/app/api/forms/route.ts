@@ -1,6 +1,6 @@
 import { FormService } from "@/service/FormService";
 
-export async function GET(request: Request) {
+export async function GET() {
 	const service: FormService = new FormService();
 
 	const forms = await service.getAllForms();
