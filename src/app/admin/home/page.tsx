@@ -2,7 +2,7 @@
 
 import AdminPanel from "@/components/adminPanel";
 import AdminPanelBefore from "@/components/adminPanelBefore";
-import adminPanelItemProp from "@/components/properties/adminPanelItemProp";
+import adminPanelItemProp from "@/components/properties/AdminPanelItemProp";
 import { useState, useRef, useEffect } from "react";
 import { gsap } from "gsap";
 
@@ -19,17 +19,18 @@ const AdminHomePage = () => {
     }
 
     //animation gsap stuff
+    //animation gsap stuff
     useEffect(() => {
         if (panelRef.current) {
             if (isInitialRender) {
                 gsap.set(panelRef.current, {
-                    width: panelIsOpen ? "100%" : "30%",
+                    width: panelIsOpen ? '200px' : '60px'
                 });
                 setIsInitialRender(false);
             } else {
                 gsap.to(panelRef.current, {
                     duration: 0.5,
-                    width: panelIsOpen ? "100%" : "30%",
+                    width: panelIsOpen ? '200px' : '60px',
                     ease: "power3.out",
                 });
             }
@@ -76,8 +77,8 @@ const AdminHomePage = () => {
     ]
 
     return(
-        <div className="bg-normal-creme h-screen relative">
-            <div className="w-1/5 h-full z-10 fixed">
+        <div className=" h-screen relative">
+            <div className="w-1/5 h-full fixed">
                 <div className="h-full flex overflow-hidden bg-white shadow-md" ref={panelRef}>
                     {
                         panelIsOpen?(
@@ -93,9 +94,12 @@ const AdminHomePage = () => {
                 </div>
             </div>
             
-            <div className="w-full flex flex-col">
-                <div className="w-full ml-20 p-6 text-4xl font-bold">
-                    Welcome, Admin!
+            <div className="flex flex-row z-10">
+                <div className="w-1/15"></div>
+                <div className="w-full flex flex-col">
+                    <div className="w-full p-6 text-4xl font-bold">
+                        Welcome, Admin!
+                    </div>
                 </div>
             </div>
         </div>

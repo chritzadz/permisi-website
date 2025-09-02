@@ -1,8 +1,8 @@
-import adminPanelItemProp from "./adminPanelItemProp";
+import AdminPanelItemProp from "./AdminPanelItemProp";
 
 export default interface AdminPanelProp{
     numberOfItem: number;
-    listOfItem: adminPanelItemProp[];
+    listOfItem: AdminPanelItemProp[];
     handleClick: () => void;
     itemsRef: React.RefObject<(HTMLDivElement | null)[]>;
 }

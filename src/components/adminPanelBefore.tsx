@@ -1,5 +1,5 @@
-import IconFactory from "@/factory/iconFactory";
-import AdminPanelBeforeProp from "./properties/adminPanelPropBefore";
+import IconFactory from "../factory/IconFactory";
+import AdminPanelBeforeProp from "./properties/AdminPanelPropBefore";
 
 export default function AdminPanelBefore({handleClick}: AdminPanelBeforeProp) {
     return (

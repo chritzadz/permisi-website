@@ -1,3 +1,6 @@
 export interface FormInputModel{
-    type: string;
+    id: number,
+    form_name: string,
+    type: string,
+    question: string
 }
