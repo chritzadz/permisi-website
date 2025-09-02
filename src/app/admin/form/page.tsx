@@ -138,17 +138,29 @@ const AdminFormPage = () => {
             
             <div className="flex flex-row z-10">
                 <div className="w-[60px]"></div>
-                <div className="w-full flex flex-col px-[30px] py-5">
+                <div className="w-full h-screen flex flex-col px-[30px] py-5">
                     <h1 className="text-4xl font-bold">Custom Form</h1>
                     <div className="p-2 font-bold border-2 border-black rounded-xl w-[120px] flex items-center justify-center my-5" onClick={handleCreateFormClick}>
                         Create Form
                     </div>
-                    <div className="flex flex-wrap w-full gap-2">
+                    <div className="flex flex-col w-full h-full border-2 border-dark-maroon bg-normal-creme rounded-2xl flex-1">
+                        <div className="py-5 flex flex-row">
+                            <div className="w-1/2 p-3 items-center">
+                                
+                            </div>
+                            <div className="w-1/2 p-3 items-center justify-end flex">
+                                <div className="px-2 bg-dark-creme w-1/2 rounded-full">
+                                    <p>Search</p>
+                                </div>
+                            </div>
+                        </div>
                         {
                             forms.map((form, index) => (
-                                <div key={index}>
-                                    <div className="flex justify-center items-center text-md rounded-xl border-2 border-black p-2" onClick={() => handleFormClick(form.name)}>
-                                        {form.name}
+                                <div className="" key={index}>
+                                    <hr className=" border-normal-maroon" />
+                                    <div className="flex flex-col justify-start text-md text-dark-maroon w-full py-2 px-4" onClick={() => handleFormClick(form.name)}>
+                                        <p className="text-base font-bold">{form.name}</p>
+                                        <p className="text-sm">Created at 10/10/2010</p>
                                     </div>
                                 </div>
                             ))
