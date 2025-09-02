@@ -3,7 +3,8 @@ import { FormInputTextBoxProp } from "./properties/FormInputTextBoxProp";
 import { Trash2, Check } from 'lucide-react';
 import { FormInputModel } from "@/model/formInputModel/FormInputModel";
 
-export default function formInputTextEditBox({type, question, id, onDelete}: FormInputTextBoxProp) {
+export default function FormInputTextEditBox({type, question, id, onDelete}: FormInputTextBoxProp) {
+    console.log(type)
     const handleDoubleClick = () => {
         setIsEditMode(true);
         setQuestionState(finalQuestionState);   

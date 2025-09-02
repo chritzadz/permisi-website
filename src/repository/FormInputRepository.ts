@@ -50,7 +50,7 @@ export class FormInputRepository{
 
     public async post(newFormInput: FormInputModel){
         try {
-            const task = await pool.query(`
+            await pool.query(`
                 INSERT INTO form_inputs (form_name, question, type)
                 VALUES ($1, $2, $3)
                 RETURNING *;

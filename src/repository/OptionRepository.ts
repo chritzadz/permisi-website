@@ -52,7 +52,7 @@ export class OptionRepository{
         }
     }
 
-    public async deleteOptions(id: Number){
+    public async deleteOptions(id: number){
         try {
             const task = await pool.query(`
                 DELETE FROM form_input_options WHERE form_input_id = $1 RETURNING *;

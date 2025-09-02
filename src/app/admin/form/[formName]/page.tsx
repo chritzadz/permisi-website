@@ -3,7 +3,6 @@ import { FormPageProp } from '@/components/properties/FormPageProp.ts';
 import FormInputEditFactory from '@/factory/FormInputEditFactory';
 import { FormInputModel } from '@/model/formInputModel/FormInputModel';
 import { Eye, PlusCircle } from 'lucide-react';
-import router from 'next/router';
 import React, { useEffect, useState } from 'react';
 
 /**
@@ -93,7 +92,7 @@ const FormPage = ({ params }: FormPageProp) => {
 			setFormInputs(data.data as FormInputModel[])
 		};
 		fetchFormComponents();
-	}, []);
+	}, [params.formName]);
 
 
 	return (

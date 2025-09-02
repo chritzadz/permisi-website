@@ -5,7 +5,8 @@ import { Option } from "@/model/formInputModel/Option";
 import { Check, Trash2 } from "lucide-react";
 import { FormInputModel } from "@/model/formInputModel/FormInputModel";
 
-export default function formInputOptionEditBox({type, id, question, onDelete}: FormInputOptionBoxProp) {
+export default function FormInputOptionEditBox({type, id, question, onDelete}: FormInputOptionBoxProp) {
+    console.log(type);
     const [options, setOptions] = useState<Option[]>([]);
     const [isEditMode, setIsEditMode] = useState(false);
     const [questionState, setQuestionState] = useState(question);
@@ -85,7 +86,7 @@ export default function formInputOptionEditBox({type, id, question, onDelete}: F
             setOptionStates((data.data as Option[]).map(o => o.option))
         };
         fetchOptions();
-    }, [])
+    }, [id])
 
     return (
         <>

@@ -22,7 +22,7 @@ export default function FormPage({ params }: FormPageProp) {
             setFormInputs(data.data as FormInputModel[])
         };
         fetchFormComponents();
-    }, []);
+    }, [params.formName]);
 
     return(
         <>

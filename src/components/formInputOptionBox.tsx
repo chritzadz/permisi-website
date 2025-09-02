@@ -5,6 +5,7 @@ import { FormInputOptionBoxProp } from "./properties/FormInputOptionBoxProp";
 import { Option } from "@/model/formInputModel/Option";
 
 export default function FormInputOptionBox({type, id, question}: FormInputOptionBoxProp) {
+    console.log(type);
     const [options, setOptions] = useState<Option[]>([]);
     useEffect(() => {
         const fetchOptions = async () => {
@@ -19,7 +20,7 @@ export default function FormInputOptionBox({type, id, question}: FormInputOption
             setOptions(data.data as Option[]);
         };
         fetchOptions();
-    }, [])
+    }, [id])
 
     return (
         <div className="w-full border-black p-5">

@@ -30,12 +30,12 @@ export async function PATCH(request: Request) {
 
     console.log("start update option");
     for (let i = 0; i < options.length; i++){
-        const option = await service.updateOption(id, oldOptions[i], options[i]);
+       await service.updateOption(id, oldOptions[i], options[i]);
     }
     console.log("end update option");
 
     if (newOption != null && newOption != ""){
-        const option = await service.addOption(id, newOption);    
+        await service.addOption(id, newOption);    
     }
 
     const getOptionById = await service.getOptionsByFormInputId(id); 
