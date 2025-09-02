@@ -19,17 +19,17 @@ export default function FormInputOptionBox({type, id, question}: FormInputOption
             setOptions(data.data as Option[]);
         };
         fetchOptions();
-    })
+    }, [])
 
     return (
-        <div className="w-full border-black">
-            <p>{question}</p>
+        <div className="w-full border-black p-5">
+            <p className="pl-1">{question}</p>
             {
                 options.map((option, index) => (
-                    <div key={index} className="ml-5">
-                        <label>
-                            <input type="radio" value={"option"+index} />
-                            {option.option}
+                    <div key={index} className="ml-5 w-full">
+                        <label className="flex w-full flex-row gap-3">
+                            <input type="radio" value={"option"+index}/>
+                            <p className="text-sm">{option.option}</p>
                         </label>
                     </div>
                 ))

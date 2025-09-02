@@ -120,13 +120,13 @@ export default function formInputOptionEditBox({type, id, question, onDelete}: F
                     </div>
                 ) : (
                     <div className="w-full border-black p-5" onDoubleClick={handleDoubleClick} onMouseLeave={handleMouseLeave}>
-                        <p>{questionState}</p>
+                        <p className="pl-1">{questionState}</p>
                         {
                             options.map((option, index) => (
-                                <div key={index} className="ml-5">
-                                    <label>
+                                <div key={index} className="ml-5 w-full">
+                                    <label className="flex w-full flex-row gap-3">
                                         <input type="radio" value={"option"+index}/>
-                                        {option.option}
+                                        <p className="text-sm">{option.option}</p>
                                     </label>
                                 </div>
                             ))

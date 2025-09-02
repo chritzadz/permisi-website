@@ -2,7 +2,8 @@
 import { FormPageProp } from '@/components/properties/FormPageProp.ts';
 import FormInputEditFactory from '@/factory/FormInputEditFactory';
 import { FormInputModel } from '@/model/formInputModel/FormInputModel';
-import { PlusCircle } from 'lucide-react';
+import { Eye, PlusCircle } from 'lucide-react';
+import router from 'next/router';
 import React, { useEffect, useState } from 'react';
 
 /**
@@ -46,7 +47,12 @@ const FormPage = ({ params }: FormPageProp) => {
 		setCreateFormInputPanel(false);
 	}
 
+	const onPreviewClick = () => {
+		window.open(`/form/${formName}`)
+	}
+
 	const onSubmitFormInput = async () => {
+		onCloseModal();
 		if (newFormInputType === "" || newFormInputType === "Please select from input type" || newQuestion === "") {
 			//no suybmit
 		} else{
@@ -108,6 +114,9 @@ const FormPage = ({ params }: FormPageProp) => {
 			</div>
 				<div className="fixed bottom-8 right-8 rounded-full w-12 flex items-center justify-center text-3xl font-bold z-50 cursor-pointer bg-white shadow-lg" onClick={onAddClick}>
 					<PlusCircle color={"#831515"} size={40} className='w-full rounded-full'></PlusCircle>
+				</div>
+				<div className="fixed bottom-8 right-24 rounded-full w-12 flex items-center justify-center text-3xl font-bold z-50 cursor-pointer bg-white shadow-lg" onClick={onPreviewClick}>
+					<Eye color={"#831515"} size={40} className='w-full rounded-full'></Eye>
 				</div>
 
 				{createFormInputPanel && (

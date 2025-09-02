@@ -149,8 +149,8 @@ const AdminFormPage = () => {
                                 
                             </div>
                             <div className="w-1/2 p-3 items-center justify-end flex">
-                                <div className="px-2 bg-dark-creme w-1/2 rounded-full">
-                                    <p>Search</p>
+                                <div className="px-2 bg-dark-creme w-1/2 rounded-full overflow-x-auto">
+                                    <input type="text" placeholder="Search" className="p-1 focus:border-0 focus:outline-none w-full overflow-x-auto" />
                                 </div>
                             </div>
                         </div>
