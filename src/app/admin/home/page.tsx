@@ -3,6 +3,7 @@
 import AdminPanel from "@/components/adminPanel";
 import AdminPanelBefore from "@/components/adminPanelBefore";
 import adminPanelItemProp from "@/components/properties/AdminPanelItemProp";
+import AdminLoginGuard from "@/components/adminLoginGuard";
 import { useState, useRef, useEffect } from "react";
 import { gsap } from "gsap";
 
@@ -77,32 +78,34 @@ const AdminHomePage = () => {
     ]
 
     return(
-        <div className=" h-screen relative">
-            <div className="w-1/5 h-full fixed">
-                <div className="h-full flex overflow-hidden bg-white shadow-md" ref={panelRef}>
-                    {
-                        panelIsOpen?(
-                            <div className="w-full h-full">
-                                <AdminPanel itemsRef={itemsRef} numberOfItem={numberOfItem} listOfItem={listOfItem} handleClick={handlePanelClick}></AdminPanel>
-                            </div>
-                        ) : (
-                            <div className="w-full h-full flex">
-                                <AdminPanelBefore handleClick={handlePanelClick}></AdminPanelBefore>
-                            </div>
-                        )
-                    }
+        <AdminLoginGuard>
+            <div className=" h-screen relative">
+                <div className="w-1/5 h-full fixed">
+                    <div className="h-full flex overflow-hidden bg-white shadow-md" ref={panelRef}>
+                        {
+                            panelIsOpen?(
+                                <div className="w-full h-full">
+                                    <AdminPanel itemsRef={itemsRef} numberOfItem={numberOfItem} listOfItem={listOfItem} handleClick={handlePanelClick}></AdminPanel>
+                                </div>
+                            ) : (
+                                <div className="w-full h-full flex">
+                                    <AdminPanelBefore handleClick={handlePanelClick}></AdminPanelBefore>
+                                </div>
+                            )
+                        }
+                    </div>
                 </div>
-            </div>
-            
-            <div className="flex flex-row z-10">
-                <div className="w-1/15"></div>
-                <div className="w-full flex flex-col">
-                    <div className="w-full p-6 text-4xl font-bold">
-                        Welcome, Admin!
+                
+                <div className="flex flex-row z-10">
+                    <div className="w-1/15"></div>
+                    <div className="w-full flex flex-col">
+                        <div className="w-full p-6 text-4xl font-bold">
+                            Welcome, Admin!
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
+        </AdminLoginGuard>
     );
 }
 
