@@ -10,7 +10,7 @@ export const useAdminLogin = () => {
 
   const checkLoginStatus = async () => {
     try {
-      const response = await fetch("api/admin/validate");
+      const response = await fetch("/api/admin/validate");
       const data = await response.json();
 
       setIsAuthenticated(data.success);
@@ -23,7 +23,7 @@ export const useAdminLogin = () => {
 
   const login = async (username: string, password: string) => {
     try {
-      const response = await fetch("/admin/auth", {
+      const response = await fetch("/api/admin/auth", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ username, password }),
