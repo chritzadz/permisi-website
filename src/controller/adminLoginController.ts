@@ -17,6 +17,7 @@ export class AdminLoginController {
       const result = await this.authService.authenticate(credentials);
       return result;
     } catch (error) {
+      console.log(error);
       return { success: false, message: "Authentication failed" };
     }
   }
@@ -26,6 +27,7 @@ export class AdminLoginController {
       const isValid = await this.authService.verifyToken(token);
       return { success: isValid };
     } catch (error) {
+      console.log(error);
       return { success: false };
     }
   }

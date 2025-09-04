@@ -5,7 +5,6 @@ import AdminPanelBefore from "@/components/adminPanelBefore";
 import adminPanelItemProp from "@/components/properties/AdminPanelItemProp";
 import { useState, useRef, useEffect } from "react";
 import { gsap } from "gsap";
-import { useAdminLogin } from "@/hooks/useAdminLogin";
 
 const AdminHomePage = () => {
     //state and animation refrence

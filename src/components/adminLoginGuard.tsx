@@ -8,7 +8,7 @@ interface AdminLoginGuardProps {
   children: React.ReactNode;
 }
 
-const adminLoginGuard = ({ children }: AdminLoginGuardProps) => {
+const AdminLoginGuard = ({ children }: AdminLoginGuardProps) => {
   const { isAuthenticated, isLoading } = useAdminLogin();
   const router = useRouter();
 
@@ -31,4 +31,4 @@ const adminLoginGuard = ({ children }: AdminLoginGuardProps) => {
   return <>{children}</>;
 };
 
-export default adminLoginGuard;
+export default AdminLoginGuard;

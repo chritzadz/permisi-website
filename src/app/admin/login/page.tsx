@@ -4,7 +4,6 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useAdminLogin } from "@/hooks/useAdminLogin";
 import { Eye, EyeOff, Lock, User } from "lucide-react";
-import { div } from "motion/react-client";
 
 const AdminLoginPage = () => {
   const [username, setUsername] = useState("");
