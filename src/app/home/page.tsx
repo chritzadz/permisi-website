@@ -94,7 +94,7 @@ const HomePage = () => {
 					scrub: 0.5,
 					pin: heroSectionRef.current,
 					pinSpacing: true,
-					markers: true,
+					markers: false,
 					onUpdate: (self) => {
 						heroScrollTrigger = self;
 					},
@@ -118,7 +118,7 @@ const HomePage = () => {
 		ScrollTrigger.create({
 			start: "top top",
 			end: "max",
-			markers: true,
+			markers: false,
 			onUpdate: (self) => {
 				// eslint-disable-next-line @typescript-eslint/no-unused-expressions
 				self.direction === -1 ? showAnim.play() : showAnim.reverse()
@@ -140,7 +140,7 @@ const HomePage = () => {
 					start: "top 40%",
 					end: "bottom 50%",
 					toggleActions: "play reverse play reverse",
-					markers: true
+					markers: false
 				}
 			})
 				.to(whoAreWeTitleRef.current, {
