@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
 import { useAdminLogin } from "@/hooks/useAdminLogin";
 
 interface AdminLoginGuardProps {
@@ -11,9 +11,10 @@ interface AdminLoginGuardProps {
 const AdminLoginGuard = ({ children }: AdminLoginGuardProps) => {
   const { isAuthenticated, isLoading } = useAdminLogin();
   const router = useRouter();
+  const pathname = usePathname();
 
   useEffect(() => {
-    if (!isLoading && !isAuthenticated) {
+    if (!isLoading && !isAuthenticated && pathname.startsWith('/admin') && pathname !== '/admin' && pathname !== '/admin/login') {
       router.push("/admin/login");
     }
   }, [isAuthenticated, isLoading, router]);
