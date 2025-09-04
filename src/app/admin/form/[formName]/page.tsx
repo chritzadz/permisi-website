@@ -1,4 +1,5 @@
 'use client';
+import AdminLoginGuard from '@/components/adminLoginGuard';
 import { FormPageProp } from '@/components/properties/FormPageProp.ts';
 import FormInputEditFactory from '@/factory/FormInputEditFactory';
 import { FormInputModel } from '@/model/formInputModel/FormInputModel';
@@ -96,46 +97,48 @@ const FormPage = ({ params }: FormPageProp) => {
 
 
 	return (
-		<div>
-			<div className="w-full justify-center items-center p-5 flex flex-col">
-				<h1 className="text-3xl font-bold">{formName}</h1>
-				<div className="bg-normal-creme w-full h-screen my-5 flex flex-col rounded-2xl">
-					{
-						formInputs.map((formInput) => (
-							<div className="w-full text-md" key={formInput.id}>
-								{
-									FormInputEditFactory.getFormInput(formInput, onFormInputDelete)
-								}
-							</div>
-						))
-					}
+		<AdminLoginGuard>
+			<div>
+				<div className="w-full justify-center items-center p-5 flex flex-col">
+					<h1 className="text-3xl font-bold">{formName}</h1>
+					<div className="bg-normal-creme w-full h-screen my-5 flex flex-col rounded-2xl">
+						{
+							formInputs.map((formInput) => (
+								<div className="w-full text-md" key={formInput.id}>
+									{
+										FormInputEditFactory.getFormInput(formInput, onFormInputDelete)
+									}
+								</div>
+							))
+						}
+					</div>
 				</div>
-			</div>
-				<div className="fixed bottom-8 right-8 rounded-full w-12 flex items-center justify-center text-3xl font-bold z-50 cursor-pointer bg-white shadow-lg" onClick={onAddClick}>
-					<PlusCircle color={"#831515"} size={40} className='w-full rounded-full'></PlusCircle>
-				</div>
-				<div className="fixed bottom-8 right-24 rounded-full w-12 flex items-center justify-center text-3xl font-bold z-50 cursor-pointer bg-white shadow-lg" onClick={onPreviewClick}>
-					<Eye color={"#831515"} size={40} className='w-full rounded-full'></Eye>
-				</div>
+					<div className="fixed bottom-8 right-8 rounded-full w-12 flex items-center justify-center text-3xl font-bold z-50 cursor-pointer bg-white shadow-lg" onClick={onAddClick}>
+						<PlusCircle color={"#831515"} size={40} className='w-full rounded-full'></PlusCircle>
+					</div>
+					<div className="fixed bottom-8 right-24 rounded-full w-12 flex items-center justify-center text-3xl font-bold z-50 cursor-pointer bg-white shadow-lg" onClick={onPreviewClick}>
+						<Eye color={"#831515"} size={40} className='w-full rounded-full'></Eye>
+					</div>
 
-				{createFormInputPanel && (
-					<div className="fixed inset-0 z-50 flex items-center justify-center bg-black opacity-80">
-						<div className="w-1/3 bg-white rounded-2xl p-8 flex flex-col items-center">
-							<h2 className="text-xl font-bold mb-4">Add New Form Input</h2>
-							<select className="w-full p-2 border-2 border-black rounded-lg mb-4" onChange={e => setNewFormInputType(e.target.value)}>
-								<option value="">Please select form input type</option>
-								<option value="text">text</option>
-								<option value="option">option</option>
-							</select>
-							<input type="text" value={newQuestion} onChange={e => setNewQuestion(e.target.value)} placeholder="Please input your question" className='w-full p-2 border-2 border-black rounded-lg mb-4'></input>
-							<div className='flex flex-row gap-5'>
-								<button className="mt-6 px-4 py-2 bg-normal-maroon text-white rounded-lg" onClick={onCloseModal}>Close</button>
-								<button className="mt-6 px-4 py-2 bg-normal-maroon text-white rounded-lg" onClick={onSubmitFormInput}>Submit</button>
+					{createFormInputPanel && (
+						<div className="fixed inset-0 z-50 flex items-center justify-center bg-black opacity-80">
+							<div className="w-1/3 bg-white rounded-2xl p-8 flex flex-col items-center">
+								<h2 className="text-xl font-bold mb-4">Add New Form Input</h2>
+								<select className="w-full p-2 border-2 border-black rounded-lg mb-4" onChange={e => setNewFormInputType(e.target.value)}>
+									<option value="">Please select form input type</option>
+									<option value="text">text</option>
+									<option value="option">option</option>
+								</select>
+								<input type="text" value={newQuestion} onChange={e => setNewQuestion(e.target.value)} placeholder="Please input your question" className='w-full p-2 border-2 border-black rounded-lg mb-4'></input>
+								<div className='flex flex-row gap-5'>
+									<button className="mt-6 px-4 py-2 bg-normal-maroon text-white rounded-lg" onClick={onCloseModal}>Close</button>
+									<button className="mt-6 px-4 py-2 bg-normal-maroon text-white rounded-lg" onClick={onSubmitFormInput}>Submit</button>
+								</div>
 							</div>
 						</div>
-					</div>
-				)}
-		</div>
+					)}
+			</div>
+		</AdminLoginGuard>
 	);
 };
 

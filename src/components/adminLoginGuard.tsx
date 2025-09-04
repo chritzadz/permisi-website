@@ -17,7 +17,7 @@ const AdminLoginGuard = ({ children }: AdminLoginGuardProps) => {
     if (!isLoading && !isAuthenticated && pathname.startsWith('/admin') && pathname !== '/admin' && pathname !== '/admin/login') {
       router.push("/admin/login");
     }
-  }, [isAuthenticated, isLoading, router]);
+  }, [isAuthenticated, isLoading, router, pathname]);
 
   if (isLoading) {
     <div className="min-h-screen bg-normal-creme flex items-center justify-center">
