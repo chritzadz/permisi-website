@@ -5,11 +5,27 @@ import FormInputFactory from "@/factory/FormInputFactory";
 import { FormInputModel } from "@/model/formInputModel/FormInputModel";
 import React from "react";
 import { useEffect, useState } from "react";
+import { ClimbingBoxLoader } from "react-spinners";
 
 export default function FormPage({ params }: FormPageProp) {
     const { formName } = React.use(params);
     const [formInputs, setFormInputs] = useState<FormInputModel[]>([]);
     const formNameParse = formName.split('%20').join(' ');
+    const [answers, setAnswers] = useState<{ [id: string]: any }>({}); //in hashamp form or object
+    const [isLoading, setIsLoading] = useState(false);
+    
+    
+    const handleAnswerChange = (id: number, value: any) => {
+        setAnswers(prev => ({ ...prev, [id]: value }));
+    }
+
+    const processAnswer = () => {
+        setIsLoading(true);
+
+        //check if all answers is not null
+
+        //then proceed to direclty uploading to sheets
+    }
 
     useEffect(() => {
         const fetchFormComponents = async () => {
@@ -30,15 +46,24 @@ export default function FormPage({ params }: FormPageProp) {
         <>
             <div className="w-full justify-center items-center p-5 flex flex-col">
                 <h1 className="text-3xl font-bold">{formNameParse}</h1>
-                <div className="bg-normal-creme w-full h-screen my-5 flex flex-col rounded-2xl">
+                <div className="bg-normal-creme w-full h-screen gap-3 flex flex-col rounded-2xl">
                     {
                         formInputs.map((formInput) => (
                             <div className="w-full text-md" key={formInput.id}>
                                 {
-                                    FormInputFactory.getFormInput(formInput)
+                                    FormInputFactory.getFormInput(formInput, answers[formInput.id], (value) => handleAnswerChange(formInput.id, value))
                                 }
                             </div>
                         ))
+                    }
+                    { 
+                        isLoading ? (
+                            <ClimbingBoxLoader size={10} color={"#670a0a"}></ClimbingBoxLoader>
+                        ) : (
+                            <div className="w-full flex justify-center">
+                                <button className="flex flex-col justify-center items-center bg-normal-maroon w-24 p-2 rounded-lg text-normal-creme" onClick={processAnswer}>Submit</button>
+                            </div>
+                        )
                     }
                 </div>
             </div>

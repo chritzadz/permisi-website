@@ -3,4 +3,6 @@ export interface FormInputOptionBoxProp{
     id: number;
     question: string;
     onDelete: () => void;
+    value: string;
+    onChange: (value: string) => void; 
 }   
