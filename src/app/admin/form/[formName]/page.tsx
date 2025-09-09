@@ -20,6 +20,7 @@ const FormPage = ({ params }: FormPageProp) => {
 	const [newFormInputType, setNewFormInputType] = useState("");
 	const [newQuestion, setNewQuestion] = useState("");
 	const { formName } = React.use(params);
+	const formNameParse = formName.split('%20').join(' ');
 
 	const onFormInputDelete = (id: number) => {
 		const fetchFormComponents = async () => {
@@ -27,7 +28,7 @@ const FormPage = ({ params }: FormPageProp) => {
 				method: 'DELETE',
 				body: JSON.stringify({
 					id: id,
-					form_name: formName
+					form_name: formNameParse
 				}),
 				headers: {
 					'Content-Type': 'application/json',
@@ -61,7 +62,7 @@ const FormPage = ({ params }: FormPageProp) => {
 				body: JSON.stringify({
 					form_input: {
 						id: -1,
-						form_name: formName,
+						form_name: formNameParse,
 						type: newFormInputType,
 						question: newQuestion
 					}
@@ -100,7 +101,7 @@ const FormPage = ({ params }: FormPageProp) => {
 		<AdminLoginGuard>
 			<div>
 				<div className="w-full justify-center items-center p-5 flex flex-col">
-					<h1 className="text-3xl font-bold">{formName}</h1>
+					<h1 className="text-3xl font-bold">{formNameParse}</h1>
 					<div className="bg-normal-creme w-full h-screen my-5 flex flex-col rounded-2xl">
 						{
 							formInputs.map((formInput) => (
