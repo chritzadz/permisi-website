@@ -29,7 +29,7 @@ export default function FormInputOptionBox({type, id, question}: FormInputOption
                 options.map((option, index) => (
                     <div key={index} className="ml-5 w-full">
                         <label className="flex w-full flex-row gap-3">
-                            <input type="radio" value={"option"+index}/>
+                            <input type="radio" name={`option-group-${id}`} value={"option"+index}/>
                             <p className="text-sm">{option.option}</p>
                         </label>
                     </div>
