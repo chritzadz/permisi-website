@@ -1,28 +1,31 @@
+import { google } from 'googleapis';
 
+export class AdminLoginController {
+    private spreadSheetId: string;
+    private GOOGLE_SHEETS_API = process.env.GOOGLE_SHEETS_API;
+    private CLIENT_ID = process.env.CLIENT_ID;
+    private auth;
 
-async function create(title: string) {
-    const {GoogleAuth} = require('google-auth-library');
-    const {google} = require('googleapis');
+    constructor(spreadSheetId: string) {
+        this.spreadSheetId = spreadSheetId;
 
-    const auth = new GoogleAuth({
-        scopes: 'https://www.googleapis.com/auth/spreadsheets',
-    });
-
-    const service = google.sheets({version: 'v4', auth});
-    const resource = {
-        properties: {
-            title,
-        },
-    };
-    try {
-        const spreadsheet = await service.spreadsheets.create({
-            resource,
-            fields: 'spreadsheetId',
+        this.auth = new google.auth.GoogleAuth({
+            keyFile: this.GOOGLE_SHEETS_API,
+            scopes: ['https://www.googleapis.com/auth/spreadsheets'],
         });
-        console.log(`Spreadsheet ID: ${spreadsheet.data.spreadsheetId}`);
-        return spreadsheet.data.spreadsheetId;
-    } catch (err) {
-        // TODO (developer) - Handle exception
-        throw err;
+    }
+
+    async addRow(data: any){
+        await sheets.spreadsheets.values.append({
+            spreadsheetId: 'YOUR_SPREADSHEET_ID',
+            range: 'Sheet1', // or 'Sheet1!A1'
+            valueInputOption: 'RAW',
+            requestBody: {
+                values: [
+                ['Value 1', 'Value 2', 'Value 3'], // each inner array is a row
+                ],
+            },
+        });
     }
 }
+
