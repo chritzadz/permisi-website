@@ -1,31 +1,38 @@
-import { google } from 'googleapis';
+import {GoogleAuth} from 'google-auth-library';
+import {google} from 'googleapis';
 
-export class AdminLoginController {
-    private spreadSheetId: string;
+export class GoogleServiceController {
+    private spreadsheetId: string;
     private GOOGLE_SHEETS_API = process.env.GOOGLE_SHEETS_API;
     private CLIENT_ID = process.env.CLIENT_ID;
     private auth;
 
     constructor(spreadSheetId: string) {
-        this.spreadSheetId = spreadSheetId;
+        this.spreadsheetId = spreadSheetId;
 
-        this.auth = new google.auth.GoogleAuth({
+        this.auth = new GoogleAuth({
             keyFile: this.GOOGLE_SHEETS_API,
             scopes: ['https://www.googleapis.com/auth/spreadsheets'],
         });
     }
 
-    async addRow(data: any){
-        await sheets.spreadsheets.values.append({
-            spreadsheetId: 'YOUR_SPREADSHEET_ID',
-            range: 'Sheet1', // or 'Sheet1!A1'
+    async addRow(data: string[], range: string = 'Sheet1') {
+        const service = google.sheets({version: 'v4', auth: this.auth});
+        let values = [
+            data
+        ];
+        const resource = {
+            values,
+        };
+
+        const result = await service.spreadsheets.values.update({
+            spreadsheetId: this.spreadsheetId,
+            range: range,
             valueInputOption: 'RAW',
-            requestBody: {
-                values: [
-                ['Value 1', 'Value 2', 'Value 3'], // each inner array is a row
-                ],
-            },
+            requestBody: resource
         });
+
+        return result;
     }
 }
 

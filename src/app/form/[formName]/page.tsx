@@ -1,6 +1,7 @@
 'use client';
 
 import { FormPageProp } from "@/components/properties/FormPageProp.ts";
+import { GoogleServiceController } from "@/controller/googleServiceController";
 import FormInputFactory from "@/factory/FormInputFactory";
 import { FormInputModel } from "@/model/formInputModel/FormInputModel";
 import React from "react";
@@ -12,8 +13,7 @@ export default function FormPage({ params }: FormPageProp) {
     const [formInputs, setFormInputs] = useState<FormInputModel[]>([]);
     const formNameParse = formName.split('%20').join(' ');
     const [answers, setAnswers] = useState<{ [id: string]: any }>({}); //in hashmap form or object
-    const [isLoading, setIsLoading] = useState(false);
-    
+    const [isLoading, setIsLoading] = useState(false);    
     
     const handleAnswerChange = (id: number, value: any) => {
         setAnswers(prev => ({ ...prev, [id]: value }));
@@ -22,9 +22,26 @@ export default function FormPage({ params }: FormPageProp) {
     const processAnswer = () => {
         setIsLoading(true);
 
-        //check if all answers is not null
+        // check if all answers is not null (optional validation here)
 
-        //then proceed to direclty uploading to sheets
+        // POST answers to backend API route for sheets
+        const spreadsheetId: string = "test"
+        fetch('/api/sheets', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ answers, spreadsheetId }),
+        })
+        .then(res => res.json())
+        .then(data => {
+            setIsLoading(false);
+            console.log('Sheet response:', data);
+        })
+        .catch(err => {
+            setIsLoading(false);
+            console.error('Sheet error:', err);
+        });
     }
 
     useEffect(() => {
