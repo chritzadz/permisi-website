@@ -10,4 +10,8 @@ export class FormService{
     public async postForm(name: string){
         return await this.repository.post(name);
     }
+
+    public async getGoogleSheetId(){
+        
+    }
 }
