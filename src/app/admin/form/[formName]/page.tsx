@@ -92,7 +92,6 @@ const FormPage = ({ params }: FormPageProp) => {
 				}
 			});
 			const data = await response.json();
-			console.log(data.data);
 			setFormInputs(data.data as FormInputModel[])
 			setIsLoadingFormInput(false);
 		};

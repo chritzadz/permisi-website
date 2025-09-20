@@ -77,7 +77,6 @@ const AdminFormPage = () => {
     }, [panelIsOpen]);
 
     const handleFormClick = (formName: string) => {
-        console.log("CLICKED");
         router.push(`/admin/form/${formName}`);
     }
 

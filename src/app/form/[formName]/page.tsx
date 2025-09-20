@@ -2,6 +2,7 @@
 
 import { FormPageProp } from "@/components/properties/FormPageProp.ts";
 import FormInputFactory from "@/factory/FormInputFactory";
+import { Form } from "@/model/formInputModel/Form";
 import { FormInputModel } from "@/model/formInputModel/FormInputModel";
 import { useRouter } from "next/navigation";
 import React from "react";
@@ -16,18 +17,39 @@ export default function FormPage({ params }: FormPageProp) {
     const [answers, setAnswers] = useState<{ [id: string]: string }>({}); //in hashmap form or object
     const [isLoading, setIsLoading] = useState(false);
     const [isLoadingFormInput, setIsLoadingFormInput] = useState(true);
+    const [forms, setForms] = useState<Form[]>([]);
     
     const handleAnswerChange = (id: number, value: string) => {
         setAnswers(prev => ({ ...prev, [id]: value }));
     }
 
+    useEffect(() => {
+        const fetchForms = async () => {
+            const response = await fetch('/api/forms', {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                }
+            });
+            const data = await response.json();
+            const formsFetched = data.data as Form[];
+            setForms(formsFetched);
+
+            const found = formsFetched.some(f => f.name === formNameParse);
+            if (!found) {
+                router.push('/404');
+            }
+        };
+
+        fetchForms();
+    }, [formNameParse, router])
+
     const processAnswer = () => {
         setIsLoading(true);
 
-        // check if all answers is not null (optional validation here)
+        const matchedForm = forms.find(f => f.name === formNameParse);
+        const spreadsheetId: string | undefined = matchedForm?.google_sheet_id;
 
-        // POST answers to backend API route for sheets
-        const spreadsheetId: string = "1-3TOIMEGejIFOx1wJeU0x8ggsKJTmen0IoLr4RGQexQ"
         fetch('/api/sheets', {
             method: 'POST',
             headers: {
@@ -62,7 +84,6 @@ export default function FormPage({ params }: FormPageProp) {
                 }
             });
             const data = await response.json();
-            console.log(data.data);
             setFormInputs(data.data as FormInputModel[])
             setIsLoadingFormInput(false);
         };
