@@ -5,6 +5,7 @@ import FormInputEditFactory from '@/factory/FormInputEditFactory';
 import { FormInputModel } from '@/model/formInputModel/FormInputModel';
 import { Eye, PlusCircle } from 'lucide-react';
 import React, { useEffect, useState } from 'react';
+import ClimbingBoxLoader from 'react-spinners/ClimbingBoxLoader';
 
 /**
  * fetch all of form existing components
@@ -20,6 +21,8 @@ const FormPage = ({ params }: FormPageProp) => {
 	const [newFormInputType, setNewFormInputType] = useState("");
 	const [newQuestion, setNewQuestion] = useState("");
 	const { formName } = React.use(params);
+	const formNameParse = formName.split('%20').join(' ');
+	const [isLoadingFormInput, setIsLoadingFormInput] = useState(true);
 
 	const onFormInputDelete = (id: number) => {
 		const fetchFormComponents = async () => {
@@ -27,7 +30,7 @@ const FormPage = ({ params }: FormPageProp) => {
 				method: 'DELETE',
 				body: JSON.stringify({
 					id: id,
-					form_name: formName
+					form_name: formNameParse
 				}),
 				headers: {
 					'Content-Type': 'application/json',
@@ -61,7 +64,7 @@ const FormPage = ({ params }: FormPageProp) => {
 				body: JSON.stringify({
 					form_input: {
 						id: -1,
-						form_name: formName,
+						form_name: formNameParse,
 						type: newFormInputType,
 						question: newQuestion
 					}
@@ -91,6 +94,7 @@ const FormPage = ({ params }: FormPageProp) => {
 			const data = await response.json();
 			console.log(data.data);
 			setFormInputs(data.data as FormInputModel[])
+			setIsLoadingFormInput(false);
 		};
 		fetchFormComponents();
 	}, [formName]);
@@ -100,16 +104,22 @@ const FormPage = ({ params }: FormPageProp) => {
 		<AdminLoginGuard>
 			<div>
 				<div className="w-full justify-center items-center p-5 flex flex-col">
-					<h1 className="text-3xl font-bold">{formName}</h1>
+					<h1 className="text-3xl font-bold">{formNameParse}</h1>
 					<div className="bg-normal-creme w-full h-screen my-5 flex flex-col rounded-2xl">
 						{
-							formInputs.map((formInput) => (
+							isLoadingFormInput? (
+								<div className="w-full flex justify-center">
+									<ClimbingBoxLoader size={10} color={"#670a0a"}></ClimbingBoxLoader>
+								</div>
+							) : (
+								formInputs.map((formInput) => (
 								<div className="w-full text-md" key={formInput.id}>
 									{
 										FormInputEditFactory.getFormInput(formInput, onFormInputDelete)
 									}
 								</div>
 							))
+							)
 						}
 					</div>
 				</div>
