@@ -29,7 +29,7 @@ export class GoogleServiceController {
         this.spreadsheetId = spreadSheetId;
 
         this.auth = new GoogleAuth({
-            keyFile: './permisi-website-main.json',
+            credentials,
             scopes: ['https://www.googleapis.com/auth/spreadsheets'],
         });
     }
