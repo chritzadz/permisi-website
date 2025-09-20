@@ -1,11 +1,12 @@
+'use client';
+
+import { FormPageProp } from "@/components/properties/FormPageProp.ts";
 import Link from "next/link";
+import React from "react";
 
-interface FormThankYouPageProps {
-    params: { formName: string }
-}
 
-export default function FormThankYouPage({ params }: FormThankYouPageProps) {
-    const { formName } = params;
+export default function FormThankYouPage({ params }: FormPageProp) {
+    const { formName } = React.use(params);
     const formNameParsed = decodeURIComponent(formName.replace(/%20/g, ' '));
     
     return (

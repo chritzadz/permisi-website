@@ -5,7 +5,7 @@ import { FormInputOptionBoxProp } from "./properties/FormInputOptionBoxProp";
 import { Option } from "@/model/formInputModel/Option";
 
 export default function FormInputOptionBox({type, id, question, value, onChange}: FormInputOptionBoxProp) {
-    console.log(type);
+    console.log(type + value);
     const [options, setOptions] = useState<Option[]>([]);
 
     useEffect(() => {
