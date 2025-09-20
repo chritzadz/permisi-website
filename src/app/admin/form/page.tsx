@@ -7,6 +7,7 @@ import { gsap } from "gsap";
 import { Form } from "@/model/formInputModel/Form";
 import { useRouter } from "next/navigation";
 import AdminLoginGuard from "@/components/adminLoginGuard";
+import ClimbingBoxLoader from "react-spinners/ClimbingBoxLoader";
 
 const AdminFormPage = () => {
     const router = useRouter();
@@ -17,6 +18,8 @@ const AdminFormPage = () => {
     const [forms, setForms] = useState<Form[]>([]);
     const [createFormPanelIsOpen, setCreateFormPanelIsOpen] = useState(false);
     const [createNewFormName, setCreateNewFormName] = useState("");
+    const [googleSheetsIdForm, setGoogleSheetsIdForm] = useState("");
+    const [isLoadingForm, setIsLoadingForm] = useState(true);
 
     useEffect(() => {
         const fetchForms = async () => {
@@ -28,6 +31,7 @@ const AdminFormPage = () => {
             });
             const data = await response.json();
             setForms(data.data as Form[]);
+            setIsLoadingForm(false);
         };
 
         fetchForms();
@@ -156,16 +160,21 @@ const AdminFormPage = () => {
                                     </div>
                                 </div>
                             </div>
-                            {
-                                forms.map((form, index) => (
-                                    <div className="" key={index}>
-                                        <hr className=" border-black" />
-                                        <div className="flex flex-col justify-start text-md text-black w-full py-2 px-4" onClick={() => handleFormClick(form.name)}>
-                                            <p className="text-base font-bold">{form.name}</p>
-                                            <p className="text-sm">Created at 10/10/2010</p>
-                                        </div>
+                            { isLoadingForm ? (
+                                    <div className="w-full flex justify-center">
+                                        <ClimbingBoxLoader size={10} color={"#670a0a"}></ClimbingBoxLoader>
                                     </div>
-                                ))
+                                ) : (
+                                    forms.map((form, index) => (
+                                        <div className="" key={index}>
+                                            <hr className=" border-black" />
+                                            <div className="flex flex-col justify-start text-md text-black w-full py-2 px-4" onClick={() => handleFormClick(form.name)}>
+                                                <p className="text-base font-bold">{form.name}</p>
+                                                <p className="text-sm">Created at 10/10/2010</p>
+                                            </div>
+                                        </div>
+                                    ))
+                                )
                             }
                         </div>
                     </div>
@@ -176,9 +185,11 @@ const AdminFormPage = () => {
                         <div className="w-1/3 bg-normal-creme rounded-2xl text-black">
                             <div className="p-5">
                                 <h1 className="text-2xl font-bold">Create New Form</h1>
-                                <div className="flex flex-col my-5">
+                                <div className="flex flex-col my-5 gap-3">
                                     <label className="font-bold">Form Name</label>
                                     <input type="text" value={createNewFormName} onChange={e => setCreateNewFormName(e.target.value)} className="border-2 border-black rounded-lg p-2"/>
+                                    <label className="font-bold">Google Sheets ID</label>
+                                    <input type="text" value={googleSheetsIdForm} onChange={e => setGoogleSheetsIdForm(e.target.value)} className="border-2 border-black rounded-lg p-2"/>
                                 </div>
                                 <div className="flex flex-row justify-end gap-5">
                                     <div className="p-2 font-bold border-2 border-black rounded-xl w-[120px] flex items-center justify-center my-5 cursor-pointer" onClick={handleCreateFormClick}>
