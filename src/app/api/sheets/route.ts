@@ -1,19 +1,35 @@
 import { GoogleServiceController } from "@/controller/googleServiceController";
 
 export async function POST(request: Request) {
-    const body = await request.json();
-    const answers = body.answers;
-    const spreadsheetId = body.spreadsheetId
+    try {
+        const body = await request.json();
+        const answers = body.answers;
+        const spreadsheetId = body.spreadsheetId;
 
-    const googleSheetsController: GoogleServiceController = new GoogleServiceController(spreadsheetId);
-    const data: string[] = Object.values(answers);
-    googleSheetsController.addRow(data); //default Sheet1
-    
+        const googleSheetsController: GoogleServiceController = new GoogleServiceController(spreadsheetId);
+        const data: string[] = Object.values(answers);
+        const result = await googleSheetsController.addRow(data); //default Sheet1
 
-    return new Response(JSON.stringify({}), {
-        status: 200,
-        headers: { 'Content-Type': 'application/json' }
-    });
+
+        if (result && typeof result === 'object' && 'error' in result) {
+            // Google Sheets API error
+            return new Response(JSON.stringify({ error: result.error }), {
+                status: 500,
+                headers: { 'Content-Type': 'application/json' }
+            });
+        }
+
+        return new Response(JSON.stringify({ success: true }), {
+            status: 200,
+            headers: { 'Content-Type': 'application/json' }
+        });
+    } catch (error) {
+        console.error('API route error:', error);
+        return new Response(JSON.stringify({ error: error instanceof Error ? error.message : String(error) }), {
+            status: 500,
+            headers: { 'Content-Type': 'application/json' }
+        });
+    }
 }
 
 // export async function GET(request: Request) {
