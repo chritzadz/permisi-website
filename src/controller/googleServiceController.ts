@@ -38,10 +38,10 @@ export class GoogleServiceController {
                 valueInputOption: 'RAW',
                 requestBody: resource
             });
+            console.log(result);
             return result;
         } catch (error) {
             console.error('Google Sheets API error:', error);
-            // Return a consistent error object for the handler to use
             return { error: error instanceof Error ? error.message : String(error) };
         }
     }
