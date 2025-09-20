@@ -89,7 +89,8 @@ const AdminFormPage = () => {
         const response = await fetch('/api/forms', {
             method: 'POST',
             body: JSON.stringify({
-                name: createNewFormName
+                name: createNewFormName,
+                google_sheet_id: googleSheetsIdForm
             }),
             headers: {
                 'Content-Type': 'application/json',
