@@ -125,7 +125,7 @@ const AdminFormPage = () => {
         <AdminLoginGuard>
             <div className="h-screen relative">
                 <div className="h-full fixed">
-                    <div className="h-full flex overflow-hidden bg-white shadow-md" 
+                    <div className="w-[60px] h-full flex overflow-hidden bg-white shadow-md"
                         ref={panelRef}
                         >
                         {
