@@ -97,6 +97,7 @@ const AdminFormPage = () => {
         });
         const data = await response.json();
         setForms(data.data as Form[]);
+        handleCreateFormClick();
     }
 
     const numberOfItem: number = 3;
