@@ -35,7 +35,13 @@ export default function FormPage({ params }: FormPageProp) {
             },
             body: JSON.stringify({ answers, spreadsheetId }),
         })
-        .then(res => res.json())
+        .then(async res => {
+            const data = await res.json();
+            if (!res.ok || data.error) {
+                throw new Error(data.error || 'Unknown error');
+            }
+            return data;
+        })
         .then(() => {
             router.push(`/formThankyou/${formNameParse}`);
             setIsLoading(false);
