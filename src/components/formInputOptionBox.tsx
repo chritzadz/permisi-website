@@ -4,9 +4,10 @@ import { useEffect, useState } from "react";
 import { FormInputOptionBoxProp } from "./properties/FormInputOptionBoxProp";
 import { Option } from "@/model/formInputModel/Option";
 
-export default function FormInputOptionBox({type, id, question}: FormInputOptionBoxProp) {
-    console.log(type);
+export default function FormInputOptionBox({type, id, question, value, onChange}: FormInputOptionBoxProp) {
+    console.log(type + value);
     const [options, setOptions] = useState<Option[]>([]);
+
     useEffect(() => {
         const fetchOptions = async () => {
             const response = await fetch(`/api/options?forminputid=${id}`, {
@@ -29,7 +30,7 @@ export default function FormInputOptionBox({type, id, question}: FormInputOption
                 options.map((option, index) => (
                     <div key={index} className="ml-5 w-full">
                         <label className="flex w-full flex-row gap-3">
-                            <input type="radio" value={"option"+index}/>
+                            <input type="radio" name={`option-group-${id}`} value={"option"+index} onChange={() => onChange(option.option)}/>
                             <p className="text-sm">{option.option}</p>
                         </label>
                     </div>

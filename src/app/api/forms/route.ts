@@ -17,8 +17,9 @@ export async function POST(request: Request) {
 	const service: FormService = new FormService();
 	const body = await request.json();
     const name: string = body.name;
+	const google_sheet_id: string = body.google_sheet_id;
 	
-	await service.postForm(name);
+	await service.postForm(name, google_sheet_id);
 	const forms = await service.getAllForms();
 
 	return new Response(JSON.stringify({

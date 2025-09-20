@@ -80,8 +80,8 @@ const AdminHomePage = () => {
     return(
         <AdminLoginGuard>
             <div className=" h-screen relative">
-                <div className="w-1/5 h-full fixed">
-                    <div className="h-full flex overflow-hidden bg-white shadow-md" ref={panelRef}>
+                <div className="h-full fixed">
+                    <div className="w-[60px] h-full flex overflow-hidden bg-white shadow-md" ref={panelRef}>
                         {
                             panelIsOpen?(
                                 <div className="w-full h-full">
