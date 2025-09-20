@@ -1,14 +1,15 @@
 'use client';
 
 import { FormPageProp } from "@/components/properties/FormPageProp.ts";
-import { GoogleServiceController } from "@/controller/googleServiceController";
 import FormInputFactory from "@/factory/FormInputFactory";
 import { FormInputModel } from "@/model/formInputModel/FormInputModel";
+import { useRouter } from "next/navigation";
 import React from "react";
 import { useEffect, useState } from "react";
 import { ClimbingBoxLoader } from "react-spinners";
 
 export default function FormPage({ params }: FormPageProp) {
+    const router = useRouter();
     const { formName } = React.use(params);
     const [formInputs, setFormInputs] = useState<FormInputModel[]>([]);
     const formNameParse = formName.split('%20').join(' ');
@@ -34,9 +35,10 @@ export default function FormPage({ params }: FormPageProp) {
             body: JSON.stringify({ answers, spreadsheetId }),
         })
         .then(res => res.json())
-        .then(data => {
+        .then(() => {
+            router.push(`/formThankyou/${formNameParse}`);
             setIsLoading(false);
-            console.log('Sheet response:', data);
+            setAnswers({});
         })
         .catch(err => {
             setIsLoading(false);
@@ -62,7 +64,7 @@ export default function FormPage({ params }: FormPageProp) {
     return(
         <>
             <div className="w-full justify-center items-center p-5 flex flex-col">
-                <h1 className="text-3xl font-bold">{formNameParse}</h1>
+                <h1 className="text-3xl font-bold py-3">{formNameParse}</h1>
                 <div className="bg-normal-creme w-full h-screen gap-3 flex flex-col rounded-2xl">
                     {
                         formInputs.map((formInput) => (
@@ -73,9 +75,11 @@ export default function FormPage({ params }: FormPageProp) {
                             </div>
                         ))
                     }
-                    { 
+                    {
                         isLoading ? (
-                            <ClimbingBoxLoader size={10} color={"#670a0a"}></ClimbingBoxLoader>
+                            <div className="w-full flex justify-center">
+                                <ClimbingBoxLoader size={10} color={"#670a0a"}></ClimbingBoxLoader>
+                            </div>
                         ) : (
                             <div className="w-full flex justify-center">
                                 <button className="flex flex-col justify-center items-center bg-normal-maroon w-24 p-2 rounded-lg text-normal-creme" onClick={processAnswer}>Submit</button>
