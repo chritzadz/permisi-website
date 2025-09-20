@@ -1,6 +1,5 @@
 import {GoogleAuth} from 'google-auth-library';
 import {google} from 'googleapis';
-import fs from 'fs';
 
 export class GoogleServiceController {
     private spreadsheetId: string;
@@ -20,12 +19,6 @@ export class GoogleServiceController {
             client_x509_cert_url: process.env.GOOGLE_CLIENT_X509_CERT_URL,
         };
 
-        fs.writeFileSync(
-            'permisi-website-main.json',
-            JSON.stringify(credentials, null, 2)
-        );
-
-
         this.spreadsheetId = spreadSheetId;
 
         this.auth = new GoogleAuth({
@@ -35,22 +28,22 @@ export class GoogleServiceController {
     }
 
     async addRow(data: string[], range: string = 'Sheet1') {
-        const service = google.sheets({version: 'v4', auth: this.auth});
-        const values = [
-            data
-        ];
-        const resource = {
-            values,
-        };
-
-        const result = await service.spreadsheets.values.append({
-            spreadsheetId: this.spreadsheetId,
-            range: range,
-            valueInputOption: 'RAW',
-            requestBody: resource
-        });
-
-        return result;
+        try {
+            const service = google.sheets({version: 'v4', auth: this.auth});
+            const values = [data];
+            const resource = { values };
+            const result = await service.spreadsheets.values.append({
+                spreadsheetId: this.spreadsheetId,
+                range: range,
+                valueInputOption: 'RAW',
+                requestBody: resource
+            });
+            return result;
+        } catch (error) {
+            console.error('Google Sheets API error:', error);
+            // Return a consistent error object for the handler to use
+            return { error: error instanceof Error ? error.message : String(error) };
+        }
     }
 }
 
