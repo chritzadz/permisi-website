@@ -1,6 +1,6 @@
 import {GoogleAuth} from 'google-auth-library';
 import {google} from 'googleapis';
-const fs = require('fs');
+import fs from 'fs';
 
 export class GoogleServiceController {
     private spreadsheetId: string;
@@ -36,14 +36,14 @@ export class GoogleServiceController {
 
     async addRow(data: string[], range: string = 'Sheet1') {
         const service = google.sheets({version: 'v4', auth: this.auth});
-        let values = [
+        const values = [
             data
         ];
         const resource = {
             values,
         };
 
-        const result = await service.spreadsheets.values.update({
+        const result = await service.spreadsheets.values.append({
             spreadsheetId: this.spreadsheetId,
             range: range,
             valueInputOption: 'RAW',

@@ -4,5 +4,5 @@ export interface FormInputTextBoxProp{
     id: number;
     onDelete: () => void;
     value: string;
-    onChange: (value: string) => void; 
-}   
+    onChange: (value: string) => void;
+}

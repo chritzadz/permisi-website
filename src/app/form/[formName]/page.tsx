@@ -12,10 +12,10 @@ export default function FormPage({ params }: FormPageProp) {
     const { formName } = React.use(params);
     const [formInputs, setFormInputs] = useState<FormInputModel[]>([]);
     const formNameParse = formName.split('%20').join(' ');
-    const [answers, setAnswers] = useState<{ [id: string]: any }>({}); //in hashmap form or object
-    const [isLoading, setIsLoading] = useState(false);    
+    const [answers, setAnswers] = useState<{ [id: string]: string }>({}); //in hashmap form or object
+    const [isLoading, setIsLoading] = useState(false);
     
-    const handleAnswerChange = (id: number, value: any) => {
+    const handleAnswerChange = (id: number, value: string) => {
         setAnswers(prev => ({ ...prev, [id]: value }));
     }
 
