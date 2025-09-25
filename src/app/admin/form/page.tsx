@@ -8,6 +8,7 @@ import { Form } from "@/model/formInputModel/Form";
 import { useRouter } from "next/navigation";
 import AdminLoginGuard from "@/components/adminLoginGuard";
 import ClimbingBoxLoader from "react-spinners/ClimbingBoxLoader";
+import FormBox from "@/components/formBox";
 
 const AdminFormPage = () => {
     const router = useRouter();
@@ -20,6 +21,7 @@ const AdminFormPage = () => {
     const [createNewFormName, setCreateNewFormName] = useState("");
     const [googleSheetsIdForm, setGoogleSheetsIdForm] = useState("");
     const [isLoadingForm, setIsLoadingForm] = useState(true);
+    const [createFormLoading, setCreateFormLoading] = useState(false);
 
     useEffect(() => {
         const fetchForms = async () => {
@@ -84,7 +86,22 @@ const AdminFormPage = () => {
         setCreateFormPanelIsOpen(!createFormPanelIsOpen);
     }
 
+    const handleDeleteClick = async (name: string) => {
+        const response = await fetch('/api/forms', {
+            method: 'DELETE',
+            body: JSON.stringify({
+                name: name
+            }),
+            headers: {
+                'Content-Type': 'application/json',
+            }
+        });
+        const data = await response.json();
+        setForms(data.data as Form[]);
+    }
+
     const handleCreateForm = async () => {
+        setCreateFormLoading(true);
         const response = await fetch('/api/forms', {
             method: 'POST',
             body: JSON.stringify({
@@ -98,6 +115,7 @@ const AdminFormPage = () => {
         const data = await response.json();
         setForms(data.data as Form[]);
         handleCreateFormClick();
+        setCreateFormPanelIsOpen(false);
     }
 
     const numberOfItem: number = 3;
@@ -167,12 +185,9 @@ const AdminFormPage = () => {
                                     </div>
                                 ) : (
                                     forms.map((form, index) => (
-                                        <div className="" key={index}>
-                                            <hr className=" border-black" />
-                                            <div className="flex flex-col justify-start text-md text-black w-full py-2 px-4" onClick={() => handleFormClick(form.name)}>
-                                                <p className="text-base font-bold">{form.name}</p>
-                                                <p className="text-sm">{"Created at " + form.created_at.split("T")[0]}</p>
-                                            </div>
+                                        // eslint-disable-next-line react/jsx-key
+                                        <div className="w-full h-fit">
+                                            <FormBox key={form.name + index} name={form.name} createdAt={form.created_at} onFormClick={handleFormClick} onDeleteClick={handleDeleteClick}></FormBox>
                                         </div>
                                     ))
                                 )
@@ -192,14 +207,22 @@ const AdminFormPage = () => {
                                     <label className="font-bold">Google Sheets ID</label>
                                     <input type="text" value={googleSheetsIdForm} onChange={e => setGoogleSheetsIdForm(e.target.value)} className="border-2 border-black rounded-lg p-2"/>
                                 </div>
-                                <div className="flex flex-row justify-end gap-5">
-                                    <div className="p-2 font-bold border-2 border-black rounded-xl w-[120px] flex items-center justify-center my-5 cursor-pointer" onClick={handleCreateFormClick}>
-                                        Cancel
-                                    </div>
-                                    <div className="p-2 font-bold border-2 border-black rounded-xl w-[120px] flex items-center justify-center my-5 cursor-pointer" onClick={handleCreateForm}>
-                                        Create
-                                    </div>
-                                </div>
+                                { createFormLoading ? (
+                                        <div className="flex flex-row justify-center items-center gap-5 h-15">
+                                            <ClimbingBoxLoader size={8} color={"#670a0a"}></ClimbingBoxLoader>
+                                        </div>
+                                    ) : (
+                                        <div className="flex flex-row justify-center items-center gap-5">
+                                            <div className="p-2 font-bold border-2 text-normal-creme bg-normal-maroon border-normal-creme rounded-xl w-[120px] flex items-center justify-center my-5 cursor-pointer hover:bg-gray-100 hover:text-dark-maroon hover:border-dark-maroon transition-colors duration-200" onClick={handleCreateFormClick}>
+                                                <p className="">Cancel</p>
+                                            </div>
+                                            <div className="p-2 font-bold border-2 text-normal-creme bg-normal-maroon border-normal-creme rounded-xl w-[120px] flex items-center justify-center my-5 cursor-pointer hover:bg-gray-100 hover:text-dark-maroon hover:border-dark-maroon transition-colors duration-200" onClick={handleCreateForm}>
+                                                <p className="">Create</p>
+                                            </div>
+                                        </div>
+                                    ) 
+                                }
+                                
                             </div>
                         </div>
                     </div>
