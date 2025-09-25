@@ -41,7 +41,7 @@ export default function FormInputTextEditBox({type, question, id, onDelete, stat
         <>
             {
                 state == id ? (
-                    <div className="w-full p-5 flex flex-col gap-2">
+                    <div className="w-full p-5 flex flex-col gap-2" onClick={() => {}}>
                         <input type="text" value={questionState} placeholder="Write your question..." onChange={e => setQuestionState(e.target.value)} className="w-full border-2"/>
                         <div className="flex flex-row justify-end gap-2">
                             <Check size={32} onClick={handleCheckClick} />

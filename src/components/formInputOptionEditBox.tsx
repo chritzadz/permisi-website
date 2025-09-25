@@ -91,7 +91,7 @@ export default function FormInputOptionEditBox({type, id, question, onDelete, st
     return (
         <>
             { state == id ? (
-                    <div className="w-full border-black p-5 flex flex-col">
+                    <div className="w-full border-black p-5 flex flex-col" onClick={() => {}}>
                         <input type="text" value={questionState} placeholder="Write your question..." onChange={e => setQuestionState(e.target.value)} className="w-full border-2"/>
                         {
                             <div className="ml-5">
