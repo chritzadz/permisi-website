@@ -29,3 +29,19 @@ export async function POST(request: Request) {
 		headers: { 'Content-Type': 'application/json' }
 	});
 }
+
+export async function DELETE(request: Request) {
+	const service: FormService = new FormService();
+	const body = await request.json();
+    const name: string = body.name;
+	
+	await service.deleteForm(name);
+	const forms = await service.getAllForms();
+
+	return new Response(JSON.stringify({
+		data: forms
+	}), {
+		status: 200,
+		headers: { 'Content-Type': 'application/json' }
+	});
+}

@@ -171,7 +171,7 @@ const AdminFormPage = () => {
                                             <hr className=" border-black" />
                                             <div className="flex flex-col justify-start text-md text-black w-full py-2 px-4" onClick={() => handleFormClick(form.name)}>
                                                 <p className="text-base font-bold">{form.name}</p>
-                                                <p className="text-sm">Created at 10/10/2010</p>
+                                                <p className="text-sm">{"Created at " + form.created_at.split("T")[0]}</p>
                                             </div>
                                         </div>
                                     ))

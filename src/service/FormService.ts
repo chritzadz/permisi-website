@@ -14,4 +14,8 @@ export class FormService{
     public async getGoogleSheetId(){
         
     }
+
+    public async deleteForm(name: string){
+        return await this.repository.delete(name);
+    }
 }
