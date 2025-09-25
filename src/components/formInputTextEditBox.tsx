@@ -3,10 +3,10 @@ import { FormInputTextBoxProp } from "./properties/FormInputTextBoxProp";
 import { Trash2, Check } from 'lucide-react';
 import { FormInputModel } from "@/model/formInputModel/FormInputModel";
 
-export default function FormInputTextEditBox({type, question, id, onDelete}: FormInputTextBoxProp) {
+export default function FormInputTextEditBox({type, question, id, onDelete, state, setState}: FormInputTextBoxProp) {
     console.log(type)
     const handleDoubleClick = () => {
-        setIsEditMode(true);
+        setState(id);
         setQuestionState(finalQuestionState);   
     }
 
@@ -40,8 +40,8 @@ export default function FormInputTextEditBox({type, question, id, onDelete}: For
     return (
         <>
             {
-                isEditMode ? (
-                    <div className="w-full p-5 flex flex-col gap-2" onMouseLeave={handleMouseLeave}>
+                state == id ? (
+                    <div className="w-full p-5 flex flex-col gap-2">
                         <input type="text" value={questionState} placeholder="Write your question..." onChange={e => setQuestionState(e.target.value)} className="w-full border-2"/>
                         <div className="flex flex-row justify-end gap-2">
                             <Check size={32} onClick={handleCheckClick} />
@@ -49,7 +49,7 @@ export default function FormInputTextEditBox({type, question, id, onDelete}: For
                         </div>
                     </div>
                 ) : (
-                    <div className="w-full p-5 flex flex-col gap-2" onDoubleClick={handleDoubleClick} onMouseLeave={handleMouseLeave}>
+                    <div className="w-full p-5 flex flex-col gap-2" onDoubleClick={handleDoubleClick}>
                         <p className="pl-1">{finalQuestionState}</p>
                         <input type="text" placeholder="Please enter here..." className="w-full border-1 focus:border-dark-maroon focus:border-2 p-2"/>
                     </div>

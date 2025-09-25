@@ -23,6 +23,7 @@ const FormPage = ({ params }: FormPageProp) => {
 	const { formName } = React.use(params);
 	const formNameParse = formName.split('%20').join(' ');
 	const [isLoadingFormInput, setIsLoadingFormInput] = useState(true);
+	const [selectedFormInput, setSelectedFormInput] = useState(-1);
 
 	const onFormInputDelete = (id: number) => {
 		const fetchFormComponents = async () => {
@@ -101,7 +102,7 @@ const FormPage = ({ params }: FormPageProp) => {
 
 	return (
 		<AdminLoginGuard>
-			<div>
+			<div onClick={() => setSelectedFormInput(-1)}>
 				<div className="w-full justify-center items-center p-5 flex flex-col">
 					<h1 className="text-3xl font-bold">{formNameParse}</h1>
 					<div className="bg-normal-creme w-full h-screen my-5 flex flex-col rounded-2xl">
@@ -114,7 +115,7 @@ const FormPage = ({ params }: FormPageProp) => {
 								formInputs.map((formInput) => (
 								<div className="w-full text-md" key={formInput.id}>
 									{
-										FormInputEditFactory.getFormInput(formInput, onFormInputDelete)
+										FormInputEditFactory.getFormInput(formInput, onFormInputDelete, selectedFormInput, setSelectedFormInput)
 									}
 								</div>
 							))

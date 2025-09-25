@@ -5,7 +5,7 @@ import { Option } from "@/model/formInputModel/Option";
 import { Check, Trash2 } from "lucide-react";
 import { FormInputModel } from "@/model/formInputModel/FormInputModel";
 
-export default function FormInputOptionEditBox({type, id, question, onDelete}: FormInputOptionBoxProp) {
+export default function FormInputOptionEditBox({type, id, question, onDelete, state, setState}: FormInputOptionBoxProp) {
     console.log(type);
     const [options, setOptions] = useState<Option[]>([]);
     const [isEditMode, setIsEditMode] = useState(false);
@@ -55,7 +55,7 @@ export default function FormInputOptionEditBox({type, id, question, onDelete}: F
     }
 
     const handleDoubleClick = () => {
-        setIsEditMode(true);
+        setState(id);
         setQuestionState(finalQuestionState);   
     }
 
@@ -90,8 +90,8 @@ export default function FormInputOptionEditBox({type, id, question, onDelete}: F
 
     return (
         <>
-            { isEditMode ? (
-                    <div className="w-full border-black p-5 flex flex-col" onMouseLeave={handleMouseLeave}>
+            { state == id ? (
+                    <div className="w-full border-black p-5 flex flex-col">
                         <input type="text" value={questionState} placeholder="Write your question..." onChange={e => setQuestionState(e.target.value)} className="w-full border-2"/>
                         {
                             <div className="ml-5">
@@ -120,7 +120,7 @@ export default function FormInputOptionEditBox({type, id, question, onDelete}: F
                         </div>
                     </div>
                 ) : (
-                    <div className="w-full border-black p-5" onDoubleClick={handleDoubleClick} onMouseLeave={handleMouseLeave}>
+                    <div className="w-full border-black p-5" onDoubleClick={handleDoubleClick}>
                         <p className="pl-1">{questionState}</p>
                         {
                             options.map((option, index) => (
