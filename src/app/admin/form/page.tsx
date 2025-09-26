@@ -8,6 +8,7 @@ import { Form } from "@/model/formInputModel/Form";
 import { useRouter } from "next/navigation";
 import AdminLoginGuard from "@/components/adminLoginGuard";
 import ClimbingBoxLoader from "react-spinners/ClimbingBoxLoader";
+import { Plus, Trash2 } from "lucide-react";
 import FormBox from "@/components/formBox";
 
 const AdminFormPage = () => {
@@ -165,8 +166,9 @@ const AdminFormPage = () => {
                     <div className="w-[60px]"></div>
                     <div className="w-full h-screen flex flex-col px-[30px] py-5">
                         <h1 className="text-4xl font-bold">Custom Form</h1>
-                        <div className="p-2 font-bold border-2 border-black rounded-xl w-[120px] flex items-center justify-center my-5" onClick={handleCreateFormClick}>
-                            Create Form
+                        <div className="p-2 font-bold bg-normal-maroon rounded-sm w-fit text-normal-creme flex flex-row gap-1 items-center justify-center my-5" onClick={handleCreateFormClick}>
+                            <Plus size={20}></Plus>
+                            <p className="text-center">Create Form</p>
                         </div>
                         <div className="flex flex-col w-full h-full border-2 border-dark-maroon bg-normal-creme rounded-2xl flex-1">
                             <div className="py-5 flex flex-row">
@@ -185,8 +187,7 @@ const AdminFormPage = () => {
                                     </div>
                                 ) : (
                                     forms.map((form, index) => (
-                                        // eslint-disable-next-line react/jsx-key
-                                        <div className="w-full h-fit">
+                                        <div className="w-full h-fit" key={index}>
                                             <FormBox key={form.name + index} name={form.name} createdAt={form.created_at} onFormClick={handleFormClick} onDeleteClick={handleDeleteClick}></FormBox>
                                         </div>
                                     ))
