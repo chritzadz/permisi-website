@@ -8,7 +8,7 @@ import { Form } from "@/model/formInputModel/Form";
 import { useRouter } from "next/navigation";
 import AdminLoginGuard from "@/components/adminLoginGuard";
 import ClimbingBoxLoader from "react-spinners/ClimbingBoxLoader";
-import { Plus, Trash2 } from "lucide-react";
+import { Plus, Search, Trash2 } from "lucide-react";
 import FormBox from "@/components/formBox";
 
 const AdminFormPage = () => {
@@ -176,8 +176,9 @@ const AdminFormPage = () => {
                                     
                                 </div>
                                 <div className="w-1/2 p-3 items-center justify-end flex">
-                                    <div className="px-2 bg-dark-creme w-1/2 rounded-full overflow-x-auto border-2 border-dark-maroon">
-                                        <input type="text" placeholder="Search" className="p-1 focus:border-0 focus:outline-none w-full overflow-x-auto" />
+                                    <div className="px-2 bg-dark-creme w-1/2 rounded-full overflow-x-auto border-2 border-dark-maroon flex flex-row justify-center items-center gap-1">
+                                        <Search color={"#670a0a"}></Search>
+                                        <input type="text" placeholder="e.g. PJJY 2025" className="p-1 focus:border-0 focus:outline-none w-full overflow-x-auto" />
                                     </div>
                                 </div>
                             </div>
