@@ -49,7 +49,6 @@ export default function FormPage({ params }: FormPageProp) {
 
         const matchedForm = forms.find(f => f.name === formNameParse);
         const spreadsheetId: string | undefined = matchedForm?.google_sheet_id;
-
         fetch('/api/sheets', {
             method: 'POST',
             headers: {

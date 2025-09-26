@@ -7,11 +7,7 @@ export default function FormInputTextEditBox({type, question, id, onDelete, stat
     console.log(type)
     const handleDoubleClick = () => {
         setState(id);
-        setQuestionState(finalQuestionState);   
-    }
-
-    const handleMouseLeave = () => {
-        setIsEditMode(false);
+        setQuestionState(finalQuestionState);
     }
 
     const handleCheckClick = async () => {
@@ -41,7 +37,7 @@ export default function FormInputTextEditBox({type, question, id, onDelete, stat
         <>
             {
                 state == id ? (
-                    <div className="w-full p-5 flex flex-col gap-2" onClick={() => {}}>
+                    <div className="w-full p-5 flex flex-col gap-2" onClick={(e) => {e.stopPropagation();}}>
                         <input type="text" value={questionState} placeholder="Write your question..." onChange={e => setQuestionState(e.target.value)} className="w-full border-2"/>
                         <div className="flex flex-row justify-end gap-2">
                             <Check size={32} onClick={handleCheckClick} />
