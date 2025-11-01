@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { Instagram, Youtube, Linkedin } from "lucide-react";
-import { DisplayText } from "@/components/DisplayText";
+import { DisplayBebasNeue } from "@/lib/font";
 
 export default function Footer() {
     const quickLinks = [
@@ -29,12 +29,12 @@ export default function Footer() {
 
     return (
         <footer className="bg-red-900 text-white fixed bottom-0 w-full">
-            <DisplayText
+            <span
+                className={`${DisplayBebasNeue.className} font-black w-full text-center absolute bottom-0 mx-auto`}
                 style={{ fontSize: "8em" }}
-                className="w-full text-center font-bold absolute bottom-0 mx-auto"
             >
                 PERMISI
-            </DisplayText>
+            </span>
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
                     {/* Quick Links */}

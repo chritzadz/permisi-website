@@ -50,13 +50,16 @@ export function Navbar() {
                 isVisible ? "translate-y-0" : "-translate-y-full"
             }`}
         >
-            <div className="mx-auto px-4 sm:px-6 lg:px-8 bg-white/90 backdrop-blur-xl rounded-full border border-normal-maroon/20 shadow-lg">
-                <div className="flex justify-between items-center h-16">
+            <div className="mx-auto px-4 sm:px-6 lg:px-8 bg-white/90 backdrop-blur-xl rounded-xl border border-normal-maroon/20 shadow-lg">
+                <div className="flex justify-between items-center h-full">
                     {/* Logo */}
-                    <Link href="/" className="flex items-center w-18 space-x-2">
+                    <Link
+                        href="/"
+                        className="flex items-center h-12 w-12 md:h-14 md:w-14"
+                    >
                         <Image
                             src={permisiLogo}
-                            className="w-full"
+                            className="h-full w-full object-contain"
                             alt="PERMISI HK Logo"
                             unoptimized
                         />
@@ -68,7 +71,7 @@ export function Navbar() {
                             <Link
                                 key={item.name}
                                 href={item.href}
-                                className="text-gray-700 hover:text-normal-maroon px-3 py-2 text-sm font-medium transition-colors duration-200 relative group"
+                                className="text-normal-maroon hover:text-normal-maroon px-3 py-2 text-sm font-medium transition-colors duration-200 relative group"
                             >
                                 {item.name}
                                 <span className="absolute bottom-0 left-3 right-3 h-0.5 bg-normal-maroon transform scale-x-0 group-hover:scale-x-100 transition-transform duration-200"></span>
@@ -81,6 +84,7 @@ export function Navbar() {
                         <Button
                             variant="ghost"
                             size="sm"
+                            className="h-12 w-12 hover:bg-none hover:text-dark-maroon text-normal-maroon"
                             onClick={() => setIsMenuOpen(!isMenuOpen)}
                         >
                             {isMenuOpen ? (
@@ -93,22 +97,36 @@ export function Navbar() {
                 </div>
 
                 {/* Mobile Navbar */}
-                {isMenuOpen && (
-                    <div className="md:hidden mt-2">
-                        <div className="px-4 pt-4 pb-4 space-y-2 bg-white/95 backdrop-blur-xl rounded-2xl border border-normal-maroon/10 shadow-lg">
-                            {navItems.map((item) => (
-                                <Link
-                                    key={item.name}
-                                    href={item.href}
-                                    className="text-gray-700 hover:text-normal-maroon hover:bg-normal-maroon/5 block px-4 py-3 text-base font-medium transition-colors duration-200 rounded-xl"
-                                    onClick={() => setIsMenuOpen(false)}
-                                >
-                                    {item.name}
-                                </Link>
-                            ))}
-                        </div>
+                <div
+                    className={`md:hidden overflow-hidden transition-all duration-300 ease-in-out ${
+                        isMenuOpen
+                            ? "max-h-96 opacity-100"
+                            : "max-h-0 opacity-0"
+                    }`}
+                >
+                    <div className="pb-4 space-y-2">
+                        {navItems.map((item, index) => (
+                            <Link
+                                key={item.name}
+                                href={item.href}
+                                className={`text-normal-maroon w-fit text-nowrap hover:text-normal-maroon block px-4 py-3 text-base font-medium transition-all duration-200 relative group transform ${
+                                    isMenuOpen
+                                        ? "translate-x-0 opacity-100"
+                                        : "-translate-x-4 opacity-0"
+                                }`}
+                                style={{
+                                    transitionDelay: isMenuOpen
+                                        ? `${index * 50}ms`
+                                        : "0ms",
+                                }}
+                                onClick={() => setIsMenuOpen(false)}
+                            >
+                                {item.name}
+                                <span className="absolute bottom-2 left-4 right-4 h-0.5 bg-normal-maroon transform scale-x-0 group-hover:scale-x-100 transition-transform duration-200"></span>
+                            </Link>
+                        ))}
                     </div>
-                )}
+                </div>
             </div>
         </nav>
     );
