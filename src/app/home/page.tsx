@@ -22,7 +22,7 @@ export default function HomePage() {
 
                 <AboutUs />
 
-                <section className="py-8 sm:py-12 md:py-16 lg:py-20 min-h-screen flex items-center justify-center bg-white">
+                <section className="py-8 sm:py-12 md:py-16 lg:py-20 max-h-screen flex items-center justify-center">
                     <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8 w-full">
                         <div className="text-center mb-8 sm:mb-12 md:mb-16">
                             <h2
@@ -36,7 +36,7 @@ export default function HomePage() {
                 </section>
 
                 {/* Spacer to reveal footer - transparent margin at bottom */}
-                <div className="h-screen w-full bg-transparent" />
+                <div className="h-[45vh] w-full bg-transparent" />
             </div>
         </>
     );

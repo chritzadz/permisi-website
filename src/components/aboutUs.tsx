@@ -70,7 +70,7 @@ export default function AboutUs() {
     return (
         <div
             id="definitionBox"
-            className="min-h-screen w-full bg-white flex flex-col md:flex-row"
+            className="max-h-screen w-full bg-white flex flex-col md:flex-row"
             ref={whoAreWeRef}
         >
             <section className="hidden md:block md:w-1/2 lg:w-1/2 bg-blue-300 relative overflow-hidden">
@@ -105,9 +105,9 @@ export default function AboutUs() {
                     </div>
                 </div>
             </section>
-            <section className="w-full md:w-1/2 lg:w-1/2 min-h-screen items-center justify-center flex py-12 sm:py-16 md:py-0">
+            <section className="w-full md:w-1/2 lg:w-1/2 max-h-screen items-center justify-center flex py-12 sm:py-16 md:py-0">
                 <div className="max-w-4xl lg:max-w-7xl mx-auto items-center flex justify-center px-4 py-10 sm:px-6 lg:px-8">
-                    <div className="text-center mb-10">
+                    <div className="text-center justify-center">
                         <h2
                             className={`text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 mb-6 sm:mb-8`}
                             ref={whoAreWeTitleRef}
