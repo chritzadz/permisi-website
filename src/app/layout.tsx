@@ -1,35 +1,24 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
+import { MainInter } from "@/lib/font";
 
 export const metadata: Metadata = {
-  title: "PERMISI HK - Indonesian Students Association",
-  description: "Indonesian Students Association in City University of Hong Kong",
-  keywords: "PERMISI HK, CityU Indonesia, CityU,",
+    title: "PERMISI HK - Indonesian Students Association",
+    description:
+        "Indonesian Students Association in City University of Hong Kong",
+    keywords: "PERMISI HK, CityU Indonesia, CityU,",
 };
 
 export default function RootLayout({
-  children,
+    children,
 }: Readonly<{
-  children: React.ReactNode;
+    children: React.ReactNode;
 }>) {
-  return (
-    <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
-        {children}
-      </body>
-    </html>
-  );
+    return (
+        <html lang="en">
+            <body className={`${MainInter.className} antialiased`}>
+                {children}
+            </body>
+        </html>
+    );
 }
