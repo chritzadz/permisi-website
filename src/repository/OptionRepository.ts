@@ -8,8 +8,6 @@ export class OptionRepository{
                 WHERE form_input_id = $1
                 ;
                 `, [id]);
-
-            console.log("repo:" + task.rows);
             return task.rows;
         } catch (error) {
             console.error('Error OptionRepository.ts: ' + error);
@@ -25,7 +23,6 @@ export class OptionRepository{
                 ;
                 `, [id, value]);
 
-            console.log("repo:" + task.rows[0]);
             return task.rows[0];
         } catch (error) {
             console.error('Error OptionRepository.ts: ' + error);
@@ -34,7 +31,6 @@ export class OptionRepository{
     }
 
     public async updateOption(id: number, oldStr: string, newStr: string){
-        console.log(id + " " + oldStr + " " + newStr);
         try {
             const task = await pool.query(`
                 UPDATE form_input_options 
@@ -44,7 +40,6 @@ export class OptionRepository{
                 ;
                 `, [id, oldStr, newStr]);
 
-            console.log("updated_option:" + task.rows[0]);
             return task.rows[0];
         } catch (error) {
             console.error('Error OptionRepository.ts: ' + error);

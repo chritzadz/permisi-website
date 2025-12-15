@@ -7,6 +7,7 @@ export class FormInputRepository{
             const task = await pool.query(`
                 SELECT * FROM form_inputs
                 WHERE form_name = $1
+                ORDER BY id ASC
                 ;
                 `, [id]);
 

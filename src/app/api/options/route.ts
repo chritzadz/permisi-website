@@ -28,14 +28,12 @@ export async function PATCH(request: Request) {
     const newOption: string = body.newOption;
     const oldOptions: string[] = body.oldOptions.map((o: Option) => o.option); //this is in Option obj becareful lol
 
-    console.log("start update option");
     for (let i = 0; i < options.length; i++){
-       await service.updateOption(id, oldOptions[i], options[i]);
+        await service.updateOption(id, oldOptions[i], options[i]);
     }
-    console.log("end update option");
 
     if (newOption != null && newOption != ""){
-        await service.addOption(id, newOption);    
+        await service.addOption(id, newOption);
     }
 
     const getOptionById = await service.getOptionsByFormInputId(id); 

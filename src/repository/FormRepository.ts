@@ -14,13 +14,13 @@ export class FormRepository{
         }
     }
 
-    public async post(name: string){
+    public async post(name: string, google_sheet_id: string){
         try {
             const task = await pool.query(`
-                INSERT INTO forms (name)
-                VALUES ($1)
+                INSERT INTO forms (name, google_sheet_id)
+                VALUES ($1, $2)
                 RETURNING *;
-                `, [name]);
+                `, [name, google_sheet_id]);
 
             return task.rows[0];
         } catch (error) {
