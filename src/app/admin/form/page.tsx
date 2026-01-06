@@ -8,6 +8,10 @@ import { Form } from "@/model/formInputModel/Form";
 import { useRouter } from "next/navigation";
 import AdminLoginGuard from "@/components/adminLoginGuard";
 import ClimbingBoxLoader from "react-spinners/ClimbingBoxLoader";
+import { Plus, Search, Trash2 } from "lucide-react";
+import FormBox from "@/components/formBox";
+import Button from "@/components/ui/button";
+import CreateFormModal from "@/components/modals/CreateFormModal";
 
 const AdminFormPage = () => {
     const router = useRouter();
@@ -20,6 +24,7 @@ const AdminFormPage = () => {
     const [createNewFormName, setCreateNewFormName] = useState("");
     const [googleSheetsIdForm, setGoogleSheetsIdForm] = useState("");
     const [isLoadingForm, setIsLoadingForm] = useState(true);
+    const [createFormLoading, setCreateFormLoading] = useState(false);
 
     useEffect(() => {
         const fetchForms = async () => {
@@ -84,7 +89,22 @@ const AdminFormPage = () => {
         setCreateFormPanelIsOpen(!createFormPanelIsOpen);
     }
 
+    const handleDeleteClick = async (name: string) => {
+        const response = await fetch('/api/forms', {
+            method: 'DELETE',
+            body: JSON.stringify({
+                name: name
+            }),
+            headers: {
+                'Content-Type': 'application/json',
+            }
+        });
+        const data = await response.json();
+        setForms(data.data as Form[]);
+    }
+
     const handleCreateForm = async () => {
+        setCreateFormLoading(true);
         const response = await fetch('/api/forms', {
             method: 'POST',
             body: JSON.stringify({
@@ -98,6 +118,7 @@ const AdminFormPage = () => {
         const data = await response.json();
         setForms(data.data as Form[]);
         handleCreateFormClick();
+        setCreateFormPanelIsOpen(false);
     }
 
     const numberOfItem: number = 3;
@@ -125,7 +146,7 @@ const AdminFormPage = () => {
     return(
         <AdminLoginGuard>
             <div className="h-screen relative">
-                <div className="h-full fixed">
+                <div className="h-full fixed z-20">
                     <div className="w-[60px] h-full flex overflow-hidden bg-white shadow-md"
                         ref={panelRef}
                         >
@@ -147,17 +168,16 @@ const AdminFormPage = () => {
                     <div className="w-[60px]"></div>
                     <div className="w-full h-screen flex flex-col px-[30px] py-5">
                         <h1 className="text-4xl font-bold">Custom Form</h1>
-                        <div className="p-2 font-bold border-2 border-black rounded-xl w-[120px] flex items-center justify-center my-5" onClick={handleCreateFormClick}>
-                            Create Form
-                        </div>
+                        <Button onClick={handleCreateFormClick} text="Create Form" icon={<Plus size={20} />} />
                         <div className="flex flex-col w-full h-full border-2 border-dark-maroon bg-normal-creme rounded-2xl flex-1">
                             <div className="py-5 flex flex-row">
                                 <div className="w-1/2 p-3 items-center">
                                     
                                 </div>
                                 <div className="w-1/2 p-3 items-center justify-end flex">
-                                    <div className="px-2 bg-dark-creme w-1/2 rounded-full overflow-x-auto border-2 border-dark-maroon">
-                                        <input type="text" placeholder="Search" className="p-1 focus:border-0 focus:outline-none w-full overflow-x-auto" />
+                                    <div className="px-2 bg-dark-creme w-1/2 rounded-full overflow-x-auto border-2 border-dark-maroon flex flex-row justify-center items-center gap-1">
+                                        <Search color={"#670a0a"}></Search>
+                                        <input type="text" placeholder="e.g. PJJY 2025" className="p-1 focus:border-0 focus:outline-none w-full overflow-x-auto" />
                                     </div>
                                 </div>
                             </div>
@@ -167,12 +187,8 @@ const AdminFormPage = () => {
                                     </div>
                                 ) : (
                                     forms.map((form, index) => (
-                                        <div className="" key={index}>
-                                            <hr className=" border-black" />
-                                            <div className="flex flex-col justify-start text-md text-black w-full py-2 px-4" onClick={() => handleFormClick(form.name)}>
-                                                <p className="text-base font-bold">{form.name}</p>
-                                                <p className="text-sm">Created at 10/10/2010</p>
-                                            </div>
+                                        <div className="w-full h-fit" key={index}>
+                                            <FormBox key={form.name + index} name={form.name} createdAt={form.created_at} onFormClick={handleFormClick} onDeleteClick={handleDeleteClick}></FormBox>
                                         </div>
                                     ))
                                 )
@@ -181,29 +197,16 @@ const AdminFormPage = () => {
                     </div>
                 </div>
 
-                { createFormPanelIsOpen &&
-                    <div className="fixed flex items-center justify-center bg-black bg-opacity-50 w-full h-screen top-0 left-0 z-50">
-                        <div className="w-1/3 bg-normal-creme rounded-2xl text-black">
-                            <div className="p-5">
-                                <h1 className="text-2xl font-bold">Create New Form</h1>
-                                <div className="flex flex-col my-5 gap-3">
-                                    <label className="font-bold">Form Name</label>
-                                    <input type="text" value={createNewFormName} onChange={e => setCreateNewFormName(e.target.value)} className="border-2 border-black rounded-lg p-2"/>
-                                    <label className="font-bold">Google Sheets ID</label>
-                                    <input type="text" value={googleSheetsIdForm} onChange={e => setGoogleSheetsIdForm(e.target.value)} className="border-2 border-black rounded-lg p-2"/>
-                                </div>
-                                <div className="flex flex-row justify-end gap-5">
-                                    <div className="p-2 font-bold border-2 border-black rounded-xl w-[120px] flex items-center justify-center my-5 cursor-pointer" onClick={handleCreateFormClick}>
-                                        Cancel
-                                    </div>
-                                    <div className="p-2 font-bold border-2 border-black rounded-xl w-[120px] flex items-center justify-center my-5 cursor-pointer" onClick={handleCreateForm}>
-                                        Create
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                }
+                <CreateFormModal 
+                    isOpen={createFormPanelIsOpen}
+                    onClose={handleCreateFormClick}
+                    onSubmit={handleCreateForm}
+                    isLoading={createFormLoading}
+                    formName={createNewFormName}
+                    onFormNameChange={setCreateNewFormName}
+                    googleSheetsId={googleSheetsIdForm}
+                    onGoogleSheetsIdChange={setGoogleSheetsIdForm}
+                />
             </div>
         </AdminLoginGuard>
     );

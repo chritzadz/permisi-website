@@ -37,7 +37,7 @@ const AdminLoginPage = () => {
     if (result.success) {
       router.push("/admin/home");
     } else {
-      setError(result.message || "Login failed");
+      setError("Login failed");
     }
 
     setIsLoading(false);

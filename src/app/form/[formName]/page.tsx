@@ -49,7 +49,6 @@ export default function FormPage({ params }: FormPageProp) {
 
         const matchedForm = forms.find(f => f.name === formNameParse);
         const spreadsheetId: string | undefined = matchedForm?.google_sheet_id;
-
         fetch('/api/sheets', {
             method: 'POST',
             headers: {
@@ -92,31 +91,47 @@ export default function FormPage({ params }: FormPageProp) {
 
     return(
         <>
-            <div className="w-full justify-center items-center p-5 flex flex-col">
-                <h1 className="text-3xl font-bold py-3">{formNameParse}</h1>
-                <div className="bg-normal-creme w-full h-screen gap-3 flex flex-col rounded-2xl">
-                    { isLoadingFormInput? (
-                            <div className="w-full flex justify-center">
-                                <ClimbingBoxLoader size={10} color={"#670a0a"}></ClimbingBoxLoader>
-                            </div>
-                        ) : (
-                            formInputs.map((formInput) => (
-                                <div className="w-full text-md" key={formInput.id}>
-                                    {
-                                        FormInputFactory.getFormInput(formInput, answers[formInput.id], (value) => handleAnswerChange(formInput.id, value))
-                                    }
+            <div className="min-h-screen bg-gray-50 w-full flex justify-center py-10 px-4">
+                <div className="w-full max-w-3xl flex flex-col gap-6">
+                    <div className="bg-white p-8 rounded-2xl shadow-sm border-t-8 border-normal-maroon">
+                        <h1 className="text-4xl font-bold text-gray-900">{formNameParse}</h1>
+                        <p className="text-gray-500 mt-2">Please fill out the form below.</p>
+                    </div>
+
+                    <div className="flex flex-col gap-4">
+                        { isLoadingFormInput? (
+                                <div className="w-full flex justify-center py-10">
+                                    <ClimbingBoxLoader size={12} color={"#670a0a"}></ClimbingBoxLoader>
                                 </div>
-                            ))
-                        )
-                    }
+                            ) : (
+                                formInputs.map((formInput) => (
+                                    <div className="w-full" key={formInput.id}>
+                                        {
+                                            FormInputFactory.getFormInput(formInput, answers[formInput.id], (value) => handleAnswerChange(formInput.id, value))
+                                        }
+                                    </div>
+                                ))
+                            )
+                        }
+                    </div>
+
                     {
-                        isLoading ? (
-                            <div className="w-full flex justify-center">
-                                <ClimbingBoxLoader size={10} color={"#670a0a"}></ClimbingBoxLoader>
-                            </div>
-                        ) : (
-                            <div className="w-full flex justify-center">
-                                <button className="flex flex-col justify-center items-center bg-normal-maroon w-24 p-2 rounded-lg text-normal-creme" onClick={processAnswer}>Submit</button>
+                        !isLoadingFormInput && (
+                            <div className="flex justify-between items-center mt-4 px-2">
+                               {
+                                    isLoading ? (
+                                        <div className="w-full flex justify-center">
+                                            <ClimbingBoxLoader size={10} color={"#670a0a"}></ClimbingBoxLoader>
+                                        </div>
+                                    ) : (
+                                        <button 
+                                            className="bg-normal-maroon hover:bg-dark-maroon text-white font-bold py-3 px-8 rounded-lg shadow-md hover:shadow-lg transition-all transform hover:-translate-y-1 w-full sm:w-auto" 
+                                            onClick={processAnswer}
+                                        >
+                                            Submit Form
+                                        </button>
+                                    )
+                               }
                             </div>
                         )
                     }

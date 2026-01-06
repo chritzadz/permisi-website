@@ -96,10 +96,10 @@ const AdminHomePage = () => {
                     </div>
                 </div>
                 
-                <div className="flex flex-row z-10">
+                <div className="flex flex-row z-10 p-[60px]">
                     <div className="w-1/15"></div>
                     <div className="w-full flex flex-col">
-                        <div className="w-full p-6 text-4xl font-bold">
+                        <div className="w-full p-2 text-4xl font-bold">
                             Welcome, Admin!
                         </div>
                     </div>

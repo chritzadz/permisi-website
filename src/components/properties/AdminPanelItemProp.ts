@@ -6,4 +6,6 @@ export default interface AdminPanelItemProp{
     text: string;
     icon: string;
     ref?: Ref<HTMLDivElement>;
+    onMouseEnter?: () => void;
+    onMouseLeave?: () => void;
 }
