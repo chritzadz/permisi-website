@@ -105,7 +105,7 @@ const FormPage = ({ params }: FormPageProp) => {
 			<div onClick={() => setSelectedFormInput(-1)}>
 				<div className="w-full justify-center items-center p-5 flex flex-col">
 					<h1 className="text-3xl font-bold">{formNameParse}</h1>
-					<div className="bg-normal-creme w-full h-screen my-5 flex flex-col rounded-2xl">
+					<div className="w-full h-screen my-5 flex flex-col rounded-2xl">
 						{
 							isLoadingFormInput? (
 								<div className="w-full flex justify-center">
@@ -123,12 +123,20 @@ const FormPage = ({ params }: FormPageProp) => {
 						}
 					</div>
 				</div>
-					<div className="fixed bottom-8 right-8 rounded-full w-12 flex items-center justify-center text-3xl font-bold z-50 cursor-pointer bg-white shadow-lg" onClick={onAddClick}>
-						<PlusCircle color={"#831515"} size={40} className='w-full rounded-full'></PlusCircle>
-					</div>
-					<div className="fixed bottom-8 right-24 rounded-full w-12 flex items-center justify-center text-3xl font-bold z-50 cursor-pointer bg-white shadow-lg" onClick={onPreviewClick}>
-						<Eye color={"#831515"} size={40} className='w-full rounded-full'></Eye>
-					</div>
+					<button 
+                        className="fixed bottom-8 right-8 w-14 h-14 bg-normal-maroon text-white rounded-full flex items-center justify-center shadow-lg hover:shadow-xl hover:scale-110 transition-all duration-300 z-50"
+                        onClick={onAddClick}
+                        title="Add Input"
+                    >
+						<PlusCircle size={32} />
+					</button>
+					<button 
+                        className="fixed bottom-8 right-24 w-14 h-14 bg-normal-maroon text-white border-2 rounded-full flex items-center justify-center shadow-lg hover:shadow-xl hover:scale-110 transition-all duration-300 z-50" 
+                        onClick={onPreviewClick}
+                        title="Preview Form"
+                    >
+						<Eye size={32} />
+					</button>
 
 					{createFormInputPanel && (
 						<div className="fixed inset-0 z-50 flex items-center justify-center bg-black opacity-80">

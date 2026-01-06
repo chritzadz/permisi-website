@@ -4,7 +4,7 @@ import Link from "next/link";
 import Image, { type StaticImageData } from "next/image";
 import { useState, useEffect, useRef } from "react";
 import { Menu, X } from "lucide-react";
-import { Button } from "../components/ui/button";
+import Button from "../components/ui/button";
 import { gsap } from "gsap";
 import permisiLogo from "../../public/assets/permisi-logo.png";
 import futsalOlym from "../../public/assets/futsal-olym.png";
@@ -223,9 +223,7 @@ export function Navbar() {
                     {/* Mobile Nav Button */}
                     <div className="md:hidden ">
                         <Button
-                            variant="ghost"
                             size="sm"
-                            className="h-12 w-12 hover:bg-none hover:text-dark-maroon text-normal-maroon"
                             onClick={() => setIsMenuOpen(!isMenuOpen)}
                         >
                             {isMenuOpen ? (

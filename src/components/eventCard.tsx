@@ -3,7 +3,7 @@
 import { ArrowRight, Calendar } from "lucide-react";
 import { Card, CardContent } from "./ui/card";
 import Image from "next/image";
-import { Button } from "./ui/button";
+import Button from "./ui/button";
 import welcomingFreshman from "./../../public/assets/welcoming-freshman.png";
 import { useRouter } from "next/navigation";
 
@@ -49,7 +49,6 @@ export default function EventCard({}) {
                                 integrate into our community.
                             </p>
                             <Button
-                                className="bg-normal-maroon hover:bg-dark-maroon"
                                 onClick={handleOnClick}
                             >
                                 See Details{" "}

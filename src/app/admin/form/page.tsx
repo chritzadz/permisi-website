@@ -10,6 +10,8 @@ import AdminLoginGuard from "@/components/adminLoginGuard";
 import ClimbingBoxLoader from "react-spinners/ClimbingBoxLoader";
 import { Plus, Search, Trash2 } from "lucide-react";
 import FormBox from "@/components/formBox";
+import Button from "@/components/ui/button";
+import CreateFormModal from "@/components/modals/CreateFormModal";
 
 const AdminFormPage = () => {
     const router = useRouter();
@@ -144,7 +146,7 @@ const AdminFormPage = () => {
     return(
         <AdminLoginGuard>
             <div className="h-screen relative">
-                <div className="h-full fixed">
+                <div className="h-full fixed z-20">
                     <div className="w-[60px] h-full flex overflow-hidden bg-white shadow-md"
                         ref={panelRef}
                         >
@@ -166,10 +168,7 @@ const AdminFormPage = () => {
                     <div className="w-[60px]"></div>
                     <div className="w-full h-screen flex flex-col px-[30px] py-5">
                         <h1 className="text-4xl font-bold">Custom Form</h1>
-                        <div className="p-2 font-bold bg-normal-maroon rounded-sm w-fit text-normal-creme flex flex-row gap-1 items-center justify-center my-5" onClick={handleCreateFormClick}>
-                            <Plus size={20}></Plus>
-                            <p className="text-center">Create Form</p>
-                        </div>
+                        <Button onClick={handleCreateFormClick} text="Create Form" icon={<Plus size={20} />} />
                         <div className="flex flex-col w-full h-full border-2 border-dark-maroon bg-normal-creme rounded-2xl flex-1">
                             <div className="py-5 flex flex-row">
                                 <div className="w-1/2 p-3 items-center">
@@ -198,37 +197,16 @@ const AdminFormPage = () => {
                     </div>
                 </div>
 
-                { createFormPanelIsOpen &&
-                    <div className="fixed flex items-center justify-center bg-black bg-opacity-50 w-full h-screen top-0 left-0 z-50">
-                        <div className="w-1/3 bg-normal-creme rounded-2xl text-black">
-                            <div className="p-5">
-                                <h1 className="text-2xl font-bold">Create New Form</h1>
-                                <div className="flex flex-col my-5 gap-3">
-                                    <label className="font-bold">Form Name</label>
-                                    <input type="text" value={createNewFormName} onChange={e => setCreateNewFormName(e.target.value)} className="border-2 border-black rounded-lg p-2"/>
-                                    <label className="font-bold">Google Sheets ID</label>
-                                    <input type="text" value={googleSheetsIdForm} onChange={e => setGoogleSheetsIdForm(e.target.value)} className="border-2 border-black rounded-lg p-2"/>
-                                </div>
-                                { createFormLoading ? (
-                                        <div className="flex flex-row justify-center items-center gap-5 h-15">
-                                            <ClimbingBoxLoader size={8} color={"#670a0a"}></ClimbingBoxLoader>
-                                        </div>
-                                    ) : (
-                                        <div className="flex flex-row justify-center items-center gap-5">
-                                            <div className="p-2 font-bold border-2 text-normal-creme bg-normal-maroon border-normal-creme rounded-xl w-[120px] flex items-center justify-center my-5 cursor-pointer hover:bg-gray-100 hover:text-dark-maroon hover:border-dark-maroon transition-colors duration-200" onClick={handleCreateFormClick}>
-                                                <p className="">Cancel</p>
-                                            </div>
-                                            <div className="p-2 font-bold border-2 text-normal-creme bg-normal-maroon border-normal-creme rounded-xl w-[120px] flex items-center justify-center my-5 cursor-pointer hover:bg-gray-100 hover:text-dark-maroon hover:border-dark-maroon transition-colors duration-200" onClick={handleCreateForm}>
-                                                <p className="">Create</p>
-                                            </div>
-                                        </div>
-                                    ) 
-                                }
-                                
-                            </div>
-                        </div>
-                    </div>
-                }
+                <CreateFormModal 
+                    isOpen={createFormPanelIsOpen}
+                    onClose={handleCreateFormClick}
+                    onSubmit={handleCreateForm}
+                    isLoading={createFormLoading}
+                    formName={createNewFormName}
+                    onFormNameChange={setCreateNewFormName}
+                    googleSheetsId={googleSheetsIdForm}
+                    onGoogleSheetsIdChange={setGoogleSheetsIdForm}
+                />
             </div>
         </AdminLoginGuard>
     );
