@@ -1,4 +1,5 @@
 import { FormInputModel } from "@/model/formInputModel/FormInputModel";
+import { Form } from "@/model/formInputModel/Form";
 import { FormInputService } from "@/service/FormInputService";
 import { FormService } from "@/service/FormService";
 
@@ -11,7 +12,7 @@ export async function GET(request: Request) {
         const form = await service.getFormByName(name);
         
         if (!form) {
-             return new Response(JSON.stringify({
+            return new Response(JSON.stringify({
                 error: 'Form not found'
             }), {
                 status: 404,
@@ -19,8 +20,10 @@ export async function GET(request: Request) {
             });
         }
 
+        const { google_sheet_id: _, ...safeForm } = form as Form;
+
         return new Response(JSON.stringify({
-            data: form
+            data: safeForm
         }), {
             status: 200,
             headers: { 'Content-Type': 'application/json' }
@@ -29,8 +32,13 @@ export async function GET(request: Request) {
 
 	const forms = await service.getAllForms();
 
+    const safeForms = forms.map((f: Form) => {
+        const { google_sheet_id: _, ...rest } = f;
+        return rest;
+    });
+
 	return new Response(JSON.stringify({
-		data: forms
+		data: safeForms
 	}), {
 		status: 200,
 		headers: { 'Content-Type': 'application/json' }

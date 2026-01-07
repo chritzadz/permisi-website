@@ -46,6 +46,7 @@ export class GoogleServiceController {
             return result;
         } catch (error) {
             console.error('Google Sheets API error:', error);
+            console.error(`Please ensure that the Google Sheet (${this.spreadsheetId}) is shared with the service account email: ${process.env.GOOGLE_CLIENT_EMAIL}`);
             return { error: error instanceof Error ? error.message : String(error) };
         }
     }
