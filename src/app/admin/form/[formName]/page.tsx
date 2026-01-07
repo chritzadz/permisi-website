@@ -1,11 +1,13 @@
 'use client';
-import AdminLoginGuard from '@/components/adminLoginGuard';
 import { FormPageProp } from '@/components/properties/FormPageProp.ts';
 import FormInputEditFactory from '@/factory/FormInputEditFactory';
 import { FormInputModel } from '@/model/formInputModel/FormInputModel';
+import { Form } from '@/model/formInputModel/Form';
 import { Eye, PlusCircle } from 'lucide-react';
+import { useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
 import ClimbingBoxLoader from 'react-spinners/ClimbingBoxLoader';
+import CreateFormInputModal from '@/components/modals/CreateFormInputModal';
 
 /**
  * fetch all of form existing components
@@ -16,14 +18,16 @@ import ClimbingBoxLoader from 'react-spinners/ClimbingBoxLoader';
 
 
 const FormPage = ({ params }: FormPageProp) => {
+	const router = useRouter();
 	const [formInputs, setFormInputs] = useState<FormInputModel[]>([]);
 	const [createFormInputPanel, setCreateFormInputPanel] = useState(false);
 	const [newFormInputType, setNewFormInputType] = useState("");
 	const [newQuestion, setNewQuestion] = useState("");
 	const { formName } = React.use(params);
 	const formNameParse = formName.split('%20').join(' ');
-	const [isLoadingFormInput, setIsLoadingFormInput] = useState(true);
+	const [isLoading, setIsLoading] = useState(true);
 	const [selectedFormInput, setSelectedFormInput] = useState(-1);
+	const [description, setDescription] = useState("");
 
 	const onFormInputDelete = (id: number) => {
 		const fetchFormComponents = async () => {
@@ -82,55 +86,85 @@ const FormPage = ({ params }: FormPageProp) => {
 		}
 	}
 
-	//acutally we should check the formName if it exists in the databse, else? should not be able to access this page. (for later is fine)
-
 	useEffect(() => {
-		const fetchFormComponents = async () => {
-			const response = await fetch(`/api/formInputs?formid=${formName}`, {
-				method: 'GET',
-				headers: {
-					'Content-Type': 'application/json',
+		const fetchAllData = async () => {
+			try {
+				const componentsPromise = fetch(`/api/formInputs?formid=${formName}`, {
+					method: 'GET',
+					headers: { 'Content-Type': 'application/json' }
+				});
+
+				const detailsPromise = fetch(`/api/forms?name=${encodeURIComponent(formNameParse)}`, {
+					method: 'GET',
+					headers: { 'Content-Type': 'application/json' }
+				});
+
+				const [componentsResponse, detailsResponse] = await Promise.all([componentsPromise, detailsPromise]);
+
+				if (detailsResponse.status === 404) {
+					router.push('/404');
+					return;
 				}
-			});
-			const data = await response.json();
-			setFormInputs(data.data as FormInputModel[])
-			setIsLoadingFormInput(false);
+
+				const componentsData = await componentsResponse.json();
+				setFormInputs(componentsData.data as FormInputModel[]);
+
+				const detailsData = await detailsResponse.json();
+				const foundForm = detailsData.data as Form;
+
+				if (foundForm && foundForm.description) {
+					setDescription(foundForm.description);
+				}
+			} catch (error) {
+				console.error("Error loading form data", error);
+				router.push('/404');
+			} finally {
+				setIsLoading(false);
+			}
 		};
-		fetchFormComponents();
-	}, [formName]);
+
+		fetchAllData();
+	}, [formName, formNameParse, router]);
+
+
+	if (isLoading) {
+		return (
+			<div className="w-full h-screen flex justify-center items-center">
+				<ClimbingBoxLoader size={15} color={"#670a0a"}></ClimbingBoxLoader>
+			</div>
+		)
+	}
 
 
 	return (
-		<AdminLoginGuard>
 			<div onClick={() => setSelectedFormInput(-1)}>
 				<div className="w-full justify-center items-center p-5 flex flex-col">
-					<h1 className="text-3xl font-bold">{formNameParse}</h1>
+					<div className="text-center mb-6">
+						<h1 className="text-3xl font-bold text-normal-maroon">{formNameParse}</h1>
+						{description && (
+							<p className="text-gray-600 mt-2 max-w-2xl">{description}</p>
+						)}
+					</div>
 					<div className="w-full h-screen my-5 flex flex-col rounded-2xl">
 						{
-							isLoadingFormInput? (
-								<div className="w-full flex justify-center">
-									<ClimbingBoxLoader size={10} color={"#670a0a"}></ClimbingBoxLoader>
-								</div>
-							) : (
-								formInputs.map((formInput) => (
+							formInputs.map((formInput) => (
 								<div className="w-full text-md" key={formInput.id}>
 									{
 										FormInputEditFactory.getFormInput(formInput, onFormInputDelete, selectedFormInput, setSelectedFormInput)
 									}
 								</div>
 							))
-							)
 						}
 					</div>
 				</div>
-					<button 
+					<button
                         className="fixed bottom-8 right-8 w-14 h-14 bg-normal-maroon text-white rounded-full flex items-center justify-center shadow-lg hover:shadow-xl hover:scale-110 transition-all duration-300 z-50"
                         onClick={onAddClick}
                         title="Add Input"
                     >
 						<PlusCircle size={32} />
 					</button>
-					<button 
+					<button
                         className="fixed bottom-8 right-24 w-14 h-14 bg-normal-maroon text-white border-2 rounded-full flex items-center justify-center shadow-lg hover:shadow-xl hover:scale-110 transition-all duration-300 z-50" 
                         onClick={onPreviewClick}
                         title="Preview Form"
@@ -138,25 +172,16 @@ const FormPage = ({ params }: FormPageProp) => {
 						<Eye size={32} />
 					</button>
 
-					{createFormInputPanel && (
-						<div className="fixed inset-0 z-50 flex items-center justify-center bg-black opacity-80">
-							<div className="w-1/3 bg-white rounded-2xl p-8 flex flex-col items-center">
-								<h2 className="text-xl font-bold mb-4">Add New Form Input</h2>
-								<select className="w-full p-2 border-2 border-black rounded-lg mb-4" onChange={e => setNewFormInputType(e.target.value)}>
-									<option value="">Please select form input type</option>
-									<option value="text">text</option>
-									<option value="option">option</option>
-								</select>
-								<input type="text" value={newQuestion} onChange={e => setNewQuestion(e.target.value)} placeholder="Please input your question" className='w-full p-2 border-2 border-black rounded-lg mb-4'></input>
-								<div className='flex flex-row gap-5'>
-									<button className="mt-6 px-4 py-2 bg-normal-maroon text-white rounded-lg" onClick={onCloseModal}>Close</button>
-									<button className="mt-6 px-4 py-2 bg-normal-maroon text-white rounded-lg" onClick={onSubmitFormInput}>Submit</button>
-								</div>
-							</div>
-						</div>
-					)}
+					<CreateFormInputModal 
+						isOpen={createFormInputPanel}
+						onClose={onCloseModal}
+						onSubmit={onSubmitFormInput}
+						currentType={newFormInputType}
+						onTypeChange={setNewFormInputType}
+						question={newQuestion}
+						onQuestionChange={setNewQuestion}
+					/>
 			</div>
-		</AdminLoginGuard>
 	);
 };
 

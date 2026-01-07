@@ -25,18 +25,24 @@ export default function FormPage({ params }: FormPageProp) {
 
     useEffect(() => {
         const fetchForms = async () => {
-            const response = await fetch('/api/forms', {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json',
-                }
-            });
-            const data = await response.json();
-            const formsFetched = data.data as Form[];
-            setForms(formsFetched);
+            try {
+                const response = await fetch(`/api/forms?name=${encodeURIComponent(formNameParse)}`, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    }
+                });
 
-            const found = formsFetched.some(f => f.name === formNameParse);
-            if (!found) {
+                if (response.status === 404) {
+                    router.push('/404');
+                    return;
+                }
+
+                const data = await response.json();
+                const formFetched = data.data as Form;
+                setForms([formFetched]);
+            } catch (error) {
+                console.error("Error fetching form", error);
                 router.push('/404');
             }
         };
@@ -95,7 +101,9 @@ export default function FormPage({ params }: FormPageProp) {
                 <div className="w-full max-w-3xl flex flex-col gap-6">
                     <div className="bg-white p-8 rounded-2xl shadow-sm border-t-8 border-normal-maroon">
                         <h1 className="text-4xl font-bold text-gray-900">{formNameParse}</h1>
-                        <p className="text-gray-500 mt-2">Please fill out the form below.</p>
+                        <p className="text-gray-500 mt-2">
+                             {forms.find(f => f.name === formNameParse)?.description || "Please fill out the form below."}
+                        </p>
                     </div>
 
                     <div className="flex flex-col gap-4">

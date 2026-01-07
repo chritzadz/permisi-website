@@ -30,6 +30,8 @@ export default function CreateFormInputModal({
         }
     };
 
+    const isValid = currentType !== "" && question.trim() !== "";
+
     return (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm cursor-default" onClick={handleBackdropClick}>
             <div className="bg-white p-6 rounded-lg shadow-xl w-96 max-w-full m-4 cursor-default">
@@ -84,8 +86,15 @@ export default function CreateFormInputModal({
                                     Cancel
                                 </button>
                                 <button 
-                                    className="px-4 py-2 bg-normal-maroon hover:bg-dark-maroon text-white rounded transition-colors flex items-center gap-2"
-                                    onClick={onSubmit}
+                                    className={`px-4 py-2 rounded transition-colors flex items-center gap-2 ${
+                                        isValid 
+                                            ? 'bg-normal-maroon hover:bg-dark-maroon text-white' 
+                                            : 'bg-gray-300 text-gray-500 cursor-not-allowed'
+                                    }`}
+                                    onClick={() => {
+                                        if (isValid) onSubmit();
+                                    }}
+                                    disabled={!isValid}
                                 >
                                     <Plus size={16} /> Add
                                 </button>

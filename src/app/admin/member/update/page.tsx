@@ -1,9 +1,9 @@
-import AdminLoginGuard from "@/components/adminLoginGuard";
-
 const AdminMemberPage = () => {
-    return(<AdminLoginGuard>
-        MemberUdpate etc...
-    </AdminLoginGuard>)
+    return(
+        <div>
+            MemberUdpate etc...
+        </div>
+    )
 }
 
 export default AdminMemberPage;
