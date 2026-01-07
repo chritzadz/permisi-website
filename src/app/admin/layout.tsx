@@ -19,11 +19,6 @@ export default function AdminLayout({
     const [isInitialRender, setIsInitialRender] = useState(true);
     const [panelIsOpen, setPanelIsOpen] = useState(false);
 
-    // Filter out login page from using the layout sidebar/guard
-    if (pathname === '/admin/login') {
-        return <>{children}</>;
-    }
-
     //state functions
     const handlePanelClick = () => {
         setPanelIsOpen(!panelIsOpen);
@@ -86,6 +81,11 @@ export default function AdminLayout({
         },
     ]
 
+    // Filter out login page from displaying the sidebar
+    if (pathname === '/admin/login') {
+        return <>{children}</>;
+    }
+
     return (
         <AdminLoginGuard>
              <div className="min-h-screen relative">
@@ -106,7 +106,7 @@ export default function AdminLayout({
                 </div>
                 
                 <div className="min-h-screen w-full pl-[60px] bg-white">
-                     {children}
+                    {children}
                 </div>
             </div>
         </AdminLoginGuard>

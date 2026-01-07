@@ -20,9 +20,11 @@ const AdminLoginGuard = ({ children }: AdminLoginGuardProps) => {
   }, [isAuthenticated, isLoading, router, pathname]);
 
   if (isLoading) {
-    <div className="min-h-screen bg-normal-creme flex items-center justify-center">
-      <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-gray-700"></div>
-    </div>;
+    return (
+      <div className="min-h-screen bg-normal-creme flex items-center justify-center">
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-gray-700"></div>
+      </div>
+    );
   }
 
   if (!isAuthenticated) {
