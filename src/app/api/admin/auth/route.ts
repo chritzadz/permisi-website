@@ -10,10 +10,12 @@ export async function POST(request: NextRequest) {
     const result = await authController.login({ username, password });
 
     if (result.success) {
+      console.log("Login successful. Setting cookie...");
       const response = NextResponse.json({ success: true });
       response.cookies.set("admin-token", result.token!, {
         httpOnly: true,
-        secure: process.env.NODE_ENV === "production",
+        // If your production environment is not HTTPS (unlikely), set this to false manually to test
+        secure: process.env.NODE_ENV === "production", 
         sameSite: "lax",
         path: "/",
         maxAge: 86400,

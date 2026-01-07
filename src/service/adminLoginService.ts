@@ -46,7 +46,8 @@ export class AdminLoginService {
     try {
       jwt.verify(token, this.repository.getAdminJWToken());
       return true;
-    } catch {
+    } catch (error) {
+      console.error("JWT Verification Error:", error);
       return false;
     }
   }
