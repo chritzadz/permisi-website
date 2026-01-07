@@ -53,12 +53,7 @@ export default function FormInputOptionEditBox({type, id, question, onDelete, st
         setOptions(data1.data as Option[]);
         setOptionStates((data1.data as Option[]).map(o => o.option))
         setNewOptionState("");
-        setState(""); // Exit edit mode
-    }
-
-    const handleDoubleClick = () => {
-        setState(id);
-        setQuestionState(finalQuestionState);
+        setState(-100); // Exit edit mode
     }
 
     const handleOptionChange = (i: number, value: string) => {
