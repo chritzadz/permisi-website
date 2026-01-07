@@ -25,7 +25,7 @@ export default function FormInputTextEditBox({type, question, id, onDelete, stat
 
         setFinalQuestionState(newFormInput.question);
         setQuestionState(newFormInput.question);
-        setState(""); // Exit edit mode
+        setState(-100);
     }
 
     const [questionState, setQuestionState] = useState(question);

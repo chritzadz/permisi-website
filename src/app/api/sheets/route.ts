@@ -1,10 +1,30 @@
 import { GoogleServiceController } from "@/controller/googleServiceController";
+import { FormService } from "@/service/FormService";
 
 export async function POST(request: Request) {
     try {
         const body = await request.json();
         const answers = body.answers;
-        const spreadsheetId = body.spreadsheetId;
+        const formName = body.formName;
+
+        if (!formName) {
+            return new Response(JSON.stringify({ error: "Form name is required" }), {
+                status: 400,
+                headers: { 'Content-Type': 'application/json' }
+            });
+        }
+
+        const formService = new FormService();
+        const form = await formService.getFormByName(formName as string);
+
+        if (!form || !form.google_sheet_id) {
+            return new Response(JSON.stringify({ error: "Form not found or Sheet ID missing" }), {
+                status: 404,
+                headers: { 'Content-Type': 'application/json' }
+            });
+        }
+
+        const spreadsheetId = form.google_sheet_id;
 
         const googleSheetsController: GoogleServiceController = new GoogleServiceController(spreadsheetId);
         const data: string[] = Object.values(answers);

@@ -10,6 +10,8 @@ interface CreateFormModalProps {
     onFormNameChange: (value: string) => void;
     googleSheetsId: string;
     onGoogleSheetsIdChange: (value: string) => void;
+    description: string;
+    onDescriptionChange: (value: string) => void;
 }
 
 export default function CreateFormModal({
@@ -20,7 +22,9 @@ export default function CreateFormModal({
     formName,
     onFormNameChange,
     googleSheetsId,
-    onGoogleSheetsIdChange
+    onGoogleSheetsIdChange,
+    description,
+    onDescriptionChange
 }: CreateFormModalProps) {
     if (!isOpen) return null;
 
@@ -58,6 +62,15 @@ export default function CreateFormModal({
                                 onChange={e => onGoogleSheetsIdChange(e.target.value)} 
                                 className="border border-gray-300 rounded p-2 focus:outline-none focus:border-normal-maroon focus:ring-1 focus:ring-normal-maroon text-black"
                                 placeholder="Enter Sheet ID"
+                            />
+                        </div>
+                        <div className="flex flex-col gap-2">
+                            <label className="text-sm font-medium text-gray-700">Description</label>
+                            <textarea
+                                value={description}
+                                onChange={e => onDescriptionChange(e.target.value)} 
+                                className="border border-gray-300 rounded p-2 focus:outline-none focus:border-normal-maroon focus:ring-1 focus:ring-normal-maroon text-black resize-none h-24"
+                                placeholder="Enter form description"
                             />
                         </div>
                     </div>
