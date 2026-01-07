@@ -7,7 +7,7 @@
       "dependencies": {
         "@gsap/react": "^2.1.2",
         "@netlify/neon": "^0.1.0",
-        "@netlify/plugin-nextjs": "^5.11.6",
+        "@netlify/plugin-nextjs": "^5.15.4",
         "@radix-ui/react-slot": "^1.2.3",
         "@types/jsonwebtoken": "^9.0.10",
         "class-variance-authority": "^0.7.1",
@@ -144,7 +144,7 @@
 
     "@netlify/neon": ["@netlify/neon@0.1.0", "", { "dependencies": { "@neondatabase/serverless": "0.x" } }, "sha512-7FlZRfpR61iePnwjamH8t8WnF7ZG87a3wnMojvBjfUYlSMGeHxawoFfI7eyqGEeUV7djuiTB8QkxB+XiPw83WA=="],
 
-    "@netlify/plugin-nextjs": ["@netlify/plugin-nextjs@5.11.6", "", {}, "sha512-F+HiQaUpISBmooALpwDULoCCwUhI6MugEEBstjuxOL2rh2ROFhK4abv87f4GxVXRSmw0AtXAp2eiP8vHcZ3NKQ=="],
+    "@netlify/plugin-nextjs": ["@netlify/plugin-nextjs@5.15.4", "", {}, "sha512-IYz01SFmJuj5YluTsFnP+8+Vu6SeK04LVUVaLcjK8x3SNiC+D4XjCfZKREUs3F8ZO+idd+TSHWZcIkUmBKoGjw=="],
 
     "@next/env": ["@next/env@16.1.1", "", {}, "sha512-3oxyM97Sr2PqiVyMyrZUtrtM3jqqFxOQJVuKclDsgj/L728iZt/GyslkN4NwarledZATCenbk4Offjk1hQmaAA=="],
 

@@ -7,11 +7,19 @@ export class FormService{
         return await this.repository.getAllForms();
     }
 
-    public async postForm(name: string, google_sheet_id: string){
-        return await this.repository.post(name, google_sheet_id);
+    public async getFormByName(name: string) {
+        return await this.repository.getFormByName(name);
+    }
+
+    public async postForm(name: string, google_sheet_id: string, description?: string){
+        return await this.repository.post(name, google_sheet_id, description);
     }
 
     public async getGoogleSheetId(){
         
+    }
+
+    public async deleteForm(name: string){
+        return await this.repository.delete(name);
     }
 }

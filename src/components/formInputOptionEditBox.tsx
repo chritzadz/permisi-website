@@ -1,21 +1,25 @@
 'use client';
 import { useEffect, useState } from "react";
-import { FormInputOptionBoxProp } from "./properties/FormInputOptionBoxProp";
+import { FormInputOptionEditBoxProp } from "./properties/FormInputOptionEditBoxProp";
 import { Option } from "@/model/formInputModel/Option";
-import { Check, Trash2 } from "lucide-react";
+import { Check, Trash2, Circle, Plus, PenLine } from "lucide-react";
 import { FormInputModel } from "@/model/formInputModel/FormInputModel";
 
-export default function FormInputOptionEditBox({type, id, question, onDelete}: FormInputOptionBoxProp) {
-    console.log(type);
+export default function FormInputOptionEditBox({type, id, question, onDelete, state, setState}: FormInputOptionEditBoxProp) {
     const [options, setOptions] = useState<Option[]>([]);
-    const [isEditMode, setIsEditMode] = useState(false);
     const [questionState, setQuestionState] = useState(question);
-    const [optionStates, setOptionStates] = useState<string[]>(options.map(o => o.option));
+    const [optionStates, setOptionStates] = useState<string[]>([]);
     const [newOption, setNewOptionState] = useState("");
     const [finalQuestionState, setFinalQuestionState] = useState(question);
     
+    // Sync optionStates when options are loaded
+    useEffect(() => {
+        if(options.length > 0) {
+            setOptionStates(options.map(o => o.option));
+        }
+    }, [options]);
+
     const handleCheckClick = async () => {
-        //update question, update options, update new option if any
         const response = await fetch('/api/formInputs', {
             method: 'PATCH',
             body: JSON.stringify({
@@ -32,7 +36,6 @@ export default function FormInputOptionEditBox({type, id, question, onDelete}: F
         setFinalQuestionState(newFormInput.question);
         setQuestionState(newFormInput.question);
 
-        console.log("start update options")
         const response1 = await fetch('/api/options', {
             method: 'PATCH',
             body: JSON.stringify({
@@ -47,21 +50,10 @@ export default function FormInputOptionEditBox({type, id, question, onDelete}: F
         });
 
         const data1 = await response1.json();
-        console.log(data1.data as Option[]);
         setOptions(data1.data as Option[]);
         setOptionStates((data1.data as Option[]).map(o => o.option))
         setNewOptionState("");
-        setIsEditMode(false);
-    }
-
-    const handleDoubleClick = () => {
-        setIsEditMode(true);
-        setQuestionState(finalQuestionState);   
-    }
-
-    const handleMouseLeave = () => {
-        setOptionStates(options.map(o => o.option));
-        setIsEditMode(false);
+        setState(-100); // Exit edit mode
     }
 
     const handleOptionChange = (i: number, value: string) => {
@@ -81,60 +73,121 @@ export default function FormInputOptionEditBox({type, id, question, onDelete}: F
                 }
             });
             const data = await response.json();
-            console.log(data.data as Option[]);
             setOptions(data.data as Option[]);
             setOptionStates((data.data as Option[]).map(o => o.option))
         };
         fetchOptions();
     }, [id])
 
-    return (
-        <>
-            { isEditMode ? (
-                    <div className="w-full border-black p-5 flex flex-col" onMouseLeave={handleMouseLeave}>
-                        <input type="text" value={questionState} placeholder="Write your question..." onChange={e => setQuestionState(e.target.value)} className="w-full border-2"/>
-                        {
-                            <div className="ml-5">
-                                {
-                                    options.map((option, index) => (
-                                        <div key={index} className="">
-                                            <label className="flex flex-row">
-                                                <input type="radio" value={"option"+index} />
-                                                <input type="text" value={optionStates[index]} onChange={e => handleOptionChange(index, e.target.value)} className="w-full border-2"/>
-                                            </label>
-                                        </div>
-                                    ))
-                                }
-                                {
+    const isActive = state === id;
 
-                                }
-                                <label className="flex flex-row">
-                                    <input type="radio" />
-                                    <input type="text" value={newOption} onChange={e => setNewOptionState(e.target.value)} className="w-full border-2"/>
-                                </label>
+    const handleEditClick = (e: React.MouseEvent) => {
+        e.stopPropagation();
+        setState(id);
+        setQuestionState(finalQuestionState);   
+    }
+
+    return (
+        <div 
+            onClick={(e) => { if (isActive) e.stopPropagation(); }}
+            className={`
+                group relative w-full rounded-xl transition-all duration-300 mb-4
+                ${isActive 
+                    ? 'bg-normal-creme  shadow-lg ring-1 ring-normal-maroon/20 scale-[1.01] z-10' 
+                    : 'bg-normal-creme  hover:bg-normal-creme border border-gray-200 shadow-sm hover:shadow-md'
+                }
+            `}
+        >
+            { isActive ? (
+                // Edit Mode
+                <div className="p-6 flex flex-col gap-4 animate-in fade-in duration-200">
+                    <div className="flex flex-col gap-2 border-b border-gray-100 pb-4">
+                        <label className="text-xs font-bold text-normal-maroon uppercase tracking-wider">
+                            Editing Multiple Choice
+                        </label>
+                        <input 
+                            type="text" 
+                            value={questionState} 
+                            placeholder="Question" 
+                            autoFocus
+                            onChange={e => setQuestionState(e.target.value)} 
+                            className="w-full text-lg font-medium border-b-2 border-gray-200 focus:border-normal-maroon bg-transparent outline-none py-2 px-1 transition-colors"
+                        />
+                    </div>
+
+                    <div className="flex flex-col gap-3 pl-1">
+                        {options.map((option, index) => (
+                            <div key={index} className="flex items-center gap-3">
+                                <Circle size={18} className="text-gray-300" />
+                                <input 
+                                    type="text" 
+                                    value={optionStates[index] || ''} 
+                                    onChange={e => handleOptionChange(index, e.target.value)} 
+                                    className="flex-1 text-gray-700 border-b border-transparent focus:border-gray-300 hover:border-gray-200 bg-transparent outline-none py-1 transition-colors"
+                                    placeholder={`Option ${index + 1}`}
+                                />
                             </div>
-                        }
-                        <div className="flex flex-row justify-end gap-2">
-                            <Check size={32} onClick={handleCheckClick} />
-                            <Trash2 size={32} onClick={onDelete} />
+                        ))}
+                        
+                        <div className="flex items-center gap-3 mt-1">
+                            <Plus size={18} className="text-gray-400" />
+                            <input 
+                                type="text" 
+                                value={newOption} 
+                                onChange={e => setNewOptionState(e.target.value)} 
+                                className="flex-1 text-gray-600 italic border-b border-transparent focus:border-gray-300 bg-transparent outline-none py-1 transition-colors"
+                                placeholder="Add option..."
+                                onKeyDown={(e) => {
+                                    if (e.key === 'Enter') handleCheckClick();
+                                }}
+                            />
                         </div>
                     </div>
-                ) : (
-                    <div className="w-full border-black p-5" onDoubleClick={handleDoubleClick} onMouseLeave={handleMouseLeave}>
-                        <p className="pl-1">{questionState}</p>
-                        {
-                            options.map((option, index) => (
-                                <div key={index} className="ml-5 w-full">
-                                    <label className="flex w-full flex-row gap-3">
-                                        <input type="radio" value={"option"+index}/>
-                                        <p className="text-sm">{option.option}</p>
-                                    </label>
-                                </div>
-                            ))
-                        }
+
+                    <div className="flex flex-row justify-end gap-2 pt-2 border-t border-gray-100 mt-2">
+                        <button 
+                            className="p-2 text-gray-400 hover:text-red-600 hover:bg-red-50 rounded-full transition-colors"
+                            onClick={onDelete}
+                            title="Delete"
+                        >
+                            <Trash2 size={20} />
+                        </button>
+                        <button 
+                            className="p-2 text-white bg-normal-maroon hover:bg-dark-maroon rounded-full shadow-md transition-all hover:scale-105"
+                            onClick={handleCheckClick}
+                            title="Save Changes"
+                        >
+                            <Check size={20} />
+                        </button>
                     </div>
-                )
-            }
-        </>
+                </div>
+            ) : (
+                // Display Mode
+                <div className="p-6 flex flex-col gap-4">
+                     <div className="flex justify-between items-start">
+                        <p className="text-lg font-medium text-gray-800">{finalQuestionState}</p>
+                        <button 
+                            className="opacity-0 group-hover:opacity-100 transition-opacity text-gray-400 hover:text-normal-maroon cursor-pointer p-1 rounded-full hover:bg-gray-100"
+                            onClick={handleEditClick}
+                            title="Edit"
+                        >
+                            <PenLine size={16} />
+                        </button>
+                    </div>
+                    
+                    <div className="flex flex-col gap-2 pl-1">
+                        {options.map((option, index) => (
+                            <div key={index} className="flex items-center gap-3">
+                                <span className="w-4 h-4 rounded-full border border-gray-300 flex-shrink-0"></span>
+                                <p className="text-gray-600 text-sm">{option.option}</p>
+                            </div>
+                        ))}
+                        {options.length === 0 && (
+                            <p className="text-gray-400 text-sm italic">No options added yet</p>
+                        )}
+                    </div>
+                </div>
+            )}
+        </div>
     )
 }

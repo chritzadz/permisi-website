@@ -1,5 +1,8 @@
 CREATE TABLE IF NOT EXISTS forms(
-    name VARCHAR(100) PRIMARY KEY
+    name VARCHAR(100) PRIMARY KEY,
+    google_sheet_id VARCHAR(255),
+    created_at TIMESTAMP DEFAULT NOW(),
+    description TEXT
 );
 
 CREATE TABLE IF NOT EXISTS form_inputs(

@@ -7,13 +7,15 @@ export async function GET(request: NextRequest) {
   const token = request.cookies.get("admin-token")?.value;
 
   if (!token) {
-    return NextResponse.json({ success: false }, { status: 401 });
+    console.warn("Validation failed: No 'admin-token' cookie found.");
+    return NextResponse.json({ success: false, message: "No token found" }, { status: 401 });
   }
 
   const result = await authController.validateToken(token);
 
   if (!result.success) {
-    return NextResponse.json({ success: false }, { status: 401 });
+    console.warn("Validation failed: Token verification failed.");
+    return NextResponse.json({ success: false, message: "Invalid token" }, { status: 401 });
   }
 
   return NextResponse.json({ success: true });
