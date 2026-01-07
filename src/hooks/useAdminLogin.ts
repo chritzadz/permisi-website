@@ -42,9 +42,15 @@ export const useAdminLogin = () => {
     }
   };
   const logout = async () => {
-    document.cookie =
-      "admin-token=; Path=/; Expires=Fri, 03 Sep 2025 00:00:01 GMT;";
-    setIsAuthenticated(false);
+    try {
+      await fetch("/api/admin/logout", {
+        method: "POST",
+      });
+    } catch (error) {
+      console.error("Logout failed", error);
+    } finally {
+      setIsAuthenticated(false);
+    }
   };
 
   return { isAuthenticated, isLoading, login, logout, checkLoginStatus };
