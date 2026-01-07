@@ -23,6 +23,6 @@ export async function GET() {
             hasDbUrl: !!process.env.DATABASE_URL,
             nodeEnv: process.env.NODE_ENV
         }
-    }, { status: 500 });
+    }, { status: 200 });
   }
 }
