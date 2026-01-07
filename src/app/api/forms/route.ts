@@ -4,45 +4,56 @@ import { FormInputService } from "@/service/FormInputService";
 import { FormService } from "@/service/FormService";
 
 export async function GET(request: Request) {
-	const service: FormService = new FormService();
-    const { searchParams } = new URL(request.url);
-    const name = searchParams.get('name');
+    try {
+        const service: FormService = new FormService();
+        const { searchParams } = new URL(request.url);
+        const name = searchParams.get('name');
 
-    if (name) {
-        const form = await service.getFormByName(name);
-        
-        if (!form) {
+        if (name) {
+            const form = await service.getFormByName(name);
+            
+            if (!form) {
+                return new Response(JSON.stringify({
+                    error: 'Form not found'
+                }), {
+                    status: 404,
+                    headers: { 'Content-Type': 'application/json' }
+                });
+            }
+
+            const { google_sheet_id: _, ...safeForm } = form as Form;
+
             return new Response(JSON.stringify({
-                error: 'Form not found'
+                data: safeForm
             }), {
-                status: 404,
+                status: 200,
                 headers: { 'Content-Type': 'application/json' }
             });
         }
 
-        const { google_sheet_id: _, ...safeForm } = form as Form;
+        const forms = await service.getAllForms();
+
+        const safeForms = forms.map((f: Form) => {
+            const { google_sheet_id: _, ...rest } = f;
+            return rest;
+        });
 
         return new Response(JSON.stringify({
-            data: safeForm
+            data: safeForms
         }), {
             status: 200,
             headers: { 'Content-Type': 'application/json' }
         });
+    } catch (error) {
+        console.error("GET /api/forms Error:", error);
+        return new Response(JSON.stringify({
+            error: "Internal Server Error", 
+            message: error instanceof Error ? error.message : String(error)
+        }), {
+            status: 500,
+            headers: { 'Content-Type': 'application/json' }
+        });
     }
-
-	const forms = await service.getAllForms();
-
-    const safeForms = forms.map((f: Form) => {
-        const { google_sheet_id: _, ...rest } = f;
-        return rest;
-    });
-
-	return new Response(JSON.stringify({
-		data: safeForms
-	}), {
-		status: 200,
-		headers: { 'Content-Type': 'application/json' }
-	});
 }
 
 export async function POST(request: Request) {
