@@ -1,9 +1,9 @@
-import { Trash2, AlertTriangle } from "lucide-react";
+import { Trash2, AlertTriangle, Pencil } from "lucide-react";
 import { FormBoxProp } from "./properties/FormBoxProp";
 import { useState } from "react";
 import { ClimbingBoxLoader } from "react-spinners";
 
-export default function FormBox({ name, createdAt, onFormClick, onDeleteClick }: FormBoxProp) {
+export default function FormBox({ name, createdAt, onFormClick, onDeleteClick, onEditClick }: FormBoxProp) {
     const [isHovering, setIsHovering] = useState(false);
     const [deleteLoading, setDeleteLoading] = useState(false);
     const [showDeleteModal, setShowDeleteModal] = useState(false);
@@ -12,6 +12,13 @@ export default function FormBox({ name, createdAt, onFormClick, onDeleteClick }:
     const handleDeleteIconClick = (e: React.MouseEvent) => {
         e.stopPropagation(); 
         setShowDeleteModal(true);
+    };
+
+    const handleEditIconClick = (e: React.MouseEvent) => {
+        e.stopPropagation();
+        if (onEditClick) {
+            onEditClick(name);
+        }
     };
 
     const handleConfirmDelete = (e: React.MouseEvent) => {
@@ -37,15 +44,24 @@ export default function FormBox({ name, createdAt, onFormClick, onDeleteClick }:
 
     return (
         <>
-            <div className="group hover:bg-white hover:shadow-lg hover:transform hover:scale-[1.01] rounded-lg h-fit cursor-pointer text-black hover:text-dark-maroon transition-all duration-300 flex flex-row items-center" onMouseEnter={() => setIsHovering(true)} onMouseLeave={() => setIsHovering(false)}>
+            <div className="group hover:bg-white hover:shadow-lg hover:transform h-fit cursor-pointer text-black hover:text-dark-maroon transition-all duration-300 flex flex-row items-center" onMouseEnter={() => setIsHovering(true)} onMouseLeave={() => setIsHovering(false)}>
                 <hr className="border-black hidden" />
                 <div className="flex flex-col justify-start text-md w-full py-3 px-5 transition-transform duration-300" >
                     <p className="w-fit text-lg font-bold group-hover:text-normal-maroon transition-colors duration-300" onClick={() => onFormClick(name)}>{name}</p>
                     <p className="text-sm opacity-70 group-hover:opacity-100 transition-opacity duration-300">{"Created at " + createdAt.split("T")[0]}</p>
                 </div>
-                {onDeleteClick && isHovering && !deleteLoading && (
-                    <div className="justify-end flex items-center pr-6 bg-red-white rounded-full p-2 transition-all duration-200" onClick={handleDeleteIconClick}>
-                        <Trash2 className="text-gray-400 group-hover:text-red-500 hover:scale-110 transition-all duration-200" size={20} />
+                {isHovering && !deleteLoading && (
+                    <div className="justify-end flex items-center gap-2 pr-6">
+                        {onEditClick && (
+                            <div className="bg-white rounded-full p-2 transition-all duration-200 hover:bg-gray-100" onClick={handleEditIconClick}>
+                                <Pencil className="text-gray-400 group-hover:text-blue-500 hover:scale-110 transition-all duration-200" size={20} />
+                            </div>
+                        )}
+                        {onDeleteClick && (
+                            <div className="bg-white rounded-full p-2 transition-all duration-200 hover:bg-gray-100" onClick={handleDeleteIconClick}>
+                                <Trash2 className="text-gray-400 group-hover:text-red-500 hover:scale-110 transition-all duration-200" size={20} />
+                            </div>
+                        )}
                     </div>
                 )}
                 { deleteLoading &&

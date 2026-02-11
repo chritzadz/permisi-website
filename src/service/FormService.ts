@@ -22,4 +22,12 @@ export class FormService{
     public async deleteForm(name: string){
         return await this.repository.delete(name);
     }
+
+    public async getFormsWithPagination(page: number, limit: number, search?: string) {
+        return await this.repository.getFormsWithPagination(page, limit, search);
+    }
+
+    public async updateForm(name: string, google_sheet_id?: string, description?: string) {
+        return await this.repository.update(name, google_sheet_id, description);
+    }
 }
