@@ -2,6 +2,7 @@ import { useState } from "react";
 import { FormInputTextEditBoxProp } from "./properties/FormInputTextEditBoxProp";
 import { Trash2, Check, PenLine } from 'lucide-react';
 import { FormInputModel } from "@/model/formInputModel/FormInputModel";
+import { apiFetch } from "@/lib/apiFetch";
 
 export default function FormInputTextEditBox({type, question, id, onDelete, state, setState}: FormInputTextEditBoxProp) {
     const handleDoubleClick = () => {
@@ -10,15 +11,12 @@ export default function FormInputTextEditBox({type, question, id, onDelete, stat
     }
 
     const handleCheckClick = async () => {
-        const response = await fetch('/api/formInputs', {
+        const response = await apiFetch('/api/formInputs', {
             method: 'PATCH',
             body: JSON.stringify({
                 id: id,
                 question: questionState
             }),
-            headers: {
-                'Content-Type': 'application/json',
-            }
         });
         const data = await response.json();
         const newFormInput = data.data as FormInputModel;

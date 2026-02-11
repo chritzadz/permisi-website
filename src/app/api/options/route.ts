@@ -1,7 +1,13 @@
 import { Option } from "@/model/formInputModel/Option";
 import { FormInputService } from "@/service/FormInputService";
+import { validateApiKey, unauthorizedResponse } from "@/lib/apiAuth";
 
 export async function GET(request: Request) {
+    const apiKeyValidation = validateApiKey(request);
+    if (!apiKeyValidation.isValid) {
+        return unauthorizedResponse(apiKeyValidation.error);
+    }
+
     const service: FormInputService = new FormInputService();
     
     const url = new URL(request.url);
@@ -21,6 +27,11 @@ export async function GET(request: Request) {
 }
 
 export async function PATCH(request: Request) {
+    const apiKeyValidation = validateApiKey(request);
+    if (!apiKeyValidation.isValid) {
+        return unauthorizedResponse(apiKeyValidation.error);
+    }
+
     const service: FormInputService = new FormInputService();
     const body = await request.json();
     const id: number = body.id;

@@ -4,6 +4,7 @@ import { FormInputOptionEditBoxProp } from "./properties/FormInputOptionEditBoxP
 import { Option } from "@/model/formInputModel/Option";
 import { Check, Trash2, Circle, Plus, PenLine } from "lucide-react";
 import { FormInputModel } from "@/model/formInputModel/FormInputModel";
+import { apiFetch } from "@/lib/apiFetch";
 
 export default function FormInputOptionEditBox({type, id, question, onDelete, state, setState}: FormInputOptionEditBoxProp) {
     const [options, setOptions] = useState<Option[]>([]);
@@ -20,15 +21,12 @@ export default function FormInputOptionEditBox({type, id, question, onDelete, st
     }, [options]);
 
     const handleCheckClick = async () => {
-        const response = await fetch('/api/formInputs', {
+        const response = await apiFetch('/api/formInputs', {
             method: 'PATCH',
             body: JSON.stringify({
                 id: id,
                 question: questionState
             }),
-            headers: {
-                'Content-Type': 'application/json',
-            }
         });
         const data = await response.json();
         const newFormInput = data.data as FormInputModel;
@@ -36,7 +34,7 @@ export default function FormInputOptionEditBox({type, id, question, onDelete, st
         setFinalQuestionState(newFormInput.question);
         setQuestionState(newFormInput.question);
 
-        const response1 = await fetch('/api/options', {
+        const response1 = await apiFetch('/api/options', {
             method: 'PATCH',
             body: JSON.stringify({
                 id: id,
@@ -44,9 +42,6 @@ export default function FormInputOptionEditBox({type, id, question, onDelete, st
                 options: optionStates,
                 newOption: newOption
             }),
-            headers: {
-                'Content-Type': 'application/json',
-            }
         });
 
         const data1 = await response1.json();
@@ -66,11 +61,8 @@ export default function FormInputOptionEditBox({type, id, question, onDelete, st
 
     useEffect(() => {
         const fetchOptions = async () => {
-            const response = await fetch(`/api/options?forminputid=${id}`, {
+            const response = await apiFetch(`/api/options?forminputid=${id}`, {
                 method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json',
-                }
             });
             const data = await response.json();
             setOptions(data.data as Option[]);

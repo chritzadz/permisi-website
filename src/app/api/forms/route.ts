@@ -2,8 +2,14 @@ import { FormInputModel } from "@/model/formInputModel/FormInputModel";
 import { Form } from "@/model/formInputModel/Form";
 import { FormInputService } from "@/service/FormInputService";
 import { FormService } from "@/service/FormService";
+import { validateApiKey, unauthorizedResponse } from "@/lib/apiAuth";
 
 export async function GET(request: Request) {
+    const apiKeyValidation = validateApiKey(request);
+    if (!apiKeyValidation.isValid) {
+        return unauthorizedResponse(apiKeyValidation.error);
+    }
+
     try {
         const service: FormService = new FormService();
         const { searchParams } = new URL(request.url);
@@ -81,6 +87,11 @@ export async function GET(request: Request) {
 }
 
 export async function POST(request: Request) {
+	const apiKeyValidation = validateApiKey(request);
+	if (!apiKeyValidation.isValid) {
+		return unauthorizedResponse(apiKeyValidation.error);
+	}
+
 	const service: FormService = new FormService();
 	const body = await request.json();
     const name: string = body.name;
@@ -99,6 +110,11 @@ export async function POST(request: Request) {
 }
 
 export async function PATCH(request: Request) {
+    const apiKeyValidation = validateApiKey(request);
+    if (!apiKeyValidation.isValid) {
+        return unauthorizedResponse(apiKeyValidation.error);
+    }
+
     try {
         const service: FormService = new FormService();
         const body = await request.json();
@@ -128,6 +144,11 @@ export async function PATCH(request: Request) {
 }
 
 export async function DELETE(request: Request) {
+	const apiKeyValidation = validateApiKey(request);
+	if (!apiKeyValidation.isValid) {
+		return unauthorizedResponse(apiKeyValidation.error);
+	}
+
 	const service: FormService = new FormService();
 	const formInputService: FormInputService = new FormInputService();
 	const body = await request.json();

@@ -3,11 +3,13 @@ import { useEffect, useState } from "react";
 import { Form } from "@/model/formInputModel/Form";
 import { useRouter } from "next/navigation";
 import ClimbingBoxLoader from "react-spinners/ClimbingBoxLoader";
-import { Plus, Search } from "lucide-react";
+import { Plus, Search, Info } from "lucide-react";
 import FormBox from "@/components/formBox";
 import Button from "@/components/ui/button";
 import CreateFormModal from "@/components/modals/CreateFormModal";
 import EditFormModal from "@/components/modals/EditFormModal";
+import InfoModal from "@/components/modals/InfoModal";
+import { apiFetch } from "@/lib/apiFetch";
 
 const AdminFormPage = () => {
     const router = useRouter();
@@ -29,6 +31,7 @@ const AdminFormPage = () => {
     const [editDescription, setEditDescription] = useState("");
     const [editFormLoading, setEditFormLoading] = useState(false);
     const [refreshTrigger, setRefreshTrigger] = useState(0);
+    const [infoModalIsOpen, setInfoModalIsOpen] = useState(false);
 
     useEffect(() => {
         const fetchForms = async () => {
@@ -42,11 +45,8 @@ const AdminFormPage = () => {
                 params.append('search', searchQuery);
             }
 
-            const response = await fetch(`/api/forms?${params.toString()}`, {
+            const response = await apiFetch(`/api/forms?${params.toString()}`, {
                 method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json',
-                }
             });
             const data = await response.json();
             setForms(data.data as Form[]);
@@ -68,26 +68,28 @@ const AdminFormPage = () => {
         setCreateFormPanelIsOpen(!createFormPanelIsOpen);
     }
 
+    const handleInfoClick = () => {
+        setInfoModalIsOpen(true);
+    }
+
+    const handleInfoClose = () => {
+        setInfoModalIsOpen(false);
+    }
+
     const handleDeleteClick = async (name: string) => {
-        await fetch('/api/forms', {
+        await apiFetch('/api/forms', {
             method: 'DELETE',
             body: JSON.stringify({
                 name: name
             }),
-            headers: {
-                'Content-Type': 'application/json',
-            }
         });
         setCurrentPage(1);
         setRefreshTrigger(prev => prev + 1);
     }
 
     const handleEditClick = async (name: string) => {
-        const response = await fetch(`/api/forms?name=${name}`, {
+        const response = await apiFetch(`/api/forms?name=${name}`, {
             method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-            }
         });
         const data = await response.json();
         const form = data.data as Form;
@@ -107,16 +109,13 @@ const AdminFormPage = () => {
 
     const handleUpdateForm = async () => {
         setEditFormLoading(true);
-        await fetch('/api/forms', {
+        await apiFetch('/api/forms', {
             method: 'PATCH',
             body: JSON.stringify({
                 name: editFormName,
                 google_sheet_id: editGoogleSheetsId,
                 description: editDescription
             }),
-            headers: {
-                'Content-Type': 'application/json',
-            }
         });
         setEditFormLoading(false);
         handleEditFormClose();
@@ -134,16 +133,13 @@ const AdminFormPage = () => {
 
     const handleCreateForm = async () => {
         setCreateFormLoading(true);
-        await fetch('/api/forms', {
+        await apiFetch('/api/forms', {
             method: 'POST',
             body: JSON.stringify({
                 name: createNewFormName,
                 google_sheet_id: googleSheetsIdForm,
                 description: description
             }),
-            headers: {
-                'Content-Type': 'application/json',
-            }
         });
         handleCreateFormClick();
         setCreateFormPanelIsOpen(false);
@@ -157,7 +153,16 @@ const AdminFormPage = () => {
 
     return(
             <div className="h-screen relative flex flex-col px-[30px] py-5">
-                        <h1 className="text-4xl font-bold">Custom Form</h1>
+                        <div className="flex items-center gap-3 mb-2">
+                            <h1 className="text-4xl font-bold">Custom Form</h1>
+                            <button
+                                onClick={handleInfoClick}
+                                className="p-2 hover:bg-gray-100 rounded-full transition-colors"
+                                title="How to create a form"
+                            >
+                                <Info size={24} className="text-normal-maroon" />
+                            </button>
+                        </div>
                         <Button onClick={handleCreateFormClick} text="Create Form" icon={<Plus size={20} />} />
                         <div className="flex flex-col w-full border-2 border-dark-maroon bg-normal-creme rounded-2xl flex-1 overflow-hidden">
                             <div className="py-5 flex flex-row">
@@ -261,6 +266,11 @@ const AdminFormPage = () => {
                     onGoogleSheetsIdChange={setEditGoogleSheetsId}
                     description={editDescription}
                     onDescriptionChange={setEditDescription}
+                />
+
+                <InfoModal
+                    isOpen={infoModalIsOpen}
+                    onClose={handleInfoClose}
                 />
             </div>
     );

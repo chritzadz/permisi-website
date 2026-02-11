@@ -8,6 +8,7 @@ import { useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
 import ClimbingBoxLoader from 'react-spinners/ClimbingBoxLoader';
 import CreateFormInputModal from '@/components/modals/CreateFormInputModal';
+import { apiFetch } from '@/lib/apiFetch';
 
 /**
  * fetch all of form existing components
@@ -30,15 +31,12 @@ const FormPage = ({ params }: FormPageProp) => {
 
 	const onFormInputDelete = (id: number) => {
 		const fetchFormComponents = async () => {
-			const response = await fetch(`/api/formInputs`, {
+			const response = await apiFetch(`/api/formInputs`, {
 				method: 'DELETE',
 				body: JSON.stringify({
 					id: id,
 					form_name: formNameParse
 				}),
-				headers: {
-					'Content-Type': 'application/json',
-				}
 			});
 			const data = await response.json();
 			setFormInputs(data.data as FormInputModel[])
@@ -63,7 +61,7 @@ const FormPage = ({ params }: FormPageProp) => {
 		if (newFormInputType === "" || newFormInputType === "Please select from input type" || newQuestion === "") {
 			//no suybmit
 		} else{
-			const response = await fetch(`/api/formInputs`, {
+			const response = await apiFetch(`/api/formInputs`, {
 				method: 'POST',
 				body: JSON.stringify({
 					form_input: {
@@ -73,9 +71,6 @@ const FormPage = ({ params }: FormPageProp) => {
 						question: newQuestion
 					}
 				}),
-				headers: {
-					'Content-Type': 'application/json',
-				}
 			});
 			const data = await response.json();
 			setFormInputs(data.data as FormInputModel[])
@@ -88,14 +83,12 @@ const FormPage = ({ params }: FormPageProp) => {
 	useEffect(() => {
 		const fetchAllData = async () => {
 			try {
-				const componentsPromise = fetch(`/api/formInputs?formid=${formName}`, {
+				const componentsPromise = apiFetch(`/api/formInputs?formid=${formName}`, {
 					method: 'GET',
-					headers: { 'Content-Type': 'application/json' }
 				});
 
-				const detailsPromise = fetch(`/api/forms?name=${encodeURIComponent(formNameParse)}`, {
+				const detailsPromise = apiFetch(`/api/forms?name=${encodeURIComponent(formNameParse)}`, {
 					method: 'GET',
-					headers: { 'Content-Type': 'application/json' }
 				});
 
 				const [componentsResponse, detailsResponse] = await Promise.all([componentsPromise, detailsPromise]);
