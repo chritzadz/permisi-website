@@ -63,7 +63,7 @@ export default function InfoModal({ isOpen, onClose }: InfoModalProps) {
                                 </li>
                                 <li>Paste the Sheets ID into the form field and save</li>
                             </ol>
-                        </div>
+                        </div> 
 
                         <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4">
                             <h4 className="font-semibold text-yellow-800 mb-2 flex items-center gap-2">
