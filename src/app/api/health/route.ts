@@ -2,10 +2,17 @@ import { pool } from '@/db/permisidb';
 import { NextResponse } from 'next/server';
 
 export async function GET() {
+  const { validateApiKey, unauthorizedResponse } = await import("@/lib/apiAuth");
+  const fakeRequest = { headers: { get: (key: string) => (typeof window === "undefined" ? process.env[key] : undefined) } } as any;
+  const apiKeyValidation = validateApiKey(fakeRequest);
+  if (!apiKeyValidation.isValid) {
+    return unauthorizedResponse(apiKeyValidation.error);
+  }
+  
   try {
     const result = await pool.query('SELECT NOW()');
-    return NextResponse.json({ 
-        status: 'ok', 
+    return NextResponse.json({
+        status: 'ok',
         time: result.rows[0].now,
         env: {
             hasNetlifyUrl: !!process.env.NETLIFY_DATABASE_URL,

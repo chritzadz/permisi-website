@@ -78,8 +78,8 @@ export default function FormPage({ params }: FormPageProp) {
       return data;
     })
     .then(() => {
-      router.push(`/formThankyou/${formNameParse}`);
       setIsSubmitting(false);
+      router.push(`/formThankyou/${formNameParse}`);
       setAnswers({});
     })
     .catch(err => {

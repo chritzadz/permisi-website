@@ -20,12 +20,15 @@ const AdminFormPage = () => {
     const [isLoadingForm, setIsLoadingForm] = useState(true);
     const [createFormLoading, setCreateFormLoading] = useState(false);
     const [description, setDescription] = useState("");
+    const [createFormError, setCreateFormError] = useState("");
     const [searchQuery, setSearchQuery] = useState("");
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
     const [totalCount, setTotalCount] = useState(0);
     const ITEMS_PER_PAGE = 10;
     const [editFormPanelIsOpen, setEditFormPanelIsOpen] = useState(false);
+    const [editFormPanelIsLoading, setEditFormPanelIsLoading] = useState(false);
+    const [createFormPanelIsLoading, setCreateFormPanelIsLoading] = useState(false);
     const [editFormName, setEditFormName] = useState("");
     const [editGoogleSheetsId, setEditGoogleSheetsId] = useState("");
     const [editDescription, setEditDescription] = useState("");
@@ -65,6 +68,7 @@ const AdminFormPage = () => {
     }
 
     const handleCreateFormClick = () => {
+        setCreateFormError("");
         setCreateFormPanelIsOpen(!createFormPanelIsOpen);
     }
 
@@ -88,16 +92,17 @@ const AdminFormPage = () => {
     }
 
     const handleEditClick = async (name: string) => {
+        setEditFormPanelIsLoading(true);
+        setEditFormPanelIsOpen(true);
         const response = await apiFetch(`/api/forms?name=${name}`, {
             method: 'GET',
         });
         const data = await response.json();
         const form = data.data as Form;
-        
         setEditFormName(form.name);
         setEditGoogleSheetsId(form.google_sheet_id || "");
         setEditDescription(form.description || "");
-        setEditFormPanelIsOpen(true);
+        setEditFormPanelIsLoading(false);
     }
 
     const handleEditFormClose = () => {
@@ -123,8 +128,12 @@ const AdminFormPage = () => {
     }
 
     const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setSearchQuery(e.target.value);
+        const value = e.target.value;
+        setSearchQuery(value);
         setCurrentPage(1);
+        if (value === "") {
+            setRefreshTrigger(prev => prev + 1);
+        }
     }
 
     const handlePageChange = (page: number) => {
@@ -133,22 +142,42 @@ const AdminFormPage = () => {
 
     const handleCreateForm = async () => {
         setCreateFormLoading(true);
-        await apiFetch('/api/forms', {
-            method: 'POST',
-            body: JSON.stringify({
-                name: createNewFormName,
-                google_sheet_id: googleSheetsIdForm,
-                description: description
-            }),
-        });
-        handleCreateFormClick();
-        setCreateFormPanelIsOpen(false);
-        setDescription("");
-        setCreateNewFormName("");
-        setGoogleSheetsIdForm("");
-        setCreateFormLoading(false);
-        setCurrentPage(1);
-        setRefreshTrigger(prev => prev + 1);
+        setCreateFormError("");
+        try {
+            if (!createNewFormName || !googleSheetsIdForm) {
+                throw new Error("Form Name and Google Sheets ID are required.");
+            }
+
+            const response = await apiFetch('/api/forms', {
+                method: 'POST',
+                body: JSON.stringify({
+                    name: createNewFormName,
+                    google_sheet_id: googleSheetsIdForm,
+                    description: description
+                }),
+            });
+            if (!response.ok) {
+                const data = await response.json();
+                if (data.error && (data.error.includes('duplicate key') || data.error.includes('unique constraint'))) {
+                    setCreateFormError("Duplicate Form Name or Google Sheets ID. Please use unique values.");
+                } else {
+                    setCreateFormError(data.error || "Failed to create form.");
+                }
+                setCreateFormLoading(false);
+                return;
+            }
+            handleCreateFormClick();
+            setCreateFormPanelIsOpen(false);
+            setDescription("");
+            setCreateNewFormName("");
+            setGoogleSheetsIdForm("");
+            setCreateFormLoading(false);
+            setCurrentPage(1);
+            setRefreshTrigger(prev => prev + 1);
+        } catch (err: any) {
+            setCreateFormError(err.message || "");
+            setCreateFormLoading(false);
+        }
     }
 
     return(
@@ -169,8 +198,8 @@ const AdminFormPage = () => {
                                 <div className="w-1/2 p-3 items-center">
                                     
                                 </div>
-                                <div className="w-1/2 p-3 items-center justify-end flex">
-                                    <div className="px-2 bg-dark-creme w-1/2 rounded-full border-2 border-dark-maroon flex flex-row justify-center items-center gap-1">
+                                <div className="md:w-1/2 lg:w-1/2 sm:3/4  p-3 items-center justify-end flex">
+                                    <div className="px-2 bg-dark-creme md:w-1/2 sm:w-1 lg:w-1/2 rounded-full border-2 border-dark-maroon flex flex-row justify-center items-center gap-1">
                                         <Search color={"#670a0a"}></Search>
                                         <input
                                             type="text"
@@ -243,7 +272,7 @@ const AdminFormPage = () => {
                             </div>
                         </div>
 
-                <CreateFormModal 
+                <CreateFormModal
                     isOpen={createFormPanelIsOpen}
                     onClose={handleCreateFormClick}
                     onSubmit={handleCreateForm}
@@ -254,6 +283,7 @@ const AdminFormPage = () => {
                     onGoogleSheetsIdChange={setGoogleSheetsIdForm}
                     description={description}
                     onDescriptionChange={setDescription}
+                    error={createFormError}
                 />
 
                 <EditFormModal
@@ -266,6 +296,7 @@ const AdminFormPage = () => {
                     onGoogleSheetsIdChange={setEditGoogleSheetsId}
                     description={editDescription}
                     onDescriptionChange={setEditDescription}
+                    isLoadingLoad={editFormPanelIsLoading}
                 />
 
                 <InfoModal

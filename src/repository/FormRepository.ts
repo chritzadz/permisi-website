@@ -76,11 +76,12 @@ export class FormRepository{
                 VALUES ($1, $2, NOW(), $3)
                 RETURNING *;
                 `, [name, google_sheet_id, description || null]);
-
             return task.rows[0];
-        } catch (error) {
-            console.error('Error FormRepository.ts: ' + error);
-            throw new Error('Failed to fetch form');
+        } catch (error: any) {
+            if (error.code === "23505") {
+                throw new Error("duplicate key value violates unique constraint");
+            }
+            throw new Error(error?.message || 'Failed to fetch form');
         }
     }
 

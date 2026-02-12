@@ -12,6 +12,7 @@ interface CreateFormModalProps {
     onGoogleSheetsIdChange: (value: string) => void;
     description: string;
     onDescriptionChange: (value: string) => void;
+    error?: string;
 }
 
 export default function CreateFormModal({
@@ -24,7 +25,8 @@ export default function CreateFormModal({
     googleSheetsId,
     onGoogleSheetsIdChange,
     description,
-    onDescriptionChange
+    onDescriptionChange,
+    error
 }: CreateFormModalProps) {
     if (!isOpen) return null;
 
@@ -33,22 +35,26 @@ export default function CreateFormModal({
             onClose();
         }
     };
-
+    
     return (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm cursor-default" onClick={handleBackdropClick}>
-            <div className="bg-white p-6 rounded-lg shadow-xl w-96 max-w-full m-4 cursor-default">
+            <div className="bg-white p-6 rounded-lg shadow-xl w-96 max-w-full m-4 cursor-default" onClick={e => e.stopPropagation()}>
                 <div className="flex flex-col gap-4">
                     <div className="flex items-center gap-2 text-normal-maroon">
                         <Plus size={24} />
                         <h3 className="text-lg font-bold">Create New Form</h3>
                     </div>
-
+                    {error && (
+                        <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-2 rounded mb-2 text-sm">
+                            {error}
+                        </div>
+                    )}
                     <div className="flex flex-col gap-4">
                         <div className="flex flex-col gap-2">
                             <label className="text-sm font-medium text-gray-700">Form Name</label>
-                            <input 
-                                type="text" 
-                                value={formName} 
+                            <input
+                                type="text"
+                                value={formName}
                                 onChange={e => onFormNameChange(e.target.value)} 
                                 className="border border-gray-300 rounded p-2 focus:outline-none focus:border-normal-maroon focus:ring-1 focus:ring-normal-maroon text-black"
                                 placeholder="Enter form name"
@@ -74,7 +80,6 @@ export default function CreateFormModal({
                             />
                         </div>
                     </div>
-
                     <div className="flex justify-end gap-3 mt-2">
                         {isLoading ? (
                             <div className="flex items-center justify-center px-4 py-2">

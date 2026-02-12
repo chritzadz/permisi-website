@@ -3,10 +3,7 @@ import { FormInputService } from "@/service/FormInputService";
 import { validateApiKey, unauthorizedResponse } from "@/lib/apiAuth";
 
 export async function GET(request: Request) {
-    const apiKeyValidation = validateApiKey(request);
-    if (!apiKeyValidation.isValid) {
-        return unauthorizedResponse(apiKeyValidation.error);
-    }
+    // API key validation removed for GET to allow public access
 
     const service: FormInputService = new FormInputService();
     
@@ -31,6 +28,7 @@ export async function GET(request: Request) {
 export async function PATCH(request: Request) {
     const apiKeyValidation = validateApiKey(request);
     if (!apiKeyValidation.isValid) {
+        console.warn("API key validation failed in /api/formInputs PATCH:", apiKeyValidation.error);
         return unauthorizedResponse(apiKeyValidation.error);
     }
 
@@ -53,6 +51,7 @@ export async function PATCH(request: Request) {
 export async function POST(request: Request) {
     const apiKeyValidation = validateApiKey(request);
     if (!apiKeyValidation.isValid) {
+        console.warn("API key validation failed in /api/formInputs POST:", apiKeyValidation.error);
         return unauthorizedResponse(apiKeyValidation.error);
     }
 
@@ -74,6 +73,7 @@ export async function POST(request: Request) {
 export async function DELETE(request: Request) {
     const apiKeyValidation = validateApiKey(request);
     if (!apiKeyValidation.isValid) {
+        console.warn("API key validation failed in /api/formInputs DELETE:", apiKeyValidation.error);
         return unauthorizedResponse(apiKeyValidation.error);
     }
 

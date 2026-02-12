@@ -1,0 +1,1 @@
+export type PgError = Error & { code?: string; detail?: string; constraint?: string; }

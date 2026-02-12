@@ -3,6 +3,13 @@ import { FormService } from "@/service/FormService";
 
 export async function POST(request: Request) {
     try {
+        // const referer = request.headers.get('referer') || '';
+        // if (!referer.includes('permisi.hk')) {
+        //     return new Response(JSON.stringify({ error: 'Forbidden: Invalid domain' }), {
+        //         status: 403,
+        //         headers: { 'Content-Type': 'application/json' }
+        //     });
+        // }
         const body = await request.json();
         const answers = body.answers;
         const formName = body.formName;
@@ -29,7 +36,6 @@ export async function POST(request: Request) {
         const googleSheetsController: GoogleServiceController = new GoogleServiceController(spreadsheetId);
         const data: string[] = Object.values(answers);
         const result = await googleSheetsController.addRow(data); //default Sheet1
-
 
         if (result && typeof result === 'object' && 'error' in result) {
             // Google Sheets API error

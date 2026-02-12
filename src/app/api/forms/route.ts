@@ -5,10 +5,7 @@ import { FormService } from "@/service/FormService";
 import { validateApiKey, unauthorizedResponse } from "@/lib/apiAuth";
 
 export async function GET(request: Request) {
-    const apiKeyValidation = validateApiKey(request);
-    if (!apiKeyValidation.isValid) {
-        return unauthorizedResponse(apiKeyValidation.error);
-    }
+    // API key validation removed for GET to allow public access
 
     try {
         const service: FormService = new FormService();
@@ -92,21 +89,31 @@ export async function POST(request: Request) {
 		return unauthorizedResponse(apiKeyValidation.error);
 	}
 
-	const service: FormService = new FormService();
-	const body = await request.json();
-    const name: string = body.name;
-	const google_sheet_id: string = body.google_sheet_id;
-	const description: string | undefined = body.description;
-	
-	await service.postForm(name, google_sheet_id, description);
-	const forms = await service.getAllForms();
+    try {
+        const service: FormService = new FormService();
+        const body = await request.json();
+        const name: string = body.name;
+        const google_sheet_id: string = body.google_sheet_id;
+        const description: string | undefined = body.description;
 
-	return new Response(JSON.stringify({
-		data: forms
-	}), {
-		status: 200,
-		headers: { 'Content-Type': 'application/json' }
-	});
+        await service.postForm(name, google_sheet_id, description);
+        const forms = await service.getAllForms();
+
+        return new Response(JSON.stringify({
+            data: forms
+        }), {
+            status: 200,
+            headers: { 'Content-Type': 'application/json' }
+        });
+    } catch (error: any) {
+        console.error("POST /api/forms Error:", error);
+        return new Response(JSON.stringify({
+            error: error instanceof Error ? error.message : String(error)
+        }), {
+            status: 400,
+            headers: { 'Content-Type': 'application/json' }
+        });
+    }
 }
 
 export async function PATCH(request: Request) {
