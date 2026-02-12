@@ -198,8 +198,8 @@ const AdminFormPage = () => {
                                 <div className="w-1/2 p-3 items-center">
                                     
                                 </div>
-                                <div className="md:w-1/2 lg:w-1/2 sm:3/4  p-3 items-center justify-end flex">
-                                    <div className="px-2 bg-dark-creme md:w-1/2 sm:w-1 lg:w-1/2 rounded-full border-2 border-dark-maroon flex flex-row justify-center items-center gap-1">
+                                <div className="md:w-1/2 lg:w-1/2 sm:3/4 p-3 items-center justify-end flex">
+                                    <div className="px-2 bg-dark-creme w-full max-w-xs min-w-[120px] rounded-full border-2 border-dark-maroon flex flex-row justify-center items-center gap-1">
                                         <Search color={"#670a0a"}></Search>
                                         <input
                                             type="text"

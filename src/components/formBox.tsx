@@ -44,10 +44,10 @@ export default function FormBox({ name, createdAt, onFormClick, onDeleteClick, o
 
     return (
         <>
-            <div className="group hover:bg-white hover:shadow-lg hover:transform h-fit cursor-pointer text-black hover:text-dark-maroon transition-all duration-300 flex flex-row items-center" onMouseEnter={() => setIsHovering(true)} onMouseLeave={() => setIsHovering(false)}>
+            <div className="group hover:bg-white hover:shadow-lg hover:transform h-fit cursor-pointer text-black transition-all duration-300 flex flex-row items-center" onMouseEnter={() => setIsHovering(true)} onMouseLeave={() => setIsHovering(false)}>
                 <hr className="border-black hidden" />
                 <div className="flex flex-col justify-start text-md w-full py-3 px-5 transition-transform duration-300" >
-                    <p className="w-fit text-lg font-bold group-hover:text-normal-maroon transition-colors duration-300" onClick={() => onFormClick(name)}>{name}</p>
+                    <p className="w-fit text-lg font-bold hover:text-normal-maroon transition-colors duration-300" onClick={() => onFormClick(name)}>{name}</p>
                     <p className="text-sm opacity-70 group-hover:opacity-100 transition-opacity duration-300">{"Created at " + createdAt.split("T")[0]}</p>
                 </div>
                 {isHovering && !deleteLoading && (

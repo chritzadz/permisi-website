@@ -87,9 +87,9 @@ export default function AdminLayout({
 
   return (
     <AdminLoginGuard>
-      <div className="min-h-screen relative">
-        <div className="h-full fixed top-0 left-0 z-50">
-          <div className="w-[60px] h-full flex overflow-hidden bg-white shadow-md" ref={panelRef}>
+      <div className="min-h-screen relative flex flex-row">
+        <div className="h-full">
+          <div className="w-[60px] h-screen flex overflow-hidden bg-white shadow-md" ref={panelRef}>
             {
               panelIsOpen?(
                 <div className="w-full h-full">
@@ -103,8 +103,7 @@ export default function AdminLayout({
             }
           </div>
         </div>
-        
-        <div className="min-h-screen w-full pl-[60px] bg-white">
+        <div className="min-h-screen w-full bg-white">
           {children}
         </div>
       </div>
