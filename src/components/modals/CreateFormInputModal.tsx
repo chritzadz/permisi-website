@@ -53,6 +53,7 @@ export default function CreateFormInputModal({
                                     <option value="">Select type...</option>
                                     <option value="text">Text Input</option>
                                     <option value="option">Multiple Choice</option>
+                                        <option value="number">Number Input</option>
                                 </select>
                                 <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
                                     <Type size={16} />
