@@ -16,7 +16,6 @@ import { apiFetch } from '@/lib/apiFetch';
  * and yeah figure out how to edit...
  */
 
-
 const FormPage = ({ params }: FormPageProp) => {
 	const router = useRouter();
 	const [formInputs, setFormInputs] = useState<FormInputModel[]>([]);
