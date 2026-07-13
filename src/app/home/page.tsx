@@ -5,6 +5,10 @@ import Footer from "@/components/footer";
 import Hero from "@/components/hero";
 import AboutUs from "@/components/aboutUs";
 import EventCard from "@/components/eventCard";
+import Values from "@/components/values";
+import ActivityGallery from "@/components/activityGallery";
+import JoinCTA from "@/components/joinCta";
+import AboutUsV2 from "@/components/aboutUsV2";
 
 export default function HomePage() {
     return (
@@ -16,27 +20,18 @@ export default function HomePage() {
                 </div>
             </div>
 
-            {/* Content wrapper - overlays footer, with bottom padding for reveal */}
-            <div className="relative z-20  min-h-screen">
+            {/* Content wrapper - overlays footer */}
+            <div className="relative z-20 bg-white">
                 <Hero />
 
                 <AboutUs />
+                <AboutUsV2 />
 
-                <section className="py-8 sm:py-12 md:py-16 lg:py-20 max-h-screen flex items-center justify-center">
-                    <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8 w-full">
-                        <div className="text-center mb-8 sm:mb-12 md:mb-16">
-                            <h2
-                                className={`text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 mb-6 sm:mb-8 md:mb-12`}
-                            >
-                                {"Latest Event"}
-                            </h2>
-                            <EventCard />
-                        </div>
-                    </div>
-                </section>
+                <ActivityGallery />
 
                 {/* Spacer to reveal footer - transparent margin at bottom */}
-                <div className="h-[45vh] w-full bg-transparent" />
+                {/* Adjust height based on footer size, or use a roughly adequate height */}
+                <div className="h-[50vh] w-full bg-transparent pointer-events-none" />
             </div>
         </>
     );
