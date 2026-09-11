@@ -5,7 +5,7 @@ import { FormInputOptionBoxProp } from "./properties/FormInputOptionBoxProp";
 import { Option } from "@/model/formInputModel/Option";
 import { apiFetch } from "@/lib/apiFetch";
 
-export default function FormInputOptionBox({type, id, question, value, onChange}: FormInputOptionBoxProp) {
+export default function FormInputOptionBox({id, question, value, onChange}: FormInputOptionBoxProp) {
     const [options, setOptions] = useState<Option[]>([]);
 
     useEffect(() => {
@@ -20,7 +20,7 @@ export default function FormInputOptionBox({type, id, question, value, onChange}
     }, [id])
 
     return (
-        <div className="w-full bg-white p-6 rounded-xl shadow-sm border border-normal-maroon/15 mb-4">
+        <div className="w-full bg-white p-6 rounded-xl shadow-sm border border-normal-maroon/15">
             <label className="block text-lg font-medium text-gray-900 mb-4 ml-1">{question}</label>
             <div className="flex flex-col gap-3">
                 {

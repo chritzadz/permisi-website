@@ -1,8 +1,8 @@
 import { FormInputNumberBoxProp } from "./properties/FormInputNumberBoxProp";
 
-export default function formInputNumberBox({type, question, value, onChange}: FormInputNumberBoxProp) {
+export default function formInputNumberBox({question, value, onChange}: FormInputNumberBoxProp) {
     return (
-        <div className="w-full bg-white p-6 rounded-xl shadow-sm border border-normal-maroon/15 mb-4">
+        <div className="w-full bg-white p-6 rounded-xl shadow-sm border border-normal-maroon/15">
             <label className="block text-lg font-medium text-gray-900 mb-3 ml-1">{question}</label>
             <input
                 type="number"

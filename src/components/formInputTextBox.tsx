@@ -1,8 +1,8 @@
 import { FormInputTextBoxProp } from "./properties/FormInputTextBoxProp";
 
-export default function formInputTextBox({type, question, value, onChange}: FormInputTextBoxProp) {
+export default function formInputTextBox({question, value, onChange}: FormInputTextBoxProp) {
     return (
-        <div className="w-full bg-white p-6 rounded-xl shadow-sm border border-normal-maroon/15 mb-4">
+        <div className="w-full bg-white p-6 rounded-xl shadow-sm border border-normal-maroon/15">
             <label className="block text-lg font-medium text-gray-900 mb-3 ml-1">{question}</label>
             <input
                 type="text"

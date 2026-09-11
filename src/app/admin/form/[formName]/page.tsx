@@ -151,10 +151,10 @@ const FormPage = ({ params }: FormPageProp) => {
 					</div>
 					<div className="max-w-3xl w-full mx-auto my-5 flex flex-col rounded-2xl">
 						{
-							formInputs.map((formInput) => (
+							formInputs.map((formInput, index) => (
 								<div className="w-full text-md" key={formInput.id}>
 									{
-										FormInputEditFactory.getFormInput(formInput, onFormInputDelete, selectedFormInput, setSelectedFormInput)
+										FormInputEditFactory.getFormInput(formInput, onFormInputDelete, selectedFormInput, setSelectedFormInput, index)
 									}
 								</div>
 							))

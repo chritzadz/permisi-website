@@ -22,19 +22,27 @@ const AdminFormPage = () => {
     const [description, setDescription] = useState("");
     const [createFormError, setCreateFormError] = useState("");
     const [searchQuery, setSearchQuery] = useState("");
+    const [debouncedSearch, setDebouncedSearch] = useState("");
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
     const [totalCount, setTotalCount] = useState(0);
     const ITEMS_PER_PAGE = 10;
     const [editFormPanelIsOpen, setEditFormPanelIsOpen] = useState(false);
     const [editFormPanelIsLoading, setEditFormPanelIsLoading] = useState(false);
-    const [createFormPanelIsLoading, setCreateFormPanelIsLoading] = useState(false);
     const [editFormName, setEditFormName] = useState("");
     const [editGoogleSheetsId, setEditGoogleSheetsId] = useState("");
     const [editDescription, setEditDescription] = useState("");
     const [editFormLoading, setEditFormLoading] = useState(false);
     const [refreshTrigger, setRefreshTrigger] = useState(0);
     const [infoModalIsOpen, setInfoModalIsOpen] = useState(false);
+
+    useEffect(() => {
+        const timer = setTimeout(() => {
+            setDebouncedSearch(searchQuery);
+            setCurrentPage(1);
+        }, 300);
+        return () => clearTimeout(timer);
+    }, [searchQuery])
 
     useEffect(() => {
         const fetchForms = async () => {
@@ -44,8 +52,8 @@ const AdminFormPage = () => {
                 limit: ITEMS_PER_PAGE.toString(),
             });
             
-            if (searchQuery) {
-                params.append('search', searchQuery);
+            if (debouncedSearch) {
+                params.append('search', debouncedSearch);
             }
 
             const response = await apiFetch(`/api/forms?${params.toString()}`, {
@@ -59,7 +67,7 @@ const AdminFormPage = () => {
         };
 
         fetchForms();
-    }, [currentPage, searchQuery, refreshTrigger])
+    }, [currentPage, debouncedSearch, refreshTrigger])
 
     //state functions
 
@@ -174,8 +182,8 @@ const AdminFormPage = () => {
             setCreateFormLoading(false);
             setCurrentPage(1);
             setRefreshTrigger(prev => prev + 1);
-        } catch (err: any) {
-            setCreateFormError(err.message || "");
+        } catch (err) {
+            setCreateFormError(err instanceof Error ? err.message : "");
             setCreateFormLoading(false);
         }
     }
@@ -194,21 +202,19 @@ const AdminFormPage = () => {
                         </div>
                         <Button onClick={handleCreateFormClick} text="Create Form" icon={<Plus size={20} />} />
                         <div className="flex flex-col w-full border border-normal-maroon/15 bg-normal-creme/50 rounded-xl flex-1 overflow-hidden">
-                            <div className="py-5 flex flex-row">
-                                <div className="w-1/2 p-3 items-center">
-                                    
-                                </div>
-                                <div className="md:w-1/2 lg:w-1/2 sm:3/4 p-3 items-center justify-end flex">
-                                    <div className="px-2 bg-white w-full max-w-xs min-w-[120px] rounded-full border border-normal-maroon/30 flex flex-row justify-center items-center gap-1">
-                                        <Search color={"#831515"}></Search>
-                                        <input
-                                            type="text"
-                                            placeholder="e.g. PJJY 2025"
-                                            className="p-1 focus:border-0 focus:outline-none w-full bg-transparent"
-                                            value={searchQuery}
-                                            onChange={handleSearchChange}
-                                        />
-                                    </div>
+                            <div className="py-4 px-5 flex flex-row items-center justify-between gap-3">
+                                <p className="text-xs text-gray-500 uppercase tracking-wider whitespace-nowrap">
+                                    {totalCount} form{totalCount === 1 ? "" : "s"}
+                                </p>
+                                <div className="px-2 bg-white w-full max-w-xs min-w-[120px] rounded-full border border-normal-maroon/30 flex flex-row justify-center items-center gap-1">
+                                    <Search color={"#831515"}></Search>
+                                    <input
+                                        type="text"
+                                        placeholder="e.g. PJJY 2025"
+                                        className="p-1 focus:border-0 focus:outline-none w-full bg-transparent"
+                                        value={searchQuery}
+                                        onChange={handleSearchChange}
+                                    />
                                 </div>
                             </div>
                             <div className="flex-1 overflow-y-auto pb-4">
@@ -221,12 +227,33 @@ const AdminFormPage = () => {
                                             {forms.length > 0 ? (
                                                 forms.map((form, index) => (
                                                     <div className="w-full h-fit" key={index}>
-                                                        <FormBox key={form.name + index} name={form.name} createdAt={form.created_at} onFormClick={handleFormClick} onDeleteClick={handleDeleteClick} onEditClick={handleEditClick}></FormBox>
+                                                        <FormBox
+                                                            key={form.name + index}
+                                                            name={form.name}
+                                                            createdAt={form.created_at}
+                                                            description={form.description}
+                                                            hasSheet={form.has_sheet}
+                                                            questionCount={form.question_count}
+                                                            onFormClick={handleFormClick}
+                                                            onDeleteClick={handleDeleteClick}
+                                                            onEditClick={handleEditClick}
+                                                        ></FormBox>
                                                     </div>
                                                 ))
                                             ) : (
-                                                <div className="w-full flex justify-center p-8 text-dark-maroon">
-                                                    <p>No forms found</p>
+                                                <div className="w-full flex flex-col items-center justify-center text-center py-16 px-6">
+                                                    <p className="text-3xl sm:text-4xl font-bold text-normal-maroon/80">
+                                                        {debouncedSearch ? "No forms found" : "No forms yet"}
+                                                    </p>
+                                                    <div className="mt-3 h-1 w-12 bg-normal-maroon/40" />
+                                                    <p className="text-sm text-gray-500 mt-3 max-w-sm">
+                                                        {debouncedSearch
+                                                            ? `Nothing matches "${debouncedSearch}". Try a different search.`
+                                                            : "Create your first registration form and collect responses straight into a Google Sheet."}
+                                                    </p>
+                                                    {!debouncedSearch && (
+                                                        <Button onClick={handleCreateFormClick} text="Create Form" icon={<Plus size={20} />} />
+                                                    )}
                                                 </div>
                                             )}
                                             
@@ -242,7 +269,19 @@ const AdminFormPage = () => {
                                                     </button>
                                                     
                                                     <div className="flex gap-1">
-                                                        {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
+                                                        {Array.from({ length: Math.min(totalPages, 5) }, (_, i) => {
+                                                            let page;
+                                                            if (totalPages <= 5) {
+                                                                page = i + 1;
+                                                            } else if (currentPage <= 3) {
+                                                                page = i + 1;
+                                                            } else if (currentPage >= totalPages - 2) {
+                                                                page = totalPages - 4 + i;
+                                                            } else {
+                                                                page = currentPage - 2 + i;
+                                                            }
+                                                            return page;
+                                                        }).map((page) => (
                                                             <button
                                                                 key={page}
                                                                 onClick={() => handlePageChange(page)}
