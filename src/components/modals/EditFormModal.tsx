@@ -1,4 +1,4 @@
-import { ClimbingBoxLoader } from "react-spinners";
+import LoadingSpinner from "@/components/loadingSpinner";
 import { Pencil } from "lucide-react";
 
 interface EditFormModalProps {
@@ -41,7 +41,7 @@ export default function EditFormModal({
                     isLoadingLoad ? (
                         <div className="">
                             <div className="flex items-center justify-center w-full h-full">
-                                <ClimbingBoxLoader size={8} color={"#670a0a"} />
+                                <LoadingSpinner size={20} />
                             </div>
                         </div>
                     ) : (
@@ -93,7 +93,7 @@ export default function EditFormModal({
                                     </button>
                                     {isLoading ? (
                                         <div className="flex items-center">
-                                            <ClimbingBoxLoader size={6} color={"#670a0a"} />
+                                            <LoadingSpinner size={16} />
                                         </div>
                                     ) : (
                                         <button

@@ -2,7 +2,7 @@
 import { useEffect, useState } from "react";
 import { Form } from "@/model/formInputModel/Form";
 import { useRouter } from "next/navigation";
-import ClimbingBoxLoader from "react-spinners/ClimbingBoxLoader";
+import LoadingSpinner from "@/components/loadingSpinner";
 import { Plus, Search, Info } from "lucide-react";
 import FormBox from "@/components/formBox";
 import Button from "@/components/ui/button";
@@ -214,7 +214,7 @@ const AdminFormPage = () => {
                             <div className="flex-1 overflow-y-auto pb-4">
                                 { isLoadingForm ? (
                                         <div className="w-full flex justify-center">
-                                            <ClimbingBoxLoader size={10} color={"#670a0a"}></ClimbingBoxLoader>
+                                            <LoadingSpinner size={24} />
                                         </div>
                                     ) : (
                                         <>

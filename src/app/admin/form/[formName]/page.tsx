@@ -6,7 +6,7 @@ import { Form } from '@/model/formInputModel/Form';
 import { Eye, PlusCircle } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
-import ClimbingBoxLoader from 'react-spinners/ClimbingBoxLoader';
+import LoadingSpinner from "@/components/loadingSpinner";
 import CreateFormInputModal from '@/components/modals/CreateFormInputModal';
 import { apiFetch } from '@/lib/apiFetch';
 
@@ -121,7 +121,7 @@ const FormPage = ({ params }: FormPageProp) => {
 	if (isLoading) {
 		return (
 			<div className="w-full h-screen flex justify-center items-center">
-				<ClimbingBoxLoader size={15} color={"#670a0a"}></ClimbingBoxLoader>
+				<LoadingSpinner size={36} />
 			</div>
 		)
 	}

@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from "react";
 import Footer from "@/components/footer";
 import { Search, ArrowRight } from "lucide-react";
-import ClimbingBoxLoader from "react-spinners/ClimbingBoxLoader";
+import LoadingSpinner from "@/components/loadingSpinner";
 import { useRouter } from "next/navigation";
 
 interface Event {
@@ -127,7 +127,7 @@ export default function EventsPage() {
                         <section className="mb-8">
                             {isLoading ? (
                                 <div className="flex justify-center py-12">
-                                    <ClimbingBoxLoader size={10} color="#831515" />
+                                    <LoadingSpinner size={24} />
                                 </div>
                             ) : (
                                 <>

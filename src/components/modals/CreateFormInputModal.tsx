@@ -1,5 +1,5 @@
 import { Plus, Type } from "lucide-react";
-import { ClimbingBoxLoader } from "react-spinners";
+import LoadingSpinner from "@/components/loadingSpinner";
 
 interface CreateFormInputModalProps {
     isOpen: boolean;
@@ -76,7 +76,7 @@ export default function CreateFormInputModal({
                     <div className="flex justify-end gap-3 mt-2">
                         {isLoading ? (
                             <div className="flex items-center justify-center px-4 py-2">
-                                <ClimbingBoxLoader size={8} color={"#670a0a"} />
+                                <LoadingSpinner size={20} />
                             </div>
                         ) : (
                             <>

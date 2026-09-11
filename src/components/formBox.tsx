@@ -1,7 +1,7 @@
 import { Trash2, AlertTriangle, Pencil } from "lucide-react";
 import { FormBoxProp } from "./properties/FormBoxProp";
 import { useState } from "react";
-import { ClimbingBoxLoader } from "react-spinners";
+import LoadingSpinner from "@/components/loadingSpinner";
 
 export default function FormBox({ name, createdAt, onFormClick, onDeleteClick, onEditClick }: FormBoxProp) {
     const [isHovering, setIsHovering] = useState(false);
@@ -66,7 +66,7 @@ export default function FormBox({ name, createdAt, onFormClick, onDeleteClick, o
                 )}
                 { deleteLoading &&
                     <div className="justify-end flex items-center pr-6 w-15 h-15">
-                        <ClimbingBoxLoader size={4} color="#670a0a" />
+                        <LoadingSpinner size={12} />
                     </div>  
                 }
             </div>
