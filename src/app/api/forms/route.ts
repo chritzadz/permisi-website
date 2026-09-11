@@ -51,8 +51,8 @@ export async function GET(request: Request) {
             const result = await service.getFormsWithPagination(pageNum, limitNum, search || undefined);
             
             const safeForms = result.forms.map((f: Form) => {
-                const { google_sheet_id: _, ...rest } = f;
-                return rest;
+                const { google_sheet_id, ...rest } = f;
+                return { ...rest, has_sheet: Boolean(google_sheet_id) };
             });
 
             return new Response(JSON.stringify({
@@ -69,8 +69,8 @@ export async function GET(request: Request) {
         const forms = await service.getAllForms();
 
         const safeForms = forms.map((f: Form) => {
-            const { google_sheet_id: _, ...rest } = f;
-            return rest;
+            const { google_sheet_id, ...rest } = f;
+            return { ...rest, has_sheet: Boolean(google_sheet_id) };
         });
 
         return new Response(JSON.stringify({

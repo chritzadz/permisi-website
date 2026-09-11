@@ -4,7 +4,8 @@ export class FormRepository{
     public async getAllForms(){
         try {
             const task = await pool.query(`
-                SELECT * FROM forms;
+                SELECT f.*, (SELECT COUNT(*)::int FROM form_inputs fi WHERE fi.form_name = f.name) AS question_count
+                FROM forms f;
                 `, []);
 
             return task.rows;
@@ -18,10 +19,11 @@ export class FormRepository{
         try {
             const offset = (page - 1) * limit;
             let query = `
-                SELECT * FROM forms
+                SELECT f.*, (SELECT COUNT(*)::int FROM form_inputs fi WHERE fi.form_name = f.name) AS question_count
+                FROM forms f
                 WHERE 1=1
             `;
-            const params: any[] = [];
+            const params: unknown[] = [];
 
             if (search) {
                 params.push(`%${search}%`);
@@ -35,7 +37,7 @@ export class FormRepository{
 
             // Get total count
             let countQuery = 'SELECT COUNT(*) FROM forms WHERE 1=1';
-            const countParams: any[] = [];
+            const countParams: unknown[] = [];
             
             if (search) {
                 countParams.push(`%${search}%`);
@@ -77,11 +79,11 @@ export class FormRepository{
                 RETURNING *;
                 `, [name, google_sheet_id, description || null]);
             return task.rows[0];
-        } catch (error: any) {
-            if (error.code === "23505") {
+        } catch (error) {
+            if (error instanceof Error && (error as { code?: string }).code === "23505") {
                 throw new Error("duplicate key value violates unique constraint");
             }
-            throw new Error(error?.message || 'Failed to fetch form');
+            throw new Error(error instanceof Error ? error.message : 'Failed to fetch form');
         }
     }
 
@@ -103,7 +105,7 @@ export class FormRepository{
     public async update(name: string, google_sheet_id?: string, description?: string){
         try {
             const updates: string[] = [];
-            const values: any[] = [];
+            const values: unknown[] = [];
             let paramIndex = 1;
 
             if (google_sheet_id !== undefined) {

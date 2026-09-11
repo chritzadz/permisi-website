@@ -59,4 +59,33 @@ export class OptionRepository{
             throw new Error('Failed to fetch form');
         }
     }
+
+    public async replaceOptions(id: number, options: string[]){
+        const client = await pool.connect();
+        try {
+            await client.query('BEGIN');
+            await client.query(
+                'DELETE FROM form_input_options WHERE form_input_id = $1',
+                [id]
+            );
+            for (const option of options) {
+                await client.query(
+                    'INSERT INTO form_input_options (form_input_id, option) VALUES ($1, $2)',
+                    [id, option]
+                );
+            }
+            const task = await client.query(
+                'SELECT * FROM form_input_options WHERE form_input_id = $1',
+                [id]
+            );
+            await client.query('COMMIT');
+            return task.rows;
+        } catch (error) {
+            await client.query('ROLLBACK');
+            console.error('Error OptionRepository.ts: ' + error);
+            throw new Error('Failed to update options');
+        } finally {
+            client.release();
+        }
+    }
 }
