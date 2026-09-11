@@ -88,7 +88,11 @@ opacity variants like `border-normal-maroon/15`.
 
 ## Git workflow
 
-- **Never work directly on `main` or `development`.** Every change gets its own feature branch named `feature/<short-change>` created from the branch it builds on (content/design work currently stacks on `feature/resource-page-design`).
+- **Never work directly on `main` or `development`.** Use **one feature branch per feature**
+  (`feature/<short-name>`) and stack multiple commits on it — do not create a new branch per
+  change or per commit. All home/content design work lives on `feature/home-design-overhaul`.
+- **Never push automatically.** The user pushes branches themselves. Touching the remote
+  (e.g. `git push origin --delete <branch>`) only when explicitly asked.
 - PR flow: `feature/* → development` (pipeline testing), then `development → main` — the dev→main PR **must be approved by a maintainer** before merging. Do not merge to `main` yourself.
 - Commit messages: short, lowercase, imperative-ish (e.g. "add history and style about-us page"). No secrets in commits; `.env.local` is gitignored.
-- `gh` CLI is not installed; after `git push -u origin <branch>`, GitHub prints a compare URL — share it to open the PR.
+- `gh` CLI is not installed; after the user pushes, GitHub prints a compare URL — share it to open the PR.
