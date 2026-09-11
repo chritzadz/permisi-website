@@ -12,16 +12,16 @@ const values = [
         description:
             "Building a home away from home. We foster close-knit relationships among Indonesian students, creating a support system that lasts a lifetime.",
         icon: Users,
-        color: "text-blue-600",
-        bg: "bg-blue-100",
+        color: "text-normal-maroon",
+        bg: "bg-normal-creme",
     },
     {
         title: "Culture",
         description:
             "Celebrating our heritage. We actively promote and share the richness of Indonesian culture with the international community at CityU.",
         icon: Globe,
-        color: "text-red-600",
-        bg: "bg-red-100",
+        color: "text-dark-maroon",
+        bg: "bg-dark-creme",
     },
     {
         title: "Excellence",
