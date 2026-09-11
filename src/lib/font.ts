@@ -16,3 +16,12 @@ export const Cantonese = Noto_Sans_HK({
     subsets: ["latin"],
     weight: ["400", "500", "600", "700"],
 });
+
+export const TimesNewRomanCondensed = {
+    className: "font-times-condensed",
+    style: {
+        fontFamily:
+            '"Times New Roman Condensed", "Times New Roman", Times, Georgia, serif',
+        fontStretch: "condensed" as const,
+    },
+};

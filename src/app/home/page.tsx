@@ -6,6 +6,10 @@ import Footer from "@/components/footer";
 import Hero from "@/components/hero";
 import AboutUs from "@/components/aboutUs";
 import EventCard from "@/components/eventCard";
+import Values from "@/components/values";
+import ActivityGallery from "@/components/activityGallery";
+import JoinCTA from "@/components/joinCta";
+import AboutUsV2 from "@/components/aboutUsV2";
 
 interface Event {
     id: number;
@@ -53,51 +57,18 @@ export default function HomePage() {
                 </div>
             </div>
 
-            {/* Content wrapper - overlays footer, with bottom padding for reveal */}
-            <div className="relative z-20  min-h-screen">
+            {/* Content wrapper - overlays footer */}
+            <div className="relative z-20 bg-white">
                 <Hero />
 
                 <AboutUs />
+                <AboutUsV2 />
 
-                {/* Latest Events Section */}
-                {latestEvents.length > 0 && (
-                    <section className="py-8 sm:py-12 md:py-16 lg:py-20 max-h-screen flex items-center justify-center">
-                        <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8 w-full">
-                            <div className="text-center mb-8 sm:mb-12 md:mb-16">
-                                <h2
-                                    className={`text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 mb-6 sm:mb-8 md:mb-12`}
-                                >
-                                    {latestEvents.length === 1 ? "Latest Event" : "Latest Events"}
-                                </h2>
-                                <div className={`grid gap-6 ${latestEvents.length === 1 ? 'max-w-md mx-auto' : latestEvents.length === 2 ? 'md:grid-cols-2 max-w-3xl mx-auto' : 'md:grid-cols-2 lg:grid-cols-3'}`}>
-                                    {latestEvents.map((event) => (
-                                        <div
-                                            key={event.id}
-                                            onClick={() => handleEventClick(event.id)}
-                                            className="bg-white rounded-lg shadow-md border border-gray-200 p-6 hover:shadow-lg transition-all duration-300 cursor-pointer hover:border-normal-maroon/40 transform hover:-translate-y-1"
-                                        >
-                                            <h3 className="text-lg font-semibold text-gray-900 mb-3 line-clamp-2">
-                                                {event.name}
-                                            </h3>
-                                            <p className="text-sm text-gray-600 mb-3">
-                                                📅 {formatEventDate(event.event_date)}
-                                            </p>
-                                            <div className="flex items-center justify-center">
-                                                <span className="text-normal-maroon text-sm font-medium hover:text-dark-maroon">
-                                                    View Details →
-                                                </span>
-                                            </div>
-                                        </div>
-                                    ))}
-                                </div>
-                                
-                            </div>
-                        </div>
-                    </section>
-                )}
+                <ActivityGallery />
 
                 {/* Spacer to reveal footer - transparent margin at bottom */}
-                <div className="h-[45vh] w-full bg-transparent" />
+                {/* Adjust height based on footer size, or use a roughly adequate height */}
+                <div className="h-[50vh] w-full bg-transparent pointer-events-none" />
             </div>
         </>
     );
