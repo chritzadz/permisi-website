@@ -7,6 +7,7 @@ import { ArrowLeft, Eye, PlusCircle } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
 import LoadingSpinner from "@/components/loadingSpinner";
+import { DisplayBebasNeue } from "@/lib/font";
 import CreateFormInputModal from '@/components/modals/CreateFormInputModal';
 import { apiFetch } from '@/lib/apiFetch';
 
@@ -138,7 +139,9 @@ const FormPage = ({ params }: FormPageProp) => {
 							<ArrowLeft size={16} />
 							Custom Form
 						</button>
-						<h1 className="text-4xl sm:text-5xl font-bold text-normal-maroon mt-3">{formNameParse}</h1>
+						<h1 className={`${DisplayBebasNeue.className} text-4xl sm:text-5xl tracking-wide text-normal-maroon mt-3 leading-none`}>
+							{formNameParse}
+						</h1>
 						<div className="mt-3 h-1 w-16 bg-normal-maroon" />
 						{description && (
 							<p className="text-gray-600 mt-4 max-w-2xl">{description}</p>

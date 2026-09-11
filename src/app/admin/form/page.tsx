@@ -10,6 +10,7 @@ import CreateFormModal from "@/components/modals/CreateFormModal";
 import EditFormModal from "@/components/modals/EditFormModal";
 import InfoModal from "@/components/modals/InfoModal";
 import { apiFetch } from "@/lib/apiFetch";
+import { DisplayBebasNeue } from "@/lib/font";
 
 const AdminFormPage = () => {
     const router = useRouter();
@@ -190,31 +191,43 @@ const AdminFormPage = () => {
 
     return(
             <div className="h-screen relative flex flex-col px-[30px] py-5">
-                        <div className="flex items-center gap-3 mb-2">
-                            <h1 className="text-4xl sm:text-5xl font-bold text-normal-maroon">Custom Form</h1>
+                        <div className="flex items-center gap-3">
+                            <h1 className={`${DisplayBebasNeue.className} text-4xl sm:text-5xl tracking-wide text-normal-maroon leading-none`}>Custom Form</h1>
                             <button
                                 onClick={handleInfoClick}
                                 className="p-2 hover:bg-normal-creme rounded-full transition-colors"
                                 title="How to create a form"
                             >
-                                <Info size={24} className="text-normal-maroon" />
+                                <Info size={22} className="text-normal-maroon" />
                             </button>
                         </div>
+                        <div className="h-1 w-16 bg-normal-maroon mt-3" />
+                        <p className="text-sm text-gray-500 mt-3">
+                            Create and manage registration forms — responses land straight in your Google Sheet.
+                        </p>
                         <Button onClick={handleCreateFormClick} text="Create Form" icon={<Plus size={20} />} />
                         <div className="flex flex-col w-full border border-normal-maroon/15 bg-normal-creme/50 rounded-xl flex-1 overflow-hidden">
-                            <div className="py-4 px-5 flex flex-row items-center justify-between gap-3">
+                            <div className="py-4 px-5 flex flex-row items-center justify-between gap-3 border-b border-normal-maroon/10">
                                 <p className="text-xs text-gray-500 uppercase tracking-wider whitespace-nowrap">
                                     {totalCount} form{totalCount === 1 ? "" : "s"}
                                 </p>
-                                <div className="px-2 bg-white w-full max-w-xs min-w-[120px] rounded-full border border-normal-maroon/30 flex flex-row justify-center items-center gap-1">
-                                    <Search color={"#831515"}></Search>
+                                <div className="relative w-full max-w-xs min-w-[140px]">
+                                    <Search
+                                        size={16}
+                                        className="absolute left-3 top-1/2 -translate-y-1/2 text-normal-maroon pointer-events-none"
+                                    />
                                     <input
                                         type="text"
-                                        placeholder="e.g. PJJY 2025"
-                                        className="p-1 focus:border-0 focus:outline-none w-full bg-transparent"
+                                        placeholder="Search forms, e.g. PJJY 2025"
+                                        className="w-full pl-9 pr-9 py-2 text-sm bg-white rounded-full border border-normal-maroon/30 outline-none transition-all focus:border-normal-maroon focus:ring-2 focus:ring-normal-maroon/20 placeholder:text-gray-400"
                                         value={searchQuery}
                                         onChange={handleSearchChange}
                                     />
+                                    {isLoadingForm && searchQuery !== "" && (
+                                        <div className="absolute right-3 top-1/2 -translate-y-1/2">
+                                            <LoadingSpinner size={14} />
+                                        </div>
+                                    )}
                                 </div>
                             </div>
                             <div className="flex-1 overflow-y-auto pb-4">
