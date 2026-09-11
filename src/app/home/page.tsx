@@ -4,7 +4,6 @@ import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Footer from "@/components/footer";
 import Hero from "@/components/hero";
-import AboutUs from "@/components/aboutUs";
 import EventCard from "@/components/eventCard";
 import Values from "@/components/values";
 import ActivityGallery from "@/components/activityGallery";
@@ -61,7 +60,6 @@ export default function HomePage() {
             <div className="relative z-20 bg-white">
                 <Hero />
 
-                <AboutUs />
                 <AboutUsV2 />
 
                 <ActivityGallery />
