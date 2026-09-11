@@ -18,6 +18,7 @@ export function Navbar() {
     const lastScrollYRef = useRef(0);
     const [hoveredItem, setHoveredItem] = useState<string | null>(null);
     const popoverRef = useRef<HTMLDivElement>(null);
+    const hoverTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
     useEffect(() => {
         const controlNavbar = () => {
@@ -47,7 +48,7 @@ export function Navbar() {
 
     const navItems = [
         { name: "Home", href: "/" },
-        { name: "About Us", href: "/about" },
+        { name: "About Us", href: "/about-us" },
         { name: "Events", href: "/events" },
         { name: "Resources", href: "/resources" },
     ];
@@ -77,6 +78,19 @@ export function Navbar() {
             description:
                 "Access helpful resources, academic support, and information for Indonesian students",
         },
+    };
+
+    const handleMouseEnter = (itemName: string) => {
+        if (hoverTimeoutRef.current) {
+            clearTimeout(hoverTimeoutRef.current);
+        }
+        setHoveredItem(itemName);
+    };
+
+    const handleMouseLeave = () => {
+        hoverTimeoutRef.current = setTimeout(() => {
+            setHoveredItem(null);
+        }, 150);
     };
 
     // Track mouse position for cursor following (horizontal only)
@@ -113,8 +127,9 @@ export function Navbar() {
                 gsap.to(popoverRef.current, {
                     x: targetX,
                     y: fixedY,
-                    duration: 0.3,
+                    duration: 0.1,
                     ease: "power2.out",
+                    overwrite: "auto",
                 });
             }
         };
@@ -129,24 +144,29 @@ export function Navbar() {
             if (hoveredItem) {
                 // Initialize position - fixed vertical level
                 const fixedY = 100; // Same as in handleMouseMove
-                gsap.set(popoverRef.current, {
-                    x: 0,
-                    y: fixedY,
-                    opacity: 0,
-                    scale: 0.8,
-                });
+
+                // Only scale up if it's coming from a completely hidden state
+                if (gsap.getProperty(popoverRef.current, "opacity") === 0) {
+                    gsap.set(popoverRef.current, {
+                        y: fixedY,
+                        scale: 0.95,
+                    });
+                }
+
                 gsap.to(popoverRef.current, {
                     opacity: 1,
                     scale: 1,
                     duration: 0.2,
                     ease: "power2.out",
+                    overwrite: "auto",
                 });
             } else {
                 gsap.to(popoverRef.current, {
                     opacity: 0,
-                    scale: 0.8,
+                    scale: 0.95,
                     duration: 0.15,
                     ease: "power2.in",
+                    overwrite: "auto",
                 });
             }
         }
@@ -180,8 +200,8 @@ export function Navbar() {
                                 key={item.name}
                                 href={item.href}
                                 className="text-normal-maroon hover:text-normal-maroon px-3 py-2 text-sm font-medium transition-colors duration-200 relative group"
-                                onMouseEnter={() => setHoveredItem(item.name)}
-                                onMouseLeave={() => setHoveredItem(null)}
+                                onMouseEnter={() => handleMouseEnter(item.name)}
+                                onMouseLeave={handleMouseLeave}
                             >
                                 {item.name}
                                 <span className="absolute bottom-0 left-3 right-3 h-0.5 bg-normal-maroon transform scale-x-0 group-hover:scale-x-100 transition-transform duration-200"></span>

@@ -344,11 +344,13 @@ export default function Hero() {
             >
                 <span
                     ref={subtitleRef}
-                    className={`${subtitles[currentSubtitleIndex].font.className} absolute font-bold text-white text-sm sm:text-lg md:text-xl lg:text-2xl xl:text-3xl leading-relaxed tracking-wide px-4 whitespace-nowrap`}
+                    className={`${subtitles[currentSubtitleIndex].font.className} absolute font-light text-white/90 text-xs sm:text-sm md:text-base lg:text-lg tracking-[0.3em] uppercase whitespace-nowrap`}
                     style={{
                         transformStyle: "preserve-3d",
                         left: "50%",
                         top: "50%",
+                        textShadow:
+                            "0 4px 12px rgba(0,0,0,0.8), 0 1px 3px rgba(0,0,0,0.8)",
                     }}
                 >
                     {subtitles[currentSubtitleIndex].text}
