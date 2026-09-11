@@ -1,24 +1,36 @@
 import { ReactNode } from "react";
+import { cn } from "@/lib/utils";
 
 interface ButtonProps {
-    onClick: () => void;
+    onClick?: () => void;
     text?: string;
     icon?: ReactNode;
     size?: "sm" | "md" | "lg";
+    variant?: "default" | "outline";
     children?: ReactNode;
     className?: string;
 }
 
-export default function Button({ onClick, text, icon, size="md", children, className="" }: ButtonProps) {
+export function Button({ onClick, text, icon, size = "md", variant = "default", children, className = "" }: ButtonProps) {
     let paddingClass = "p-2";
-    if(size === "sm"){
+    if (size === "sm") {
         paddingClass = "p-1 text-sm";
-    }else if(size === "lg"){
+    } else if (size === "lg") {
         paddingClass = "p-3 text-lg";
     }
 
     return (
-        <div className={`${paddingClass} ${className} font-bold bg-normal-maroon hover:bg-dark-maroon transition-all duration-300 rounded-sm w-fit text-normal-creme flex flex-row gap-1 items-center justify-center my-5 cursor-pointer select-none`} onClick={onClick}>
+        <div
+            onClick={onClick}
+            className={cn(
+                paddingClass,
+                "font-bold rounded-sm w-fit flex flex-row gap-1 items-center justify-center my-5 cursor-pointer select-none transition-all duration-300",
+                variant === "default"
+                    ? "bg-normal-maroon hover:bg-dark-maroon text-normal-creme"
+                    : "bg-transparent border border-normal-maroon text-normal-maroon hover:bg-normal-creme",
+                className,
+            )}
+        >
             {children ? children : (
                 <>
                     {icon}
@@ -28,3 +40,5 @@ export default function Button({ onClick, text, icon, size="md", children, class
         </div>
     )
 }
+
+export default Button;

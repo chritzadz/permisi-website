@@ -36,7 +36,7 @@ export const useAdminLogin = () => {
         return { success: true };
       }
 
-      return { success: false, message: "Network Error" };
+      return { success: false, message: data.message || "Invalid credentials" };
     } catch {
       return { success: false, message: "Network Error" };
     }

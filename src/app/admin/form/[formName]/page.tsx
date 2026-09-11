@@ -3,19 +3,19 @@ import { FormPageProp } from '@/components/properties/FormPageProp.ts';
 import FormInputEditFactory from '@/factory/FormInputEditFactory';
 import { FormInputModel } from '@/model/formInputModel/FormInputModel';
 import { Form } from '@/model/formInputModel/Form';
-import { Eye, PlusCircle } from 'lucide-react';
+import { ArrowLeft, Eye, PlusCircle } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
-import ClimbingBoxLoader from 'react-spinners/ClimbingBoxLoader';
+import LoadingSpinner from "@/components/loadingSpinner";
+import { DisplayBebasNeue } from "@/lib/font";
 import CreateFormInputModal from '@/components/modals/CreateFormInputModal';
+import { apiFetch } from '@/lib/apiFetch';
 
 /**
  * fetch all of form existing components
  * put it in a react component accordingly
  * and yeah figure out how to edit...
- *  
  */
-
 
 const FormPage = ({ params }: FormPageProp) => {
 	const router = useRouter();
@@ -31,15 +31,12 @@ const FormPage = ({ params }: FormPageProp) => {
 
 	const onFormInputDelete = (id: number) => {
 		const fetchFormComponents = async () => {
-			const response = await fetch(`/api/formInputs`, {
+			const response = await apiFetch(`/api/formInputs`, {
 				method: 'DELETE',
 				body: JSON.stringify({
 					id: id,
 					form_name: formNameParse
 				}),
-				headers: {
-					'Content-Type': 'application/json',
-				}
 			});
 			const data = await response.json();
 			setFormInputs(data.data as FormInputModel[])
@@ -64,7 +61,7 @@ const FormPage = ({ params }: FormPageProp) => {
 		if (newFormInputType === "" || newFormInputType === "Please select from input type" || newQuestion === "") {
 			//no suybmit
 		} else{
-			const response = await fetch(`/api/formInputs`, {
+			const response = await apiFetch(`/api/formInputs`, {
 				method: 'POST',
 				body: JSON.stringify({
 					form_input: {
@@ -74,9 +71,6 @@ const FormPage = ({ params }: FormPageProp) => {
 						question: newQuestion
 					}
 				}),
-				headers: {
-					'Content-Type': 'application/json',
-				}
 			});
 			const data = await response.json();
 			setFormInputs(data.data as FormInputModel[])
@@ -89,14 +83,12 @@ const FormPage = ({ params }: FormPageProp) => {
 	useEffect(() => {
 		const fetchAllData = async () => {
 			try {
-				const componentsPromise = fetch(`/api/formInputs?formid=${formName}`, {
+				const componentsPromise = apiFetch(`/api/formInputs?formid=${formName}`, {
 					method: 'GET',
-					headers: { 'Content-Type': 'application/json' }
 				});
 
-				const detailsPromise = fetch(`/api/forms?name=${encodeURIComponent(formNameParse)}`, {
+				const detailsPromise = apiFetch(`/api/forms?name=${encodeURIComponent(formNameParse)}`, {
 					method: 'GET',
-					headers: { 'Content-Type': 'application/json' }
 				});
 
 				const [componentsResponse, detailsResponse] = await Promise.all([componentsPromise, detailsPromise]);
@@ -130,7 +122,7 @@ const FormPage = ({ params }: FormPageProp) => {
 	if (isLoading) {
 		return (
 			<div className="w-full h-screen flex justify-center items-center">
-				<ClimbingBoxLoader size={15} color={"#670a0a"}></ClimbingBoxLoader>
+				<LoadingSpinner size={36} />
 			</div>
 		)
 	}
@@ -138,19 +130,34 @@ const FormPage = ({ params }: FormPageProp) => {
 
 	return (
 			<div onClick={() => setSelectedFormInput(-1)}>
-				<div className="w-full justify-center items-center p-5 flex flex-col">
-					<div className="text-center mb-6">
-						<h1 className="text-3xl font-bold text-normal-maroon">{formNameParse}</h1>
+				<div className="w-full p-5 sm:p-10 flex flex-col">
+					<div className="max-w-3xl w-full mx-auto mb-6">
+						<button
+							onClick={() => router.push('/admin/form')}
+							className="inline-flex items-center gap-2 text-sm text-normal-maroon hover:text-dark-maroon transition-colors"
+						>
+							<ArrowLeft size={16} />
+							Custom Form
+						</button>
+						<h1 className={`${DisplayBebasNeue.className} text-4xl sm:text-5xl tracking-wide text-normal-maroon mt-3 leading-none`}>
+							{formNameParse}
+						</h1>
+						<div className="mt-3 h-1 w-16 bg-normal-maroon" />
 						{description && (
-							<p className="text-gray-600 mt-2 max-w-2xl">{description}</p>
+							<p className="text-gray-600 mt-4 max-w-2xl">{description}</p>
 						)}
+						<p className="text-sm text-gray-500 mt-2">
+							{formInputs.length === 0
+								? "No questions yet — add one with the + button."
+								: `${formInputs.length} question${formInputs.length === 1 ? "" : "s"}`}
+						</p>
 					</div>
-					<div className="w-full h-screen my-5 flex flex-col rounded-2xl">
+					<div className="max-w-3xl w-full mx-auto my-5 flex flex-col rounded-2xl">
 						{
-							formInputs.map((formInput) => (
+							formInputs.map((formInput, index) => (
 								<div className="w-full text-md" key={formInput.id}>
 									{
-										FormInputEditFactory.getFormInput(formInput, onFormInputDelete, selectedFormInput, setSelectedFormInput)
+										FormInputEditFactory.getFormInput(formInput, onFormInputDelete, selectedFormInput, setSelectedFormInput, index)
 									}
 								</div>
 							))

@@ -4,8 +4,8 @@ import { NextResponse } from 'next/server';
 export async function GET() {
   try {
     const result = await pool.query('SELECT NOW()');
-    return NextResponse.json({ 
-        status: 'ok', 
+    return NextResponse.json({
+        status: 'ok',
         time: result.rows[0].now,
         env: {
             hasNetlifyUrl: !!process.env.NETLIFY_DATABASE_URL,

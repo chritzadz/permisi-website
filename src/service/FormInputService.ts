@@ -34,6 +34,10 @@ export class FormInputService{
         return await this.optionsRepository.deleteOptions(id);
     }
 
+    public async replaceOptions(id: number, options: string[]){
+        return await this.optionsRepository.replaceOptions(id, options);
+    }
+
     public async postFormInput(newFormInput: FormInputModel) {
         return await this.repository.post(newFormInput);
     }

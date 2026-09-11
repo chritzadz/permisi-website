@@ -3,29 +3,25 @@
 import { useEffect, useState } from "react";
 import { FormInputOptionBoxProp } from "./properties/FormInputOptionBoxProp";
 import { Option } from "@/model/formInputModel/Option";
+import { apiFetch } from "@/lib/apiFetch";
 
-export default function FormInputOptionBox({type, id, question, value, onChange}: FormInputOptionBoxProp) {
-    console.log(type + value);
+export default function FormInputOptionBox({id, question, value, onChange}: FormInputOptionBoxProp) {
     const [options, setOptions] = useState<Option[]>([]);
 
     useEffect(() => {
         const fetchOptions = async () => {
-            const response = await fetch(`/api/options?forminputid=${id}`, {
+            const response = await apiFetch(`/api/options?forminputid=${id}`, {
                 method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json',
-                }
             });
             const data = await response.json();
-            console.log(data.data as Option[]);
             setOptions(data.data as Option[]);
         };
         fetchOptions();
     }, [id])
 
     return (
-        <div className="w-full bg-white p-6 rounded-xl shadow-sm border border-gray-200 mb-4">
-            <label className="block text-lg font-medium text-gray-800 mb-4 ml-1">{question}</label>
+        <div className="w-full bg-white p-6 rounded-xl shadow-sm border border-normal-maroon/15">
+            <label className="block text-lg font-medium text-gray-900 mb-4 ml-1">{question}</label>
             <div className="flex flex-col gap-3">
                 {
                     options.map((option, index) => (

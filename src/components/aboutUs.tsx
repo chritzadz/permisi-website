@@ -73,7 +73,7 @@ export default function AboutUs() {
             className="max-h-screen w-full bg-white flex flex-col md:flex-row"
             ref={whoAreWeRef}
         >
-            <section className="hidden md:block md:w-1/2 lg:w-1/2 bg-blue-300 relative overflow-hidden">
+            <section className="hidden md:block md:w-1/2 lg:w-1/2 bg-normal-creme relative overflow-hidden">
                 <div className="flex flex-col h-[300%]" ref={whoAreWeImageRef}>
                     <div className="h-1/6 w-full">
                         <Image
