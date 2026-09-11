@@ -85,7 +85,7 @@ export default function EventDetailPage() {
         return (
             <div className="relative min-h-screen">
                 <div className="flex justify-center items-center py-20">
-                    <ClimbingBoxLoader size={10} color="#3B82F6" />
+                    <ClimbingBoxLoader size={10} color="#831515" />
                 </div>
                 <Footer />
             </div>
@@ -102,7 +102,7 @@ export default function EventDetailPage() {
                             <p className="text-gray-600 mb-8">{error}</p>
                             <button
                                 onClick={handleBack}
-                                className="inline-flex items-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors duration-300"
+                                className="inline-flex items-center px-4 py-2 bg-normal-maroon text-white rounded-lg hover:bg-dark-maroon transition-colors duration-300"
                             >
                                 <ArrowLeft className="w-4 h-4 mr-2" />
                                 Go Back
@@ -126,7 +126,7 @@ export default function EventDetailPage() {
                         {/* Back Button */}
                         <button
                             onClick={handleBack}
-                            className="inline-flex items-center text-blue-600 hover:text-blue-800 mb-6 transition-colors duration-300"
+                            className="inline-flex items-center text-normal-maroon hover:text-dark-maroon mb-6 transition-colors duration-300"
                         >
                             <ArrowLeft className="w-4 h-4 mr-2" />
                             Back to Events
@@ -134,7 +134,7 @@ export default function EventDetailPage() {
 
                         {/* Event Header */}
                         <div className="bg-white rounded-lg shadow-lg border border-gray-200 overflow-hidden mb-8">
-                            <div className="bg-gradient-to-r from-blue-600 to-purple-600 text-white p-8">
+                            <div className="bg-gradient-to-r from-normal-maroon to-dark-maroon text-white p-8">
                                 <h1 className="text-3xl md:text-4xl font-bold mb-4">{event.name}</h1>
                                 <div className="flex flex-col sm:flex-row sm:items-center gap-4">
                                     <div className="flex items-center">
@@ -158,7 +158,7 @@ export default function EventDetailPage() {
                 <div className="p-6 bg-gray-50 border-b">
                     <button
                         onClick={handleRegister}
-                        className="w-full sm:w-auto inline-flex items-center justify-center px-6 py-3 bg-green-600 text-white font-semibold rounded-lg hover:bg-green-700 transition-colors duration-300"
+                        className="w-full sm:w-auto inline-flex items-center justify-center px-6 py-3 bg-normal-creme text-normal-maroon font-semibold rounded-lg hover:bg-dark-creme transition-colors duration-300"
                     >
                         <ExternalLink className="w-4 h-4 mr-2" />
                         {event.form_link ? 'Fill Registration Form' : 'Register for Event'}
@@ -218,8 +218,8 @@ export default function EventDetailPage() {
                         <div className="mt-8 text-center">
                             <p className="text-gray-600">
                                 Questions about this event? Contact us at{' '}
-                                <a href="mailto:contact@permisihk.org" className="text-blue-600 hover:text-blue-800">
-                                    contact@permisihk.org
+                                <a href="mailto:permisi.hk@gmail.com" className="text-normal-maroon hover:text-dark-maroon">
+                                    permisi.hk@gmail.com
                                 </a>
                             </p>
                         </div>

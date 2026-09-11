@@ -114,7 +114,7 @@ export default function EventsPage() {
                                         <input
                                             type="text"
                                             placeholder="Search events..."
-                                            className="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md leading-5 bg-white placeholder-gray-500 focus:outline-none focus:placeholder-gray-400 focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
+                                            className="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md leading-5 bg-white placeholder-gray-500 focus:outline-none focus:placeholder-gray-400 focus:ring-1 focus:ring-normal-maroon focus:border-normal-maroon"
                                             value={searchQuery}
                                             onChange={handleSearchChange}
                                         />
@@ -127,7 +127,7 @@ export default function EventsPage() {
                         <section className="mb-8">
                             {isLoading ? (
                                 <div className="flex justify-center py-12">
-                                    <ClimbingBoxLoader size={10} color="#3B82F6" />
+                                    <ClimbingBoxLoader size={10} color="#831515" />
                                 </div>
                             ) : (
                                 <>
@@ -137,11 +137,11 @@ export default function EventsPage() {
                                                 <div
                                                     key={event.id}
                                                     onClick={() => handleEventClick(event.id)}
-                                                    className="bg-white rounded-lg shadow-md border border-gray-200 p-6 hover:shadow-lg transition-all duration-300 cursor-pointer hover:border-blue-300"
+                                                    className="bg-white rounded-lg shadow-md border border-gray-200 p-6 hover:shadow-lg transition-all duration-300 cursor-pointer hover:border-normal-maroon/40"
                                                 >
                                                     <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between">
                                                         <div className="flex-1">
-                                                            <h3 className="text-lg font-semibold text-gray-900 mb-2 group-hover:text-blue-600">
+                                                            <h3 className="text-lg font-semibold text-gray-900 mb-2 group-hover:text-normal-maroon">
                                                                 {event.name}
                                                             </h3>
                                                             <p className="text-sm text-gray-600">
@@ -164,7 +164,7 @@ export default function EventsPage() {
                                                         Try adjusting your search terms or{' '}
                                                         <button
                                                             onClick={() => setSearchQuery('')}
-                                                            className="text-blue-600 underline hover:text-blue-800"
+                                                            className="text-normal-maroon underline hover:text-dark-maroon"
                                                         >
                                                             clear search
                                                         </button>
@@ -180,7 +180,7 @@ export default function EventsPage() {
                                             <button
                                                 onClick={() => handlePageChange(currentPage - 1)}
                                                 disabled={currentPage === 1}
-                                                className="px-4 py-2 bg-blue-600 text-white rounded-lg disabled:opacity-50 disabled:cursor-not-allowed hover:bg-blue-700 transition-colors duration-300"
+                                                className="px-4 py-2 bg-normal-maroon text-white rounded-lg disabled:opacity-50 disabled:cursor-not-allowed hover:bg-dark-maroon transition-colors duration-300"
                                             >
                                                 Previous
                                             </button>
@@ -204,7 +204,7 @@ export default function EventsPage() {
                                                             onClick={() => handlePageChange(page)}
                                                             className={`px-3 py-2 rounded-lg transition-colors duration-300 ${
                                                                 currentPage === page
-                                                                    ? 'bg-blue-600 text-white'
+                                                                    ? 'bg-normal-maroon text-white'
                                                                     : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
                                                             }`}
                                                         >
@@ -217,7 +217,7 @@ export default function EventsPage() {
                                             <button
                                                 onClick={() => handlePageChange(currentPage + 1)}
                                                 disabled={currentPage === pagination.totalPages}
-                                                className="px-4 py-2 bg-blue-600 text-white rounded-lg disabled:opacity-50 disabled:cursor-not-allowed hover:bg-blue-700 transition-colors duration-300"
+                                                className="px-4 py-2 bg-normal-maroon text-white rounded-lg disabled:opacity-50 disabled:cursor-not-allowed hover:bg-dark-maroon transition-colors duration-300"
                                             >
                                                 Next
                                             </button>

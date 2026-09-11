@@ -74,7 +74,7 @@ export default function HomePage() {
                                         <div
                                             key={event.id}
                                             onClick={() => handleEventClick(event.id)}
-                                            className="bg-white rounded-lg shadow-md border border-gray-200 p-6 hover:shadow-lg transition-all duration-300 cursor-pointer hover:border-blue-300 transform hover:-translate-y-1"
+                                            className="bg-white rounded-lg shadow-md border border-gray-200 p-6 hover:shadow-lg transition-all duration-300 cursor-pointer hover:border-normal-maroon/40 transform hover:-translate-y-1"
                                         >
                                             <h3 className="text-lg font-semibold text-gray-900 mb-3 line-clamp-2">
                                                 {event.name}
@@ -83,7 +83,7 @@ export default function HomePage() {
                                                 📅 {formatEventDate(event.event_date)}
                                             </p>
                                             <div className="flex items-center justify-center">
-                                                <span className="text-blue-600 text-sm font-medium hover:text-blue-800">
+                                                <span className="text-normal-maroon text-sm font-medium hover:text-dark-maroon">
                                                     View Details →
                                                 </span>
                                             </div>
