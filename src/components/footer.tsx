@@ -4,7 +4,8 @@ import { DisplayBebasNeue } from "@/lib/font";
 
 export default function Footer() {
     const quickLinks = [
-        { name: "About Us", href: "/about" },
+        { name: "Home", href: "/home" },
+        { name: "About Us", href: "/about-us" },
         { name: "Events", href: "/events" },
         { name: "Resources", href: "/resources" },
     ];
@@ -13,7 +14,7 @@ export default function Footer() {
         {
             name: "Instagram",
             icon: Instagram,
-            href: "https://www.instagram.com/permisi.hk/",
+            href: "https://www.instagram.com/permisi.hk/?hl=en",
         },
         {
             name: "YouTube",
@@ -23,7 +24,7 @@ export default function Footer() {
         {
             name: "LinkedIn",
             icon: Linkedin,
-            href: "https://www.linkedin.com/company/permisi-hk/",
+            href: "https://linkedin.com/search/results/all/?keywords=Persatuan%20Mahasiswa%20Indonesia&origin=GLOBAL_SEARCH_HEADER",
         },
     ];
 
@@ -74,6 +75,8 @@ export default function Footer() {
                                         <a
                                             key={social.name}
                                             href={social.href}
+                                            target="_blank"
+                                            rel="noopener noreferrer"
                                             className="w-10 h-10 bg-gray-100 text-black rounded-lg flex items-center justify-center hover:bg-red-900 hover:text-white transition-colors duration-200"
                                             aria-label={social.name}
                                         >
