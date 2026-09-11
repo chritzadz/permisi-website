@@ -32,7 +32,7 @@ pipes submissions into Google Sheets, an events manager, and a member roster.
 | UI primitives  | shadcn-style components in `src/components/ui/`           |
 | Icons          | `lucide-react`                                            |
 | Data           | Neon Postgres via `pg` · Google Sheets API                |
-| Auth           | JWT session cookie (admin UI) + shared API key (mutations)|
+| Auth           | JWT `admin-token` session cookie (protects all admin/UI API mutations) |
 | Deploy         | Netlify (`@netlify/plugin-nextjs`)                         |
 
 ## Getting started
@@ -64,9 +64,7 @@ browser; everything else stays server-side.
 | `NETLIFY_DATABASE_URL` / `DATABASE_URL` | Postgres connection string (first one wins) |
 | `ADMIN_USERNAME`             | Admin login username                                 |
 | `ADMIN_PASSWORD`             | Admin login password                                 |
-| `JWT_SECRET`                 | Signs the `admin-token` cookie (falls back to a dev default) |
-| `API_SECRET_KEY`             | Server-side value checked against the `x-api-key` header on mutating routes |
-| `NEXT_PUBLIC_API_KEY`        | Client value sent as `x-api-key` (must equal `API_SECRET_KEY`) |
+| `JWT_SECRET`                 | Signs/verifies the `admin-token` session cookie — **required in production** (admin auth fails closed without it; a dev-only fallback exists) |
 | `GOOGLE_PRIVATE_KEY_ID`      | Service-account key id                               |
 | `GOOGLE_PRIVATE_KEY`         | Service-account private key (`\n`-escaped)           |
 | `GOOGLE_CLIENT_EMAIL`        | Service-account email — **share each target Sheet with it** |
@@ -139,14 +137,13 @@ into `events.form_link` so the public event page can deep-link the registration.
 - **Admin UI**: `POST /api/admin/auth` sets an `HttpOnly` `admin-token` JWT
   cookie; `adminLoginGuard` + `/api/admin/validate` gate every `/admin/*` route
   (bare `/admin` redirects to login).
-- **Mutating API routes**: expect an `x-api-key` header equal to
-  `API_SECRET_KEY` (`validateApiKey` in `src/lib/apiAuth`). Reads
-  (`GET /api/events|forms|formInputs|options|members`) are public.
-
-> ⚠️ **Known limitation to keep in mind:** the write-guard key is shipped to the
-> browser as `NEXT_PUBLIC_API_KEY`, so it’s an abuse deterrent, not a secret.
-> The proper follow-up is to validate the admin JWT cookie on mutating routes
-> too. See “open work” in `AGENTS.md` / issues.
+- **Mutating API routes**: must carry the `admin-token` session cookie set at
+  `/admin/login`, verified with `JWT_SECRET` and checked for `role: "admin"`
+  (`requireAdminSession` in `src/lib/apiAuth.ts`), plus a same-origin
+  `Origin`/`Referer` check as CSRF defense. On a `401` the admin client
+  (`apiFetch`) redirects to `/admin/login`. Reads
+  (`GET /api/events|forms|formInputs|options|members`) and form submissions
+  (`POST /api/sheets`) stay public.
 
 ## Database
 

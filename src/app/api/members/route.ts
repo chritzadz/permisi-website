@@ -1,6 +1,6 @@
 import { Member } from "@/model/Member";
 import { MembersService } from "@/service/MembersService";
-import { validateApiKey, unauthorizedResponse } from "@/lib/apiAuth";
+import { requireAdminSession } from "@/lib/apiAuth";
 
 const MAX_NAME_LENGTH = 100;
 const MAX_ROLE_LENGTH = 100;
@@ -30,9 +30,9 @@ export async function GET() {
 }
 
 export async function POST(request: Request) {
-    const apiKeyValidation = validateApiKey(request);
-    if (!apiKeyValidation.isValid) {
-        return unauthorizedResponse(apiKeyValidation.error);
+    const denied = requireAdminSession(request);
+    if (denied) {
+        return denied;
     }
 
     try {
@@ -81,9 +81,9 @@ export async function POST(request: Request) {
 }
 
 export async function DELETE(request: Request) {
-    const apiKeyValidation = validateApiKey(request);
-    if (!apiKeyValidation.isValid) {
-        return unauthorizedResponse(apiKeyValidation.error);
+    const denied = requireAdminSession(request);
+    if (denied) {
+        return denied;
     }
 
     try {

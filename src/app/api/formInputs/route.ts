@@ -1,6 +1,6 @@
 import { FormInputModel } from "@/model/formInputModel/FormInputModel";
 import { FormInputService } from "@/service/FormInputService";
-import { validateApiKey, unauthorizedResponse } from "@/lib/apiAuth";
+import { requireAdminSession } from "@/lib/apiAuth";
 
 export async function GET(request: Request) {
     // API key validation removed for GET to allow public access
@@ -40,10 +40,9 @@ export async function GET(request: Request) {
 }
 
 export async function PATCH(request: Request) {
-    const apiKeyValidation = validateApiKey(request);
-    if (!apiKeyValidation.isValid) {
-        console.warn("API key validation failed in /api/formInputs PATCH:", apiKeyValidation.error);
-        return unauthorizedResponse(apiKeyValidation.error);
+    const denied = requireAdminSession(request);
+    if (denied) {
+        return denied;
     }
 
     const service: FormInputService = new FormInputService();
@@ -63,10 +62,9 @@ export async function PATCH(request: Request) {
 }
 
 export async function POST(request: Request) {
-    const apiKeyValidation = validateApiKey(request);
-    if (!apiKeyValidation.isValid) {
-        console.warn("API key validation failed in /api/formInputs POST:", apiKeyValidation.error);
-        return unauthorizedResponse(apiKeyValidation.error);
+    const denied = requireAdminSession(request);
+    if (denied) {
+        return denied;
     }
 
     const service: FormInputService = new FormInputService();
@@ -85,10 +83,9 @@ export async function POST(request: Request) {
 }
 
 export async function DELETE(request: Request) {
-    const apiKeyValidation = validateApiKey(request);
-    if (!apiKeyValidation.isValid) {
-        console.warn("API key validation failed in /api/formInputs DELETE:", apiKeyValidation.error);
-        return unauthorizedResponse(apiKeyValidation.error);
+    const denied = requireAdminSession(request);
+    if (denied) {
+        return denied;
     }
 
     const service: FormInputService = new FormInputService();

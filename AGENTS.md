@@ -20,8 +20,14 @@ Verify with `npm run lint` and `npm run build` before committing.
 - Tailwind CSS v4 (configured in `src/app/globals.css` via `@theme` tokens — no tailwind.config)
 - GSAP (`gsap`, `@gsap/react`) for animations, `motion` also available
 - shadcn-style primitives in `src/components/ui/` (`card.tsx`, `button.tsx`)
-- `lucide-react` icons, `react-spinners` loaders
+- `lucide-react` icons; loading states use the maroon ring `LoadingSpinner`
+  (`src/components/loadingSpinner.tsx`) — `react-spinners` is no longer used
 - Neon Postgres (`src/db`), Google Sheets API (`src/service`), JWT admin auth
+- **Mutating `/api/*` routes require the `admin-token` session cookie** — guard
+  with `requireAdminSession(request)` from `src/lib/apiAuth.ts` (returns `null`
+  when allowed, else a ready 401/403/500 `Response`). Public reads
+  (`GET /api/events|forms|formInputs|options|members`) and `POST /api/sheets`
+  must stay key-free. Never reintroduce a browser-visible shared key for writes.
 
 ## Structure
 
