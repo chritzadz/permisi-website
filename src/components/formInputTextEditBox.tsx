@@ -67,7 +67,7 @@ export default function FormInputTextEditBox({type, question, id, onDelete, stat
                     
                     <div className="flex flex-row justify-end gap-2 pt-2 border-t border-gray-100 mt-2">
                         <button 
-                            className="p-2 text-gray-400 hover:text-red-600 hover:bg-red-50 rounded-full transition-colors"
+                            className="p-2 text-gray-400 hover:text-dark-maroon hover:bg-normal-creme rounded-full transition-colors"
                             onClick={onDelete}
                             title="Delete"
                         >

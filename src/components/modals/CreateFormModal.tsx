@@ -45,7 +45,7 @@ export default function CreateFormModal({
                         <h3 className="text-lg font-bold">Create New Form</h3>
                     </div>
                     {error && (
-                        <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-2 rounded mb-2 text-sm">
+                        <div className="bg-normal-creme border border-normal-maroon/30 text-dark-maroon px-4 py-2 rounded mb-2 text-sm">
                             {error}
                         </div>
                     )}

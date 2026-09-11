@@ -183,24 +183,24 @@ const AdminFormPage = () => {
     return(
             <div className="h-screen relative flex flex-col px-[30px] py-5">
                         <div className="flex items-center gap-3 mb-2">
-                            <h1 className="text-4xl font-bold">Custom Form</h1>
+                            <h1 className="text-4xl sm:text-5xl font-bold text-normal-maroon">Custom Form</h1>
                             <button
                                 onClick={handleInfoClick}
-                                className="p-2 hover:bg-gray-100 rounded-full transition-colors"
+                                className="p-2 hover:bg-normal-creme rounded-full transition-colors"
                                 title="How to create a form"
                             >
                                 <Info size={24} className="text-normal-maroon" />
                             </button>
                         </div>
                         <Button onClick={handleCreateFormClick} text="Create Form" icon={<Plus size={20} />} />
-                        <div className="flex flex-col w-full border-2 border-dark-maroon bg-normal-creme rounded-2xl flex-1 overflow-hidden">
+                        <div className="flex flex-col w-full border border-normal-maroon/15 bg-normal-creme/50 rounded-xl flex-1 overflow-hidden">
                             <div className="py-5 flex flex-row">
                                 <div className="w-1/2 p-3 items-center">
                                     
                                 </div>
                                 <div className="md:w-1/2 lg:w-1/2 sm:3/4 p-3 items-center justify-end flex">
-                                    <div className="px-2 bg-dark-creme w-full max-w-xs min-w-[120px] rounded-full border-2 border-dark-maroon flex flex-row justify-center items-center gap-1">
-                                        <Search color={"#670a0a"}></Search>
+                                    <div className="px-2 bg-white w-full max-w-xs min-w-[120px] rounded-full border border-normal-maroon/30 flex flex-row justify-center items-center gap-1">
+                                        <Search color={"#831515"}></Search>
                                         <input
                                             type="text"
                                             placeholder="e.g. PJJY 2025"
@@ -236,7 +236,7 @@ const AdminFormPage = () => {
                                                     <button
                                                         onClick={() => handlePageChange(currentPage - 1)}
                                                         disabled={currentPage === 1}
-                                                        className="px-4 py-2 bg-dark-maroon text-white rounded-lg disabled:opacity-50 disabled:cursor-not-allowed hover:bg-opacity-90"
+                                                        className="px-4 py-2 bg-normal-maroon text-normal-creme rounded-sm disabled:opacity-40 disabled:cursor-not-allowed hover:bg-dark-maroon transition-colors"
                                                     >
                                                         Previous
                                                     </button>
@@ -246,10 +246,10 @@ const AdminFormPage = () => {
                                                             <button
                                                                 key={page}
                                                                 onClick={() => handlePageChange(page)}
-                                                                className={`px-3 py-2 rounded-lg ${
+                                                                className={`px-3 py-2 rounded-sm transition-colors ${
                                                                     currentPage === page
-                                                                        ? 'bg-dark-maroon text-white'
-                                                                        : 'bg-dark-creme text-dark-maroon hover:bg-opacity-80'
+                                                                        ? 'bg-dark-maroon text-normal-creme'
+                                                                        : 'bg-white text-dark-maroon border border-normal-maroon/20 hover:bg-normal-creme'
                                                                 }`}
                                                             >
                                                                 {page}
@@ -260,7 +260,7 @@ const AdminFormPage = () => {
                                                     <button
                                                         onClick={() => handlePageChange(currentPage + 1)}
                                                         disabled={currentPage === totalPages}
-                                                        className="px-4 py-2 bg-dark-maroon text-white rounded-lg disabled:opacity-50 disabled:cursor-not-allowed hover:bg-opacity-90"
+                                                        className="px-4 py-2 bg-normal-maroon text-normal-creme rounded-sm disabled:opacity-40 disabled:cursor-not-allowed hover:bg-dark-maroon transition-colors"
                                                     >
                                                         Next
                                                     </button>

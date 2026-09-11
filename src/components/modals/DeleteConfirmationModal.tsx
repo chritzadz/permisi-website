@@ -40,7 +40,7 @@ export default function DeleteConfirmationModal({
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm cursor-default" onClick={handleCancel}>
             <div className="bg-white p-6 rounded-lg shadow-xl w-96 max-w-full m-4 cursor-default" onClick={handleModalClick}>
                 <div className="flex flex-col gap-4">
-                    <div className="flex items-center gap-2 text-red-600">
+                    <div className="flex items-center gap-2 text-dark-maroon">
                         <AlertTriangle size={24} />
                         <h3 className="text-lg font-bold">Delete Form</h3>
                     </div>
@@ -57,7 +57,7 @@ export default function DeleteConfirmationModal({
                             type="text" 
                             value={confirmName}
                             onChange={(e) => setConfirmName(e.target.value)}
-                            className="border border-gray-300 rounded p-2 focus:outline-none focus:border-red-500 focus:ring-1 focus:ring-red-500 text-black"
+                            className="border border-gray-300 rounded p-2 focus:outline-none focus:border-normal-maroon focus:ring-1 focus:ring-normal-maroon text-black"
                             placeholder={itemNameToDelete}
                             autoFocus
                             onClick={(e) => e.stopPropagation()}
@@ -72,7 +72,7 @@ export default function DeleteConfirmationModal({
                             Cancel
                         </button>
                         <button
-                            className={`px-4 py-2 text-white rounded transition-colors flex items-center gap-2 ${confirmName === itemNameToDelete ? 'bg-red-600 hover:bg-red-700' : 'bg-red-300 cursor-not-allowed'}`}
+                            className={`px-4 py-2 text-normal-creme rounded-sm transition-colors flex items-center gap-2 ${confirmName === itemNameToDelete ? 'bg-normal-maroon hover:bg-dark-maroon' : 'bg-normal-maroon/30 cursor-not-allowed'}`}
                             onClick={handleConfirm}
                             disabled={confirmName !== itemNameToDelete}
                         >

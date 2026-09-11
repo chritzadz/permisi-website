@@ -3,7 +3,7 @@ import { FormPageProp } from '@/components/properties/FormPageProp.ts';
 import FormInputEditFactory from '@/factory/FormInputEditFactory';
 import { FormInputModel } from '@/model/formInputModel/FormInputModel';
 import { Form } from '@/model/formInputModel/Form';
-import { Eye, PlusCircle } from 'lucide-react';
+import { ArrowLeft, Eye, PlusCircle } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
 import LoadingSpinner from "@/components/loadingSpinner";
@@ -129,14 +129,27 @@ const FormPage = ({ params }: FormPageProp) => {
 
 	return (
 			<div onClick={() => setSelectedFormInput(-1)}>
-				<div className="w-full justify-center items-center p-5 flex flex-col">
-					<div className="text-center mb-6">
-						<h1 className="text-3xl font-bold text-normal-maroon">{formNameParse}</h1>
+				<div className="w-full p-5 sm:p-10 flex flex-col">
+					<div className="max-w-3xl w-full mx-auto mb-6">
+						<button
+							onClick={() => router.push('/admin/form')}
+							className="inline-flex items-center gap-2 text-sm text-normal-maroon hover:text-dark-maroon transition-colors"
+						>
+							<ArrowLeft size={16} />
+							Custom Form
+						</button>
+						<h1 className="text-4xl sm:text-5xl font-bold text-normal-maroon mt-3">{formNameParse}</h1>
+						<div className="mt-3 h-1 w-16 bg-normal-maroon" />
 						{description && (
-							<p className="text-gray-600 mt-2 max-w-2xl">{description}</p>
+							<p className="text-gray-600 mt-4 max-w-2xl">{description}</p>
 						)}
+						<p className="text-sm text-gray-500 mt-2">
+							{formInputs.length === 0
+								? "No questions yet — add one with the + button."
+								: `${formInputs.length} question${formInputs.length === 1 ? "" : "s"}`}
+						</p>
 					</div>
-					<div className="w-full h-screen my-5 flex flex-col rounded-2xl">
+					<div className="max-w-3xl w-full mx-auto my-5 flex flex-col rounded-2xl">
 						{
 							formInputs.map((formInput) => (
 								<div className="w-full text-md" key={formInput.id}>
