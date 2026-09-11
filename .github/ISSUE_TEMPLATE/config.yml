@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: 📖 Read the contributing guide
+    url: https://github.com/chritzadz/permisi-website/blob/development/CONTRIBUTING.md
+    about: Setup, workflow, design & commit conventions — read this before opening an issue or PR.
+  - name: 💡 Ideas & questions
+    url: https://github.com/chritzadz/permisi-website/discussions
+    about: Not a bug or a ready-to-build feature? Start a discussion first.
