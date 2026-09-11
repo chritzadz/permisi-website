@@ -1,5 +1,5 @@
 import { EventService } from "@/service/EventService";
-import { validateApiKey, unauthorizedResponse } from "@/lib/apiAuth";
+import { requireAdminSession } from "@/lib/apiAuth";
 
 const MAX_NAME_LENGTH = 255;
 const MAX_DESCRIPTION_LENGTH = 5000;
@@ -82,9 +82,9 @@ export async function GET(request: Request) {
 }
 
 export async function POST(request: Request) {
-    const apiKeyValidation = validateApiKey(request);
-    if (!apiKeyValidation.isValid) {
-        return unauthorizedResponse(apiKeyValidation.error);
+    const denied = requireAdminSession(request);
+    if (denied) {
+        return denied;
     }
 
     try {
@@ -139,9 +139,9 @@ export async function POST(request: Request) {
 }
 
 export async function PATCH(request: Request) {
-    const apiKeyValidation = validateApiKey(request);
-    if (!apiKeyValidation.isValid) {
-        return unauthorizedResponse(apiKeyValidation.error);
+    const denied = requireAdminSession(request);
+    if (denied) {
+        return denied;
     }
 
     try {
@@ -218,9 +218,9 @@ export async function PATCH(request: Request) {
 }
 
 export async function DELETE(request: Request) {
-    const apiKeyValidation = validateApiKey(request);
-    if (!apiKeyValidation.isValid) {
-        return unauthorizedResponse(apiKeyValidation.error);
+    const denied = requireAdminSession(request);
+    if (denied) {
+        return denied;
     }
 
     try {

@@ -32,9 +32,13 @@ export class AdminLoginService {
       credentials.username == adminCreds.username &&
       credentials.password == adminCreds.password
     ) {
+      const secret = this.repository.getAdminJWToken();
+      if (!secret) {
+        return { success: false, message: "Auth not configured on server" };
+      }
       const token = jwt.sign(
         { username: credentials.username, role: "admin" },
-        this.repository.getAdminJWToken(),
+        secret,
         { expiresIn: "24h" }
       );
       return { success: true, token };
@@ -43,8 +47,13 @@ export class AdminLoginService {
   }
 
   async verifyToken(token: string): Promise<boolean> {
+    const secret = this.repository.getAdminJWToken();
+    if (!secret) {
+      console.error("JWT verification skipped: JWT_SECRET is not configured");
+      return false;
+    }
     try {
-      jwt.verify(token, this.repository.getAdminJWToken());
+      jwt.verify(token, secret);
       return true;
     } catch (error) {
       console.error("JWT Verification Error:", error);
