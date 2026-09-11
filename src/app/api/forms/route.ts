@@ -27,9 +27,17 @@ export async function GET(request: Request) {
                 });
             }
 
-            // Return full form data including google_sheet_id for editing
+            // google_sheet_id is only returned to authenticated (admin) callers
+            const auth = validateApiKey(request);
+            const publicForm = auth.isValid
+                ? form
+                : (() => {
+                    const { google_sheet_id: _, ...rest } = form;
+                    return rest;
+                })();
+
             return new Response(JSON.stringify({
-                data: form
+                data: publicForm
             }), {
                 status: 200,
                 headers: { 'Content-Type': 'application/json' }
@@ -105,7 +113,7 @@ export async function POST(request: Request) {
             status: 200,
             headers: { 'Content-Type': 'application/json' }
         });
-    } catch (error: any) {
+    } catch (error) {
         console.error("POST /api/forms Error:", error);
         return new Response(JSON.stringify({
             error: error instanceof Error ? error.message : String(error)

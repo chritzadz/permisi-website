@@ -3,27 +3,32 @@ import { FormInputService } from "@/service/FormInputService";
 import { validateApiKey, unauthorizedResponse } from "@/lib/apiAuth";
 
 export async function GET(request: Request) {
-    const apiKeyValidation = validateApiKey(request);
-    if (!apiKeyValidation.isValid) {
-        return unauthorizedResponse(apiKeyValidation.error);
-    }
+    // Public read: the form-filling page needs the options of a form input
+    try {
+        const service: FormInputService = new FormInputService();
 
-    const service: FormInputService = new FormInputService();
-    
-    const url = new URL(request.url);
-    const formInputId = url.searchParams.get("forminputid");
-    console.log(formInputId);
-    let options;
-    if (!(formInputId === null)){
-        options = await service.getOptionsByFormInputId(parseInt(formInputId));
+        const url = new URL(request.url);
+        const formInputId = url.searchParams.get("forminputid");
+        let options;
+        if (!(formInputId === null)){
+            options = await service.getOptionsByFormInputId(parseInt(formInputId));
+        }
+
+        return new Response(JSON.stringify({
+            data: options
+        }), {
+            status: 200,
+            headers: { 'Content-Type': 'application/json' }
+        });
+    } catch (error) {
+        console.error("GET /api/options Error:", error);
+        return new Response(JSON.stringify({
+            error: "Internal Server Error"
+        }), {
+            status: 500,
+            headers: { 'Content-Type': 'application/json' }
+        });
     }
-    
-    return new Response(JSON.stringify({
-        data: options
-    }), {
-        status: 200,
-        headers: { 'Content-Type': 'application/json' }
-    });
 }
 
 export async function PATCH(request: Request) {

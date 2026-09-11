@@ -8,7 +8,8 @@ CREATE TABLE IF NOT EXISTS forms(
 CREATE TABLE IF NOT EXISTS form_inputs(
     id SERIAL PRIMARY KEY,
     form_name VARCHAR(100) REFERENCES forms(name),
-    type VARCHAR(100)
+    type VARCHAR(100),
+    question TEXT
 );
 
 CREATE TABLE IF NOT EXISTS form_input_options(

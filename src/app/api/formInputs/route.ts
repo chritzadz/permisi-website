@@ -5,24 +5,38 @@ import { validateApiKey, unauthorizedResponse } from "@/lib/apiAuth";
 export async function GET(request: Request) {
     // API key validation removed for GET to allow public access
 
-    const service: FormInputService = new FormInputService();
-    
-    const url = new URL(request.url);
-    const formId = url.searchParams.get("formid");
-    let formInputs;
+    try {
+        const service: FormInputService = new FormInputService();
 
-    if (formId === null){
-        //fetch all
-    } else {
-        formInputs = await service.getFormInputsById(formId);
+        const url = new URL(request.url);
+        const formId = url.searchParams.get("formid");
+
+        if (formId === null) {
+            return new Response(JSON.stringify({
+                error: 'formid query parameter is required'
+            }), {
+                status: 400,
+                headers: { 'Content-Type': 'application/json' }
+            });
+        }
+
+        const formInputs = await service.getFormInputsById(formId);
+
+        return new Response(JSON.stringify({
+            data: formInputs
+        }), {
+            status: 200,
+            headers: { 'Content-Type': 'application/json' }
+        });
+    } catch (error) {
+        console.error("GET /api/formInputs Error:", error);
+        return new Response(JSON.stringify({
+            error: "Internal Server Error"
+        }), {
+            status: 500,
+            headers: { 'Content-Type': 'application/json' }
+        });
     }
-
-    return new Response(JSON.stringify({
-        data: formInputs
-    }), {
-        status: 200,
-        headers: { 'Content-Type': 'application/json' }
-    });
 }
 
 export async function PATCH(request: Request) {

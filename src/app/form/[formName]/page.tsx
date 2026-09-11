@@ -7,7 +7,11 @@ import { FormInputModel } from "@/model/formInputModel/FormInputModel";
 import { useRouter } from "next/navigation";
 import React from "react";
 import { useEffect, useState } from "react";
-import { ClimbingBoxLoader } from "react-spinners";
+import Footer from "@/components/footer";
+import ScrollReveal from "@/components/scrollReveal";
+import LoadingSpinner from "@/components/loadingSpinner";
+import Button from "@/components/ui/button";
+import { DisplayBebasNeue, MainInter } from "@/lib/font";
 
 export default function FormPage({ params }: FormPageProp) {
   const router = useRouter();
@@ -90,53 +94,67 @@ export default function FormPage({ params }: FormPageProp) {
 
   if (isPageLoading) {
     return (
-      <div className="w-full h-screen flex justify-center items-center">
-        <ClimbingBoxLoader size={15} color={"#670a0a"}></ClimbingBoxLoader>
+      <div className="w-full h-screen bg-normal-creme flex flex-col justify-center items-center gap-4">
+        <LoadingSpinner size={48} />
+        <p className={`${DisplayBebasNeue.className} text-2xl tracking-widest text-normal-maroon`}>
+          Loading form...
+        </p>
       </div>
     )
   }
 
   return(
     <>
-      <div className="min-h-screen bg-gray-50 w-full flex justify-center py-10 px-4">
-        <div className="w-full max-w-3xl flex flex-col gap-6">
-          <div className="bg-white p-8 rounded-2xl shadow-sm border-t-8 border-normal-maroon">
-            <h1 className="text-4xl font-bold text-gray-900">{formNameParse}</h1>
-            <p className="text-gray-500 mt-2">
-              {form?.description || "Please fill out the form below."}
-            </p>
-          </div>
+      <div className="relative min-h-screen">
+        <section className="py-8 sm:py-12 md:py-16 lg:py-20">
+          <div className="max-w-3xl mx-auto px-4 sm:px-6 md:px-8 w-full">
+            {/* Form header */}
+            <ScrollReveal>
+              <p className={`${DisplayBebasNeue.className} text-lg tracking-[0.3em] text-normal-maroon/70`}>
+                PERMISI HK
+              </p>
+              <h1 className={`${DisplayBebasNeue.className} mt-2 text-4xl sm:text-5xl md:text-6xl font-bold text-normal-maroon tracking-wide leading-none`}>
+                {formNameParse}
+              </h1>
+              <div className="mt-4 h-1 w-16 bg-normal-maroon" />
+              <p className={`${MainInter.className} mt-4 text-sm sm:text-base text-gray-600`}>
+                {form?.description || "Please fill out the form below."}
+              </p>
+            </ScrollReveal>
 
-          <div className="flex flex-col gap-4">
-            { 
-              formInputs.map((formInput) => (
-                <div className="w-full" key={formInput.id}>
-                  {
-                    FormInputFactory.getFormInput(formInput, answers[formInput.id], (value) => handleAnswerChange(formInput.id, value))
-                  }
-                </div>
-              ))
-            }
-          </div>
+            {/* Questions */}
+            <div className="flex flex-col gap-4 mt-8 sm:mt-10">
+              { 
+                formInputs.map((formInput, index) => (
+                  <div className="w-full" key={formInput.id}>
+                    <ScrollReveal delay={Math.min(index * 0.05, 0.3)}>
+                      {
+                        FormInputFactory.getFormInput(formInput, answers[formInput.id], (value) => handleAnswerChange(formInput.id, value))
+                      }
+                    </ScrollReveal>
+                  </div>
+                ))
+              }
+            </div>
 
-          <div className="flex justify-between items-center mt-4 px-2">
-            {
-              isSubmitting ? (
-                <div className="w-full flex justify-center">
-                  <ClimbingBoxLoader size={10} color={"#670a0a"}></ClimbingBoxLoader>
-                </div>
-              ) : (
-                <button 
-                  className="bg-normal-maroon hover:bg-dark-maroon text-white font-bold py-3 px-8 rounded-lg shadow-md hover:shadow-lg transition-all transform hover:-translate-y-1 w-full sm:w-auto" 
-                  onClick={processAnswer}
-                >
-                  Submit Form
-                </button>
-              )
-            }
+            {/* Submit */}
+            <div className="flex justify-center items-center mt-8 sm:mt-10">
+              {
+                isSubmitting ? (
+                  <LoadingSpinner size={28} label="Submitting..." />
+                ) : (
+                  <Button size="lg" onClick={processAnswer} className="px-8">
+                    Submit Form
+                  </Button>
+                )
+              }
+            </div>
           </div>
-        </div>
+        </section>
       </div>
+
+      {/* Footer at bottom of page content */}
+      <Footer />
     </>
   )
 }
