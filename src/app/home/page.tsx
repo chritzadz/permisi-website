@@ -7,6 +7,7 @@ import Hero from "@/components/hero";
 import EventCard from "@/components/eventCard";
 import Values from "@/components/values";
 import ActivityGallery from "@/components/activityGallery";
+import BoardMembers from "@/components/boardMembers";
 import JoinCTA from "@/components/joinCta";
 import AboutUsV2 from "@/components/aboutUsV2";
 
@@ -63,6 +64,8 @@ export default function HomePage() {
                 <AboutUsV2 />
 
                 <ActivityGallery />
+
+                <BoardMembers />
 
                 {/* Latest Events Section */}
                 {latestEvents.length > 0 && (
