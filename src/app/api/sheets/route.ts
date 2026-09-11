@@ -46,6 +46,13 @@ export async function POST(request: Request) {
             });
         }
 
+        if (form.status === 'CLOSED') {
+            return new Response(JSON.stringify({ error: "This form is closed for submissions" }), {
+                status: 403,
+                headers: { 'Content-Type': 'application/json' }
+            });
+        }
+
         // Order values by the form's question order so sheet columns never shift
         const formInputService = new FormInputService();
         const formInputs: { id: number }[] = await formInputService.getFormInputsById(formName as string);

@@ -21,6 +21,7 @@ const AdminFormPage = () => {
     const [isLoadingForm, setIsLoadingForm] = useState(true);
     const [createFormLoading, setCreateFormLoading] = useState(false);
     const [description, setDescription] = useState("");
+    const [createStatus, setCreateStatus] = useState("CLOSED");
     const [createFormError, setCreateFormError] = useState("");
     const [searchQuery, setSearchQuery] = useState("");
     const [debouncedSearch, setDebouncedSearch] = useState("");
@@ -166,7 +167,8 @@ const AdminFormPage = () => {
                 body: JSON.stringify({
                     name: createNewFormName,
                     google_sheet_id: googleSheetsIdForm,
-                    description: description
+                    description: description,
+                    status: createStatus
                 }),
             });
             if (!response.ok) {
@@ -184,6 +186,7 @@ const AdminFormPage = () => {
             setDescription("");
             setCreateNewFormName("");
             setGoogleSheetsIdForm("");
+            setCreateStatus("CLOSED");
             setCreateFormLoading(false);
             setCurrentPage(1);
             setRefreshTrigger(prev => prev + 1);
@@ -341,6 +344,8 @@ const AdminFormPage = () => {
                     onGoogleSheetsIdChange={setGoogleSheetsIdForm}
                     description={description}
                     onDescriptionChange={setDescription}
+                    status={createStatus}
+                    onStatusChange={setCreateStatus}
                     error={createFormError}
                 />
 

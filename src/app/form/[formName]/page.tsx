@@ -122,33 +122,50 @@ export default function FormPage({ params }: FormPageProp) {
               </p>
             </ScrollReveal>
 
-            {/* Questions */}
-            <div className="flex flex-col gap-4 mt-8 sm:mt-10">
-              { 
-                formInputs.map((formInput, index) => (
-                  <div className="w-full" key={formInput.id}>
-                    <ScrollReveal delay={Math.min(index * 0.05, 0.3)}>
-                      {
-                        FormInputFactory.getFormInput(formInput, answers[formInput.id], (value) => handleAnswerChange(formInput.id, value))
-                      }
-                    </ScrollReveal>
-                  </div>
-                ))
-              }
-            </div>
+            {/* Closed state */}
+            {form?.status === 'CLOSED' ? (
+              <ScrollReveal delay={0.1}>
+                <div className="mt-8 sm:mt-10 rounded-xl border border-normal-maroon/15 bg-normal-creme p-8 sm:p-10 text-center">
+                  <p className={`${DisplayBebasNeue.className} text-3xl sm:text-4xl tracking-wide text-normal-maroon leading-none`}>
+                    This form is closed
+                  </p>
+                  <p className={`${MainInter.className} mt-3 text-sm sm:text-base text-gray-600`}>
+                    Registration is not open yet, or it has already closed.
+                    Please check back later or contact us for details.
+                  </p>
+                </div>
+              </ScrollReveal>
+            ) : (
+              <>
+                {/* Questions */}
+                <div className="flex flex-col gap-4 mt-8 sm:mt-10">
+                  { 
+                    formInputs.map((formInput, index) => (
+                      <div className="w-full" key={formInput.id}>
+                        <ScrollReveal delay={Math.min(index * 0.05, 0.3)}>
+                          {
+                            FormInputFactory.getFormInput(formInput, answers[formInput.id], (value) => handleAnswerChange(formInput.id, value))
+                          }
+                        </ScrollReveal>
+                      </div>
+                    ))
+                  }
+                </div>
 
-            {/* Submit */}
-            <div className="flex justify-center items-center mt-8 sm:mt-10">
-              {
-                isSubmitting ? (
-                  <LoadingSpinner size={28} label="Submitting..." />
-                ) : (
-                  <Button size="lg" onClick={processAnswer} className="px-8">
-                    Submit Form
-                  </Button>
-                )
-              }
-            </div>
+                {/* Submit */}
+                <div className="flex justify-center items-center mt-8 sm:mt-10">
+                  {
+                    isSubmitting ? (
+                      <LoadingSpinner size={28} label="Submitting..." />
+                    ) : (
+                      <Button size="lg" onClick={processAnswer} className="px-8">
+                        Submit Form
+                      </Button>
+                    )
+                  }
+                </div>
+              </>
+            )}
           </div>
         </section>
       </div>

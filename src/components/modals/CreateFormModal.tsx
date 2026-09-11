@@ -13,6 +13,8 @@ interface CreateFormModalProps {
     onGoogleSheetsIdChange: (value: string) => void;
     description: string;
     onDescriptionChange: (value: string) => void;
+    status: string;
+    onStatusChange: (value: string) => void;
     error?: string;
 }
 
@@ -30,6 +32,8 @@ export default function CreateFormModal({
     onGoogleSheetsIdChange,
     description,
     onDescriptionChange,
+    status,
+    onStatusChange,
     error
 }: CreateFormModalProps) {
     if (!isOpen) return null;
@@ -122,6 +126,21 @@ export default function CreateFormModal({
                             className={`${modalFieldClass} resize-none h-24`}
                             placeholder="What is this form for?"
                         />
+                    </div>
+                    <div className="flex flex-col gap-1.5">
+                        <label htmlFor="create-form-status" className="text-sm font-semibold text-gray-700">
+                            Status
+                        </label>
+                        <select
+                            id="create-form-status"
+                            value={status}
+                            onChange={e => onStatusChange(e.target.value)}
+                            className={`${modalFieldClass} bg-white`}
+                        >
+                            <option value="CLOSED">CLOSED — not accepting responses yet</option>
+                            <option value="OPEN">OPEN — accepting responses</option>
+                        </select>
+                        <p className="text-xs text-gray-500">New forms start closed. Set it to OPEN when you&apos;re ready to publish.</p>
                     </div>
                     <div className="flex justify-end gap-3 mt-2">
                         <button 

@@ -79,7 +79,7 @@ export class FormRepository{
         try {
             const task = await pool.query(`
                 INSERT INTO forms (name, google_sheet_id, created_at, description, status)
-                VALUES ($1, $2, NOW(), $3, COALESCE($4, 'OPEN'))
+                VALUES ($1, $2, NOW(), $3, COALESCE($4, 'CLOSED'))
                 RETURNING *;
                 `, [name, google_sheet_id, description || null, status || null]);
             return task.rows[0];
