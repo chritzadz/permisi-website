@@ -71,7 +71,7 @@ export default function AboutUsV2() {
     return (
         <div
             id="definitionBox"
-            className="min-h-screen w-full bg-white flex flex-col md:flex-row"
+            className="w-full bg-white flex flex-col md:flex-row md:h-screen"
             ref={sectionRef}
         >
             <section className="hidden md:block md:w-1/2 lg:w-1/2 relative overflow-hidden bg-white">
