@@ -30,12 +30,38 @@ export class MembersRepository {
     public async getAllMembers(): Promise<Member[]> {
         try {
             const result = await pool.query(`
-                SELECT * FROM members;
+                SELECT * FROM members ORDER BY division ASC, id ASC;
             `);
             return result.rows;
         } catch (error) {
             console.error('Error MembersRepository.ts: ' + error);
             throw new Error('Failed to fetch all members');
+        }
+    }
+
+    public async addMember(name: string, role: string, division: string, photo_url?: string | null): Promise<Member> {
+        try {
+            const result = await pool.query(`
+                INSERT INTO members (name, role, division, photo_url)
+                VALUES ($1, $2, $3, $4)
+                RETURNING *;
+            `, [name, role, division, photo_url ?? null]);
+            return result.rows[0];
+        } catch (error) {
+            console.error('Error MembersRepository.ts: ' + error);
+            throw new Error('Failed to add member');
+        }
+    }
+
+    public async deleteMemberById(id: number): Promise<Member | null> {
+        try {
+            const result = await pool.query(`
+                DELETE FROM members WHERE id = $1 RETURNING *;
+            `, [id]);
+            return result.rows[0] ?? null;
+        } catch (error) {
+            console.error('Error MembersRepository.ts: ' + error);
+            throw new Error('Failed to delete member');
         }
     }
 }

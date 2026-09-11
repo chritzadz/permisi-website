@@ -29,3 +29,11 @@ CREATE TABLE IF NOT EXISTS events(
     created_at TIMESTAMP DEFAULT NOW(),
     updated_at TIMESTAMP DEFAULT NOW()
 );
+
+CREATE TABLE IF NOT EXISTS members(
+    id SERIAL PRIMARY KEY,
+    name VARCHAR(150) NOT NULL,
+    role VARCHAR(150) NOT NULL,
+    division VARCHAR(100) NOT NULL,
+    photo_url TEXT
+);
