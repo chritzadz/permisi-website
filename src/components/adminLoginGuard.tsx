@@ -14,7 +14,7 @@ const AdminLoginGuard = ({ children }: AdminLoginGuardProps) => {
   const pathname = usePathname();
 
   useEffect(() => {
-    if (!isLoading && !isAuthenticated && pathname.startsWith('/admin') && pathname !== '/admin' && pathname !== '/admin/login') {
+    if (!isLoading && !isAuthenticated && pathname.startsWith('/admin') && pathname !== '/admin/login') {
       router.push("/admin/login");
     }
   }, [isAuthenticated, isLoading, router, pathname]);
