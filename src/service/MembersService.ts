@@ -42,9 +42,9 @@ export class MembersService {
     }
 
     /**
-     * Remove a member by id.
+     * Remove a member (unique by name + role).
      */
-    public async deleteMember(id: number): Promise<Member | null> {
-        return await this.repository.deleteMemberById(id);
+    public async deleteMember(name: string, role: string): Promise<Member | null> {
+        return await this.repository.deleteMember(name, role);
     }
 }

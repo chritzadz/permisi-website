@@ -2,9 +2,9 @@ import { Member } from "@/model/Member";
 import { MembersService } from "@/service/MembersService";
 import { validateApiKey, unauthorizedResponse } from "@/lib/apiAuth";
 
-const MAX_NAME_LENGTH = 150;
-const MAX_ROLE_LENGTH = 150;
-const MAX_DIVISION_LENGTH = 100;
+const MAX_NAME_LENGTH = 100;
+const MAX_ROLE_LENGTH = 100;
+const MAX_DIVISION_LENGTH = 50;
 
 export async function GET() {
     // Public read: the association board may be shown on public pages
@@ -72,7 +72,7 @@ export async function POST(request: Request) {
     } catch (error) {
         console.error("POST /api/members Error:", error);
         return new Response(JSON.stringify({
-            error: "Failed to add member"
+            error: error instanceof Error ? error.message : "Failed to add member"
         }), {
             status: 400,
             headers: { 'Content-Type': 'application/json' }
@@ -88,11 +88,12 @@ export async function DELETE(request: Request) {
 
     try {
         const body = await request.json();
-        const id: number = Number(body.id);
+        const name: string = String(body.name ?? "").trim();
+        const role: string = String(body.role ?? "").trim();
 
-        if (!id || Number.isNaN(id)) {
+        if (!name || !role) {
             return new Response(JSON.stringify({
-                error: 'id is required'
+                error: 'name and role are required'
             }), {
                 status: 400,
                 headers: { 'Content-Type': 'application/json' }
@@ -100,7 +101,7 @@ export async function DELETE(request: Request) {
         }
 
         const service = new MembersService();
-        const removed = await service.deleteMember(id);
+        const removed = await service.deleteMember(name, role);
 
         if (!removed) {
             return new Response(JSON.stringify({

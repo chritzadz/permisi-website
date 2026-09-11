@@ -30,7 +30,7 @@ export class MembersRepository {
     public async getAllMembers(): Promise<Member[]> {
         try {
             const result = await pool.query(`
-                SELECT * FROM members ORDER BY division ASC, id ASC;
+                SELECT * FROM members ORDER BY division ASC, name ASC;
             `);
             return result.rows;
         } catch (error) {
@@ -39,25 +39,28 @@ export class MembersRepository {
         }
     }
 
-    public async addMember(name: string, role: string, division: string, photo_url?: string | null): Promise<Member> {
+    public async addMember(name: string, role: string, division: string): Promise<Member> {
         try {
             const result = await pool.query(`
-                INSERT INTO members (name, role, division, photo_url)
-                VALUES ($1, $2, $3, $4)
+                INSERT INTO members (name, role, division)
+                VALUES ($1, $2, $3)
                 RETURNING *;
-            `, [name, role, division, photo_url ?? null]);
+            `, [name, role, division]);
             return result.rows[0];
         } catch (error) {
+            if (error instanceof Error && (error as { code?: string }).code === "23505") {
+                throw new Error("A member with this name and role already exists");
+            }
             console.error('Error MembersRepository.ts: ' + error);
             throw new Error('Failed to add member');
         }
     }
 
-    public async deleteMemberById(id: number): Promise<Member | null> {
+    public async deleteMember(name: string, role: string): Promise<Member | null> {
         try {
             const result = await pool.query(`
-                DELETE FROM members WHERE id = $1 RETURNING *;
-            `, [id]);
+                DELETE FROM members WHERE name = $1 AND role = $2 RETURNING *;
+            `, [name, role]);
             return result.rows[0] ?? null;
         } catch (error) {
             console.error('Error MembersRepository.ts: ' + error);

@@ -95,13 +95,13 @@ const AdminMemberPage = () => {
     }
 
     const handleRemoveMember = async () => {
-        if (toRemove?.id === undefined) return;
+        if (!toRemove) return;
         setIsRemoving(true);
         setLoadError("");
         try {
             const response = await apiFetch('/api/members', {
                 method: 'DELETE',
-                body: JSON.stringify({ id: toRemove.id }),
+                body: JSON.stringify({ name: toRemove.name, role: toRemove.role }),
             });
             const data = await response.json();
             if (!response.ok) {

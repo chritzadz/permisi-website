@@ -111,7 +111,7 @@ export default function AddMemberModal({
                                 onChange={e => setNewDivision(e.target.value)}
                                 className={modalFieldClass}
                                 placeholder="e.g. Executive Board"
-                                maxLength={100}
+                                maxLength={50}
                                 required
                                 autoFocus
                             />
@@ -123,7 +123,7 @@ export default function AddMemberModal({
                                 onChange={e => setNewDivision(e.target.value)}
                                 className={`${modalFieldClass} mt-1`}
                                 placeholder="New division name"
-                                maxLength={100}
+                                maxLength={50}
                                 required
                                 autoFocus
                             />
@@ -141,7 +141,7 @@ export default function AddMemberModal({
                             onChange={e => setName(e.target.value)}
                             className={modalFieldClass}
                             placeholder="e.g. Budi Santoso"
-                            maxLength={150}
+                            maxLength={100}
                             required
                         />
                     </div>
@@ -157,7 +157,7 @@ export default function AddMemberModal({
                             onChange={e => setRole(e.target.value)}
                             className={modalFieldClass}
                             placeholder="e.g. Chairperson"
-                            maxLength={150}
+                            maxLength={100}
                             required
                         />
                     </div>

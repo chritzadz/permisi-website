@@ -31,9 +31,8 @@ CREATE TABLE IF NOT EXISTS events(
 );
 
 CREATE TABLE IF NOT EXISTS members(
-    id SERIAL PRIMARY KEY,
-    name VARCHAR(150) NOT NULL,
-    role VARCHAR(150) NOT NULL,
-    division VARCHAR(100) NOT NULL,
-    photo_url TEXT
+    name VARCHAR(100) NOT NULL,
+    role VARCHAR(100) NOT NULL,
+    division VARCHAR(50) NOT NULL,
+    PRIMARY KEY (name, role)
 );

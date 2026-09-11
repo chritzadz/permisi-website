@@ -27,11 +27,11 @@ const MemberBox = ({ division, members, onAddMember, onRemoveMember }: MemberBox
             <div className="mt-4 sm:mt-5 flex flex-wrap gap-4 sm:gap-6">
                 {members.map((member) => (
                     <ProfileBox
-                        key={member.id ?? `${division}-${member.name}`}
+                        key={`${division}-${member.name}-${member.role}`}
                         name={member.name}
                         role={member.role}
                         photoUrl={member.photo_url}
-                        onRemove={member.id !== undefined ? () => onRemoveMember(member) : undefined}
+                        onRemove={() => onRemoveMember(member)}
                     />
                 ))}
                 <AddProfileBox onAdd={() => onAddMember(division)} />
