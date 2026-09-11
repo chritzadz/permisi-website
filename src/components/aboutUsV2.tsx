@@ -70,7 +70,7 @@ export default function AboutUsV2() {
     return (
         <div
             id="definitionBox"
-            className="min-h-screen w-full bg-white flex flex-col md:flex-row"
+            className="max-h-screen w-full bg-white flex flex-col md:flex-row"
             ref={sectionRef}
         >
             <section className="hidden md:block md:w-1/2 lg:w-1/2 relative overflow-hidden bg-dark-creme">
@@ -109,9 +109,9 @@ export default function AboutUsV2() {
                 </div>
             </section>
 
-            <section className="w-full md:w-1/2 lg:w-1/2 min-h-screen items-center justify-center flex py-12 sm:py-16 md:py-0 bg-normal-creme">
+            <section className="w-full md:w-1/2 lg:w-1/2 items-center justify-center flex py-12 sm:py-16 md:py-0 bg-normal-creme">
                 <div className="max-w-4xl lg:max-w-3xl mx-auto items-center flex justify-center px-6 sm:px-10 lg:px-16">
-                    <div className="text-left md:text-center lg:text-left mb-10">
+                    <div className="text-left md:text-center lg:text-left">
                         <h2
                             className="text-4xl sm:text-5xl md:text-6xl font-extrabold text-gray-900 mb-8 font-times-condensed tracking-tight"
                             ref={titleRef}
