@@ -1,6 +1,6 @@
 import { Option } from "@/model/formInputModel/Option";
 import { FormInputService } from "@/service/FormInputService";
-import { validateApiKey, unauthorizedResponse } from "@/lib/apiAuth";
+import { requireAdminSession } from "@/lib/apiAuth";
 
 export async function GET(request: Request) {
     // Public read: the form-filling page needs the options of a form input
@@ -32,9 +32,9 @@ export async function GET(request: Request) {
 }
 
 export async function PATCH(request: Request) {
-    const apiKeyValidation = validateApiKey(request);
-    if (!apiKeyValidation.isValid) {
-        return unauthorizedResponse(apiKeyValidation.error);
+    const denied = requireAdminSession(request);
+    if (denied) {
+        return denied;
     }
 
     try {

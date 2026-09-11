@@ -48,7 +48,7 @@ Be kind, be constructive. This is a student community project.
   component. New `src/db/db.sql` changes must match what’s applied on Neon.
 - Keep the form/admin flows honest: new forms are `CLOSED` by default, event →
   form links are managed from the admin Events page, and public reads stay
-  public while mutations keep the `x-api-key` check.
+  public while mutations require the admin session cookie (`requireAdminSession`).
 
 ### Things to avoid
 

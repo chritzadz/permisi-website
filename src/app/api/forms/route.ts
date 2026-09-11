@@ -2,7 +2,7 @@ import { FormInputModel } from "@/model/formInputModel/FormInputModel";
 import { Form } from "@/model/formInputModel/Form";
 import { FormInputService } from "@/service/FormInputService";
 import { FormService } from "@/service/FormService";
-import { validateApiKey, unauthorizedResponse } from "@/lib/apiAuth";
+import { requireAdminSession } from "@/lib/apiAuth";
 
 export async function GET(request: Request) {
     // API key validation removed for GET to allow public access
@@ -43,9 +43,9 @@ export async function GET(request: Request) {
                 });
             }
 
-            // google_sheet_id is only returned to authenticated (admin) callers
-            const auth = validateApiKey(request);
-            const publicForm = auth.isValid
+            // google_sheet_id is only returned to admin session holders
+            const isAdmin = requireAdminSession(request) === null;
+            const publicForm = isAdmin
                 ? form
                 : (() => {
                     const { google_sheet_id: _, ...rest } = form;
@@ -108,9 +108,9 @@ export async function GET(request: Request) {
 }
 
 export async function POST(request: Request) {
-	const apiKeyValidation = validateApiKey(request);
-	if (!apiKeyValidation.isValid) {
-		return unauthorizedResponse(apiKeyValidation.error);
+	const denied = requireAdminSession(request);
+	if (denied) {
+	    return denied;
 	}
 
     try {
@@ -151,9 +151,9 @@ export async function POST(request: Request) {
 }
 
 export async function PATCH(request: Request) {
-    const apiKeyValidation = validateApiKey(request);
-    if (!apiKeyValidation.isValid) {
-        return unauthorizedResponse(apiKeyValidation.error);
+    const denied = requireAdminSession(request);
+    if (denied) {
+        return denied;
     }
 
     try {
@@ -205,9 +205,9 @@ export async function PATCH(request: Request) {
 }
 
 export async function DELETE(request: Request) {
-	const apiKeyValidation = validateApiKey(request);
-	if (!apiKeyValidation.isValid) {
-		return unauthorizedResponse(apiKeyValidation.error);
+	const denied = requireAdminSession(request);
+	if (denied) {
+	    return denied;
 	}
 
 	const service: FormService = new FormService();
