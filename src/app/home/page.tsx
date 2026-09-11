@@ -86,7 +86,7 @@ export default function HomePage() {
                 )}
 
                 {/* Spacer to reveal footer - transparent margin at bottom */}
-                <div className="h-[45vh] w-full bg-transparent" />
+                <div className="h-[85vh] md:h-[45vh] w-full bg-transparent" />
             </div>
         </>
     );
