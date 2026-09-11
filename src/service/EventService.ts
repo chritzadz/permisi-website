@@ -16,15 +16,16 @@ export class EventService {
         return await this.repository.getEventsWithPagination(page, limit, search);
     }
 
-    public async createEvent(event: Omit<Event, 'id' | 'created_at' | 'updated_at'>) {
+    public async createEvent(event: Pick<Event, 'name' | 'event_date' | 'description' | 'form_link'>) {
         return await this.repository.createEvent(event);
     }
 
-    public async updateEvent(id: number, event: Partial<Event>) {
+    public async updateEvent(id: number, event: Partial<Pick<Event, 'name' | 'event_date' | 'description' | 'form_link'>>) {
         return await this.repository.updateEvent(id, event);
     }
 
     public async deleteEvent(id: number) {
+        await this.repository.unlinkFormsForEvent(id);
         return await this.repository.deleteEvent(id);
     }
 }

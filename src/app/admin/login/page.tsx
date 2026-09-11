@@ -37,7 +37,7 @@ const AdminLoginPage = () => {
     if (result.success) {
       router.push("/admin/home");
     } else {
-      setError("Login failed");
+      setError(result.message || "Login failed");
     }
 
     setIsLoading(false);
@@ -46,12 +46,12 @@ const AdminLoginPage = () => {
   return (
     <div className="min-h-screen bg-normal-creme flex items-center justify-center px-4">
       <div className="w-full max-w-md">
-        <div className="bg-white rounded-lg shadow-lg p-8">
+        <div className="bg-white rounded-lg shadow-lg border border-normal-maroon/15 p-8">
           <div className="text-center mb-8">
-            <div className="mx-auto w-12 h-12 bg-gray-100 rounded-full flex items-center justify-center mb-4">
+            <div className="mx-auto w-12 h-12 bg-normal-creme rounded-full flex items-center justify-center mb-4">
               <Lock className="w-6 h-6 text-dark-maroon" />
             </div>
-            <h1 className="text-2xl font-bold text-black mb-2">
+            <h1 className="text-3xl font-bold text-normal-maroon mb-2">
               Admin Login
             </h1>
             <p className="text-gray-600">Sign in to access the admin panel</p>
@@ -113,8 +113,8 @@ const AdminLoginPage = () => {
             </div>
 
             {error && (
-              <div className="bg-red-50 border border-red-200 rounded-lg p-4">
-                <p className="text-sm text-red-700">{error}</p>
+              <div className="bg-normal-creme border border-normal-maroon/30 rounded-lg p-4">
+                <p className="text-sm text-dark-maroon">{error}</p>
               </div>
             )}
 

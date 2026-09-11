@@ -33,4 +33,18 @@ export class MembersService {
     public async getAllMembers(): Promise<Member[]> {
         return await this.repository.getAllMembers();
     }
+
+    /**
+     * Add a new member to a division.
+     */
+    public async addMember(name: string, role: string, division: string): Promise<Member> {
+        return await this.repository.addMember(name, role, division);
+    }
+
+    /**
+     * Remove a member (unique by name + role).
+     */
+    public async deleteMember(name: string, role: string): Promise<Member | null> {
+        return await this.repository.deleteMember(name, role);
+    }
 }

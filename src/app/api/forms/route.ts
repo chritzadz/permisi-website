@@ -14,6 +14,22 @@ export async function GET(request: Request) {
         const page = searchParams.get('page');
         const limit = searchParams.get('limit');
         const search = searchParams.get('search');
+        const available = searchParams.get('available');
+
+        if (available !== null) {
+            const forEventParam = searchParams.get('forevent');
+            const forEventId = forEventParam ? parseInt(forEventParam) : undefined;
+            const availableForms = await service.getAvailableFormsForEvent(
+                forEventId && !Number.isNaN(forEventId) ? forEventId : undefined
+            );
+
+            return new Response(JSON.stringify({
+                data: availableForms
+            }), {
+                status: 200,
+                headers: { 'Content-Type': 'application/json' }
+            });
+        }
 
         if (name) {
             const form = await service.getFormByName(name);
@@ -27,9 +43,17 @@ export async function GET(request: Request) {
                 });
             }
 
-            // Return full form data including google_sheet_id for editing
+            // google_sheet_id is only returned to authenticated (admin) callers
+            const auth = validateApiKey(request);
+            const publicForm = auth.isValid
+                ? form
+                : (() => {
+                    const { google_sheet_id: _, ...rest } = form;
+                    return rest;
+                })();
+
             return new Response(JSON.stringify({
-                data: form
+                data: publicForm
             }), {
                 status: 200,
                 headers: { 'Content-Type': 'application/json' }
@@ -43,8 +67,8 @@ export async function GET(request: Request) {
             const result = await service.getFormsWithPagination(pageNum, limitNum, search || undefined);
             
             const safeForms = result.forms.map((f: Form) => {
-                const { google_sheet_id: _, ...rest } = f;
-                return rest;
+                const { google_sheet_id, ...rest } = f;
+                return { ...rest, has_sheet: Boolean(google_sheet_id) };
             });
 
             return new Response(JSON.stringify({
@@ -61,8 +85,8 @@ export async function GET(request: Request) {
         const forms = await service.getAllForms();
 
         const safeForms = forms.map((f: Form) => {
-            const { google_sheet_id: _, ...rest } = f;
-            return rest;
+            const { google_sheet_id, ...rest } = f;
+            return { ...rest, has_sheet: Boolean(google_sheet_id) };
         });
 
         return new Response(JSON.stringify({
@@ -95,8 +119,18 @@ export async function POST(request: Request) {
         const name: string = body.name;
         const google_sheet_id: string = body.google_sheet_id;
         const description: string | undefined = body.description;
+        const status: string | undefined = body.status;
 
-        await service.postForm(name, google_sheet_id, description);
+        if (status !== undefined && status !== null && !['OPEN', 'CLOSED'].includes(status)) {
+            return new Response(JSON.stringify({
+                error: 'status must be OPEN or CLOSED'
+            }), {
+                status: 400,
+                headers: { 'Content-Type': 'application/json' }
+            });
+        }
+
+        await service.postForm(name, google_sheet_id, description, status ?? undefined);
         const forms = await service.getAllForms();
 
         return new Response(JSON.stringify({
@@ -105,7 +139,7 @@ export async function POST(request: Request) {
             status: 200,
             headers: { 'Content-Type': 'application/json' }
         });
-    } catch (error: any) {
+    } catch (error) {
         console.error("POST /api/forms Error:", error);
         return new Response(JSON.stringify({
             error: error instanceof Error ? error.message : String(error)
@@ -128,8 +162,28 @@ export async function PATCH(request: Request) {
         const name: string = body.name;
         const google_sheet_id: string | undefined = body.google_sheet_id;
         const description: string | undefined = body.description;
+        const status: string | undefined = body.status;
+        const hasEventId = body.event_id !== undefined;
+        const eventId: number | null = hasEventId && body.event_id !== null ? Number(body.event_id) : null;
 
-        await service.updateForm(name, google_sheet_id, description);
+        if (status !== undefined && status !== null && !['OPEN', 'CLOSED'].includes(status)) {
+            return new Response(JSON.stringify({
+                error: 'status must be OPEN or CLOSED'
+            }), {
+                status: 400,
+                headers: { 'Content-Type': 'application/json' }
+            });
+        }
+
+        if (google_sheet_id !== undefined || description !== undefined) {
+            await service.updateForm(name, google_sheet_id, description);
+        }
+        if (status !== undefined && status !== null) {
+            await service.setFormStatus(name, status);
+        }
+        if (hasEventId) {
+            await service.setFormEventLink(name, Number.isNaN(eventId as number) ? null : eventId);
+        }
 
         return new Response(JSON.stringify({
             success: true,

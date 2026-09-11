@@ -1,10 +1,10 @@
-import { Trash2, AlertTriangle, Pencil } from "lucide-react";
 import { FormBoxProp } from "./properties/FormBoxProp";
 import { useState } from "react";
-import { ClimbingBoxLoader } from "react-spinners";
+import { AlertTriangle, CalendarDays, Eye, Pencil, Trash2 } from "lucide-react";
+import LoadingSpinner from "@/components/loadingSpinner";
+import { DisplayBebasNeue } from "@/lib/font";
 
-export default function FormBox({ name, createdAt, onFormClick, onDeleteClick, onEditClick }: FormBoxProp) {
-    const [isHovering, setIsHovering] = useState(false);
+export default function FormBox({ name, createdAt, description, hasSheet, questionCount, status, linkedEvent, onFormClick, onDeleteClick, onEditClick }: FormBoxProp) {
     const [deleteLoading, setDeleteLoading] = useState(false);
     const [showDeleteModal, setShowDeleteModal] = useState(false);
     const [confirmName, setConfirmName] = useState("");
@@ -19,6 +19,11 @@ export default function FormBox({ name, createdAt, onFormClick, onDeleteClick, o
         if (onEditClick) {
             onEditClick(name);
         }
+    };
+
+    const handlePreviewClick = (e: React.MouseEvent) => {
+        e.stopPropagation();
+        window.open(`/form/${encodeURIComponent(name)}`, '_blank');
     };
 
     const handleConfirmDelete = (e: React.MouseEvent) => {
@@ -44,31 +49,89 @@ export default function FormBox({ name, createdAt, onFormClick, onDeleteClick, o
 
     return (
         <>
-            <div className="group hover:bg-white hover:shadow-lg hover:transform h-fit cursor-pointer text-black transition-all duration-300 flex flex-row items-center" onMouseEnter={() => setIsHovering(true)} onMouseLeave={() => setIsHovering(false)}>
-                <hr className="border-black hidden" />
-                <div className="flex flex-col justify-start text-md w-full py-3 px-5 transition-transform duration-300" >
-                    <p className="w-fit text-lg font-bold hover:text-normal-maroon transition-colors duration-300" onClick={() => onFormClick(name)}>{name}</p>
-                    <p className="text-sm opacity-70 group-hover:opacity-100 transition-opacity duration-300">{"Created at " + createdAt.split("T")[0]}</p>
+            <div
+                className="group w-full hover:bg-white py-4 px-5 border-b border-normal-maroon/10 transition-colors duration-300 flex flex-row items-center gap-4 cursor-pointer"
+                onClick={() => onFormClick(name)}
+            >
+                <div className="flex-1 min-w-0">
+                    <p className="text-lg font-bold text-black group-hover:text-normal-maroon transition-colors duration-300 truncate">
+                        {name}
+                    </p>
+                    {description && (
+                        <p className="text-sm text-gray-500 truncate mt-0.5">{description}</p>
+                    )}
+                    <div className="mt-1.5 flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-gray-500">
+                        {status && (
+                            <span
+                                className={`text-[10px] font-bold uppercase tracking-widest rounded-full px-2 py-0.5 border ${
+                                    status === "OPEN"
+                                        ? "text-normal-creme bg-normal-maroon border-normal-maroon"
+                                        : "text-gray-500 bg-gray-100 border-gray-300"
+                                }`}
+                            >
+                                {status}
+                            </span>
+                        )}
+                        <span className={`${DisplayBebasNeue.className} text-sm tracking-widest text-normal-maroon`}>
+                            {questionCount ?? 0} QUESTION{(questionCount ?? 0) === 1 ? "" : "S"}
+                        </span>
+                        <span aria-hidden>&middot;</span>
+                        <span>{"Created " + createdAt.split("T")[0]}</span>
+                        <span aria-hidden>&middot;</span>
+                        <span className="inline-flex items-center gap-1.5">
+                            <span
+                                aria-hidden
+                                className={`w-2 h-2 rounded-full ${hasSheet ? "bg-normal-maroon" : "bg-dark-creme border border-dark-maroon/40"}`}
+                            />
+                            {hasSheet ? "Sheet linked" : "No sheet linked"}
+                        </span>
+                        {linkedEvent && (
+                            <>
+                                <span aria-hidden>&middot;</span>
+                                <span className="inline-flex items-center gap-1.5 text-normal-maroon">
+                                    <CalendarDays size={13} />
+                                    {linkedEvent}
+                                </span>
+                            </>
+                        )}
+                    </div>
                 </div>
-                {isHovering && !deleteLoading && (
-                    <div className="justify-end flex items-center gap-2 pr-6">
+                {deleteLoading ? (
+                    <div className="flex items-center w-10 h-10 justify-center">
+                        <LoadingSpinner size={20} />
+                    </div>
+                ) : (
+                    <div className="flex items-center gap-1 pr-1 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+                        <button
+                            aria-label={`Preview ${name}`}
+                            title="Preview public form"
+                            className="p-2 rounded-full hover:bg-normal-creme transition-colors duration-200"
+                            onClick={handlePreviewClick}
+                        >
+                            <Eye className="text-gray-400 hover:text-normal-maroon transition-colors duration-200" size={20} />
+                        </button>
                         {onEditClick && (
-                            <div className="bg-white rounded-full p-2 transition-all duration-200 hover:bg-gray-100" onClick={handleEditIconClick}>
-                                <Pencil className="text-gray-400 group-hover:text-blue-500 hover:scale-110 transition-all duration-200" size={20} />
-                            </div>
+                            <button
+                                aria-label={`Edit ${name}`}
+                                title="Edit settings"
+                                className="p-2 rounded-full hover:bg-normal-creme transition-colors duration-200"
+                                onClick={handleEditIconClick}
+                            >
+                                <Pencil className="text-gray-400 hover:text-normal-maroon transition-colors duration-200" size={20} />
+                            </button>
                         )}
                         {onDeleteClick && (
-                            <div className="bg-white rounded-full p-2 transition-all duration-200 hover:bg-gray-100" onClick={handleDeleteIconClick}>
-                                <Trash2 className="text-gray-400 group-hover:text-red-500 hover:scale-110 transition-all duration-200" size={20} />
-                            </div>
+                            <button
+                                aria-label={`Delete ${name}`}
+                                title="Delete form"
+                                className="p-2 rounded-full hover:bg-normal-creme transition-colors duration-200"
+                                onClick={handleDeleteIconClick}
+                            >
+                                <Trash2 className="text-gray-400 hover:text-dark-maroon transition-colors duration-200" size={20} />
+                            </button>
                         )}
                     </div>
                 )}
-                { deleteLoading &&
-                    <div className="justify-end flex items-center pr-6 w-15 h-15">
-                        <ClimbingBoxLoader size={4} color="#670a0a" />
-                    </div>  
-                }
             </div>
 
             {showDeleteModal && (
@@ -101,13 +164,13 @@ export default function FormBox({ name, createdAt, onFormClick, onDeleteClick, o
 
                             <div className="flex justify-end gap-3 mt-2">
                                 <button 
-                                    className="px-4 py-2 text-gray-600 hover:bg-gray-100 rounded transition-colors"
+                                    className="px-4 py-2 text-gray-600 hover:bg-gray-100 rounded-sm transition-colors"
                                     onClick={handleCancel}
                                 >
                                     Cancel
                                 </button>
                                 <button
-                                    className={`px-4 py-2 text-white rounded transition-colors flex items-center gap-2 ${confirmName === name ? 'bg-red-600 hover:bg-red-700' : 'bg-red-300 cursor-not-allowed'}`}
+                                    className={`px-4 py-2 text-normal-creme rounded-sm transition-colors flex items-center gap-2 ${confirmName === name ? 'bg-normal-maroon hover:bg-dark-maroon' : 'bg-normal-maroon/30 cursor-not-allowed'}`}
                                     onClick={handleConfirmDelete}
                                     disabled={confirmName !== name}
                                 >

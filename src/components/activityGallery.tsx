@@ -5,6 +5,8 @@ import Image from "next/image";
 import { gsap } from "gsap";
 import { useGSAP } from "@gsap/react";
 import { ArrowUpRight } from "lucide-react";
+import ScrollReveal from "@/components/scrollReveal";
+import { DisplayBebasNeue, MainInter } from "@/lib/font";
 
 import hikingImg from "@/../public/assets/hiking-permisi.png";
 import futsalImg from "@/../public/assets/futsal-olym.png";
@@ -75,23 +77,24 @@ export default function ActivityGallery() {
     );
 
     return (
-        <section ref={sectionRef} className="py-24 bg-white">
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div className="flex flex-col md:flex-row md:items-end justify-between mb-12">
-                    <div className="max-w-xl">
-                        <h2 className="text-3xl md:text-5xl font-bold text-gray-900 mb-6">
-                            Life @{" "}
-                            <span className="text-normal-maroon">PERMISI</span>
-                        </h2>
-                        <p className="text-lg text-gray-600">
-                            From hiking trails to cultural stages, we make every
-                            moment count. Explore the vibrant activities that
-                            define our community.
-                        </p>
-                    </div>
-                </div>
+        <section ref={sectionRef} className="min-h-screen flex flex-col justify-center py-24 bg-white">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full flex flex-col flex-1 min-h-0 md:min-h-[70vh]">
+                <ScrollReveal className="mb-10 sm:mb-14">
+                    <p className={`${DisplayBebasNeue.className} text-lg tracking-[0.3em] text-normal-maroon/70`}>
+                        OUR ACTIVITIES
+                    </p>
+                    <h2 className={`${DisplayBebasNeue.className} mt-2 text-5xl sm:text-6xl md:text-7xl tracking-wide text-normal-maroon leading-none`}>
+                        Life @ PERMISI
+                    </h2>
+                    <div className="mt-4 h-1 w-16 bg-normal-maroon" />
+                    <p className={`${MainInter.className} mt-4 text-sm sm:text-base text-gray-600 max-w-2xl`}>
+                        From hiking trails to cultural stages, we make every
+                        moment count. Explore the vibrant activities that
+                        define our community.
+                    </p>
+                </ScrollReveal>
 
-                <div className="grid grid-cols-1 md:grid-cols-4 gap-4 auto-rows-[300px]">
+                <div className="grid grid-cols-1 md:grid-cols-4 gap-4 auto-rows-[300px] md:auto-rows-fr md:grid-rows-2 flex-1 min-h-0">
                     {activities.map((activity, index) => (
                         <div
                             key={activity.id}

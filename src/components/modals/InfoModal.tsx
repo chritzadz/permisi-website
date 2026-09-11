@@ -35,13 +35,13 @@ export default function InfoModal({ isOpen, onClose }: InfoModalProps) {
                         <div>
                             <h4 className="font-semibold text-normal-maroon mb-2">Creating a New Form</h4>
                             <ol className="list-decimal list-inside space-y-3 ml-2">
-                                <li className="font-medium">Click the "Create Form" button in the top left corner</li>
+                                <li className="font-medium">Click the &quot;Create Form&quot; button in the top left corner</li>
                                 
                                 <li className="font-medium">Fill in the required information:
                                     <ul className="list-disc list-inside ml-6 mt-2 space-y-2 font-normal">
                                         <li><strong>Form Name:</strong> Choose a unique name for your form</li>
                                         <li><strong>Google Sheets ID:</strong> Link to your data collection sheet</li>
-                                        <li><strong>Description:</strong> Brief description of the form's purpose (optional)</li>
+                                        <li><strong>Description:</strong> Brief description of the form&apos;s purpose (optional)</li>
                                     </ul>
                                 </li>
                             </ol>
@@ -50,8 +50,8 @@ export default function InfoModal({ isOpen, onClose }: InfoModalProps) {
                         <div className="border-t pt-4">
                             <h4 className="font-semibold text-normal-maroon mb-2">How to Get Google Sheets ID</h4>
                             <ol className="list-decimal list-inside space-y-2 ml-2">
-                                <li>Create a new Google Sheet in PERMISI's Google Drive</li>
-                                <li>Set the sheet's sharing permissions to "Anyone with the link can edit"</li>
+                                <li>Create a new Google Sheet in PERMISI&apos;s Google Drive</li>
+                                <li>Set the sheet&apos;s sharing permissions to &quot;Anyone with the link can edit&quot;</li>
                                 <li>Create the necessary columns for your form inputs (in order from left to right)</li>
                                 <li className="font-medium">Copy the Sheets ID from the URL:
                                     <div className="bg-gray-50 p-3 rounded-lg mt-2 font-mono text-sm break-all">

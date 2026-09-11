@@ -59,7 +59,7 @@ export default function AdminLayout({
   }, [panelIsOpen]);
 
 
-  const numberOfItem: number = 3;
+  const numberOfItem: number = 4;
   const listOfItem: adminPanelItemProp[] = [
     {
       text: "Dashboard",
@@ -72,6 +72,12 @@ export default function AdminLayout({
       onClick: () => {},
       routePath: "/admin/form",
       icon: "BookText"
+    },
+    {
+      text: "Events",
+      onClick: () => {},
+      routePath: "/admin/event",
+      icon: "CalendarDays"
     },
     {
       text: "Update Member",

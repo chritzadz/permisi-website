@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 import Footer from "@/components/footer";
-import ClimbingBoxLoader from "react-spinners/ClimbingBoxLoader";
+import LoadingSpinner from "@/components/loadingSpinner";
 import { ArrowLeft, Calendar, MapPin, ExternalLink } from "lucide-react";
 
 interface Event {
@@ -85,7 +85,7 @@ export default function EventDetailPage() {
         return (
             <div className="relative min-h-screen">
                 <div className="flex justify-center items-center py-20">
-                    <ClimbingBoxLoader size={10} color="#831515" />
+                    <LoadingSpinner size={24} />
                 </div>
                 <Footer />
             </div>

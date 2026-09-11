@@ -50,7 +50,8 @@ The brand palette is **maroon + creme**. Blue is forbidden on public pages — n
 or the shared components they use (navbar, footer, hero, aboutUs, eventCard, ui/*).
 Use the `normal-maroon`/`dark-maroon` tokens instead (the footer's `bg-red-900` is legacy —
 don't add new raw `red-*`; migrate it if you touch the footer).
-Only the admin/form area may keep its current classes. JS-side colors (e.g. `react-spinners`
+Admin pages follow the same palette: maroon/creme tokens throughout, with `dark-maroon`
+for destructive actions (no red/blue semantics). JS-side colors (e.g. `react-spinners`
 `color` props) must use the hex values below.
 
 | Token              | Hex       | Usage                                              |
@@ -71,6 +72,10 @@ opacity variants like `border-normal-maroon/15`.
 - Design language: abstract/editorial, not "cards in boxes". Big `DisplayBebasNeue` display
   numbers and headings with thin `border-normal-maroon/15` rules and generous whitespace.
   Avoid boxed card grids on content pages; reserve `Card` for real data (events).
+  Public/home sections are full-viewport "parts": each `section` is `min-h-screen` with
+  GSAP scroll-reveals (`ScrollReveal`) filling one screen before the next — no short
+  fixed-padding bands between them. Content-page intros use `min-h-[88vh]` centered
+  Bebas title + rule + bouncing `ChevronDown` scroll cue.
 - Fonts via `src/lib/font.ts`: `MainInter` (body), `DisplayBebasNeue` (big display), `Cantonese`. Import classes like `${DisplayBebasNeue.className}`.
 - Page pattern for content pages (see `about-us/page.tsx`, `resources/page.tsx`):
   - `"use client"` components, wrap content in `<div className="relative min-h-screen">`, `<section className="py-8 sm:py-12 md:py-16 lg:py-20">`, `<div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8 w-full">`.

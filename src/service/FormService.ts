@@ -11,8 +11,20 @@ export class FormService{
         return await this.repository.getFormByName(name);
     }
 
-    public async postForm(name: string, google_sheet_id: string, description?: string){
-        return await this.repository.post(name, google_sheet_id, description);
+    public async postForm(name: string, google_sheet_id: string, description?: string, status?: string){
+        return await this.repository.post(name, google_sheet_id, description, status);
+    }
+
+    public async setFormStatus(name: string, status: string) {
+        return await this.repository.setStatus(name, status);
+    }
+
+    public async setFormEventLink(name: string, eventId: number | null) {
+        return await this.repository.setEventLink(name, eventId);
+    }
+
+    public async getAvailableFormsForEvent(excludeEventId?: number) {
+        return await this.repository.getAvailableFormsForEvent(excludeEventId);
     }
 
     public async getGoogleSheetId(){

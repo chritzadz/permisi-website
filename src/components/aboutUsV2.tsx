@@ -4,6 +4,7 @@ import React, { useRef, useEffect } from "react";
 import Image from "next/image";
 import { gsap } from "gsap";
 import { useGSAP } from "@gsap/react";
+import { DisplayBebasNeue } from "@/lib/font";
 import hikingPermisi from "@/../public/assets/hiking-permisi.png";
 import futsalOlym from "@/../public/assets/futsal-olym.png";
 import welcomingFreshman from "@/../public/assets/welcoming-freshman.png";
@@ -70,7 +71,7 @@ export default function AboutUsV2() {
     return (
         <div
             id="definitionBox"
-            className="max-h-screen w-full bg-white flex flex-col md:flex-row"
+            className="w-full bg-white flex flex-col md:flex-row md:h-screen"
             ref={sectionRef}
         >
             <section className="hidden md:block md:w-1/2 lg:w-1/2 relative overflow-hidden bg-white">
@@ -113,11 +114,12 @@ export default function AboutUsV2() {
                 <div className="max-w-4xl lg:max-w-3xl mx-auto items-center flex justify-center px-6 sm:px-10 lg:px-16">
                     <div className="text-left md:text-center lg:text-left">
                         <h2
-                            className="text-4xl sm:text-5xl md:text-6xl font-extrabold text-gray-900 mb-8 tracking-tight"
+                            className={`${DisplayBebasNeue.className} text-5xl sm:text-6xl md:text-7xl tracking-wide text-normal-maroon leading-none mb-2`}
                             ref={titleRef}
                         >
                             Who Are We?
                         </h2>
+                        <div className="mb-8 h-1 w-16 bg-normal-maroon md:mx-auto lg:mx-0" aria-hidden />
 
                         <div className="max-w-4xl mx-auto" ref={textRef}>
                             <p className="text-base sm:text-lg md:text-xl text-gray-700 leading-relaxed md:leading-loose">

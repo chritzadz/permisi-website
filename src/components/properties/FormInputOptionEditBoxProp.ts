@@ -7,6 +7,7 @@ export interface FormInputOptionEditBoxProp {
     onDelete: () => void;
     value: string;
     onChange: (value: string) => void;
+    index?: number;
     state: number; //by id
     setState: Dispatch<SetStateAction<number>>;
 }
