@@ -75,8 +75,8 @@ export default function ActivityGallery() {
     );
 
     return (
-        <section ref={sectionRef} className="py-24 bg-white">
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <section ref={sectionRef} className="min-h-screen flex flex-col justify-center py-24 bg-white">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full flex flex-col flex-1 min-h-0 md:min-h-[70vh]">
                 <div className="flex flex-col md:flex-row md:items-end justify-between mb-12">
                     <div className="max-w-xl">
                         <h2 className="text-3xl md:text-5xl font-bold text-gray-900 mb-6">
@@ -91,7 +91,7 @@ export default function ActivityGallery() {
                     </div>
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-4 gap-4 auto-rows-[300px]">
+                <div className="grid grid-cols-1 md:grid-cols-4 gap-4 auto-rows-[300px] md:auto-rows-fr md:grid-rows-2 flex-1 min-h-0">
                     {activities.map((activity, index) => (
                         <div
                             key={activity.id}

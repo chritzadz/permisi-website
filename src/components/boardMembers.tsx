@@ -75,7 +75,7 @@ export default function BoardMembers() {
     let cardIndex = 0;
 
     return (
-        <section ref={sectionRef} className="py-24 bg-normal-creme">
+        <section ref={sectionRef} className="min-h-screen flex flex-col justify-center py-24 bg-normal-creme">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="max-w-xl mb-12">
                     <h2 className="text-3xl md:text-5xl font-bold text-gray-900 mb-6">
@@ -83,9 +83,7 @@ export default function BoardMembers() {
                         <span className="text-normal-maroon">PERMISI</span>
                     </h2>
                     <p className="text-lg text-gray-600">
-                        Meet the teammates working together to make PERMISI a
-                        home away from home for every Indonesian student at
-                        CityU.
+                        Meet the PERMISI Current Comittee!
                     </p>
                 </div>
 

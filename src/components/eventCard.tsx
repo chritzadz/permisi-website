@@ -1,63 +1,58 @@
 "use client";
 
-import { ArrowRight, Calendar } from "lucide-react";
-import { Card, CardContent } from "./ui/card";
-import Image from "next/image";
-import Button from "./ui/button";
-import welcomingFreshman from "./../../public/assets/welcoming-freshman.png";
+import { ArrowRight } from "lucide-react";
 import { useRouter } from "next/navigation";
+import { DisplayBebasNeue } from "@/lib/font";
 
-export default function EventCard({}) {
+interface EventCardProps {
+    id: number;
+    name: string;
+    eventDate: string;
+    description?: string | null;
+}
+
+export default function EventCard({ id, name, eventDate, description }: EventCardProps) {
     const router = useRouter();
 
-    const handleOnClick = () => {
-        router.push("/admin/home");
-    };
+    const d = new Date(eventDate);
+    const valid = !Number.isNaN(d.getTime());
+    const day = valid ? d.toLocaleDateString('en-US', { day: 'numeric', timeZone: 'UTC' }) : '--';
+    const month = valid ? d.toLocaleDateString('en-US', { month: 'short', timeZone: 'UTC' }).toUpperCase() : '';
+    const year = valid ? d.toLocaleDateString('en-US', { year: 'numeric', timeZone: 'UTC' }) : '';
+    const fullDate = valid
+        ? d.toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', timeZone: 'UTC' })
+        : '';
 
     return (
-        <>
-            <Card className="max-w-4xl mx-auto">
-                <CardContent className="p-8 ">
-                    <div className="grid md:grid-cols-2 gap-8 items-center">
-                        <div className="relative aspect-video w-full">
-                            <Image
-                                src={welcomingFreshman}
-                                alt="Group activity"
-                                fill
-                                className="object-cover rounded-lg w-full"
-                            />
-                        </div>
-                        <div className="text-left">
-                            <div className="flex items-center mb-4">
-                                <Calendar className="h-5 w-5 text-normal-maroon mr-2" />
-                                <span
-                                    className={`text-sm text-gray-900 font-medium`}
-                                >
-                                    {"20 July 2025"}
-                                </span>
-                            </div>
-                            <h3
-                                className={`text-2xl font-bold text-gray-900 mb-4`}
-                            >
-                                Welcoming Sessions Student in Jakarta
-                            </h3>
-                            <p className={`text-gray-600 mb-6`}>
-                                Join us for an exciting welcoming session for
-                                new Indonesian students! This event will feature
-                                orientation activities, cultural performances,
-                                and networking opportunities to help new members
-                                integrate into our community.
-                            </p>
-                            <Button
-                                onClick={handleOnClick}
-                            >
-                                See Details{" "}
-                                <ArrowRight className="h-4 w-4 ml-2" />
-                            </Button>
-                        </div>
-                    </div>
-                </CardContent>
-            </Card>
-        </>
+        <div
+            onClick={() => router.push(`/events/${id}`)}
+            className="group h-full flex flex-col gap-4 bg-white rounded-xl border border-normal-maroon/15 shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-300 cursor-pointer p-6 sm:p-8"
+        >
+            <div className="flex items-start justify-between gap-4">
+                <div className="text-center shrink-0">
+                    <p className={`${DisplayBebasNeue.className} text-6xl leading-none text-normal-maroon`}>
+                        {day}
+                    </p>
+                    <p className="text-xs uppercase tracking-[0.3em] text-gray-500 mt-1">
+                        {month} {year}
+                    </p>
+                </div>
+                <ArrowRight className="w-5 h-5 text-gray-300 group-hover:text-normal-maroon group-hover:translate-x-1 transition-all duration-300 mt-2" />
+            </div>
+            <h3 className="text-lg sm:text-xl font-bold text-gray-900 line-clamp-2 group-hover:text-normal-maroon transition-colors duration-300">
+                {name}
+            </h3>
+            <p className="text-sm text-gray-600 line-clamp-3 flex-1">
+                {description || "Tap to see the full event details."}
+            </p>
+            <div className="flex items-center justify-between border-t border-normal-maroon/10 pt-4">
+                <span className="text-xs uppercase tracking-wider text-gray-500">
+                    {fullDate}
+                </span>
+                <span className="text-normal-maroon text-sm font-semibold inline-flex items-center gap-1 group-hover:gap-2 transition-all">
+                    View Details <ArrowRight size={14} />
+                </span>
+            </div>
+        </div>
     );
 }

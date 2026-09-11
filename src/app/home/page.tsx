@@ -1,7 +1,6 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
 import Footer from "@/components/footer";
 import Hero from "@/components/hero";
 import EventCard from "@/components/eventCard";
@@ -10,15 +9,17 @@ import ActivityGallery from "@/components/activityGallery";
 import BoardMembers from "@/components/boardMembers";
 import JoinCTA from "@/components/joinCta";
 import AboutUsV2 from "@/components/aboutUsV2";
+import ScrollReveal from "@/components/scrollReveal";
+import { DisplayBebasNeue } from "@/lib/font";
 
 interface Event {
     id: number;
     name: string;
     event_date: string;
+    description?: string | null;
 }
 
 export default function HomePage() {
-    const router = useRouter();
     const [latestEvents, setLatestEvents] = useState<Event[]>([]);
 
     useEffect(() => {
@@ -36,18 +37,6 @@ export default function HomePage() {
         fetchLatestEvents();
     }, []);
 
-    const formatEventDate = (dateString: string) => {
-        const date = new Date(dateString);
-        return date.toLocaleDateString('en-US', {
-            year: 'numeric',
-            month: 'long',
-            day: 'numeric'
-        });
-    };
-
-    const handleEventClick = (eventId: number) => {
-        router.push(`/events/${eventId}`);
-    };
     return (
         <>
             {/* Footer - fixed at bottom, behind content */}
@@ -69,36 +58,28 @@ export default function HomePage() {
 
                 {/* Latest Events Section */}
                 {latestEvents.length > 0 && (
-                    <section className="py-8 sm:py-12 md:py-16 lg:py-20 max-h-screen flex items-center justify-center">
+                    <section className="min-h-screen flex flex-col justify-center py-24 bg-white">
                         <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8 w-full">
-                            <div className="text-center mb-8 sm:mb-12 md:mb-16">
-                                <h2
-                                    className={`text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 mb-6 sm:mb-8 md:mb-12`}
-                                >
+                            <ScrollReveal className="mb-10 sm:mb-14">
+                                <p className={`${DisplayBebasNeue.className} text-lg tracking-[0.3em] text-normal-maroon/70`}>
+                                    WHAT&apos;S HAPPENING
+                                </p>
+                                <h2 className={`${DisplayBebasNeue.className} mt-2 text-5xl sm:text-6xl md:text-7xl tracking-wide text-normal-maroon leading-none`}>
                                     {latestEvents.length === 1 ? "Latest Event" : "Latest Events"}
                                 </h2>
-                                <div className={`grid gap-6 ${latestEvents.length === 1 ? 'max-w-md mx-auto' : latestEvents.length === 2 ? 'md:grid-cols-2 max-w-3xl mx-auto' : 'md:grid-cols-2 lg:grid-cols-3'}`}>
-                                    {latestEvents.map((event) => (
-                                        <div
-                                            key={event.id}
-                                            onClick={() => handleEventClick(event.id)}
-                                            className="bg-white rounded-lg shadow-md border border-gray-200 p-6 hover:shadow-lg transition-all duration-300 cursor-pointer hover:border-normal-maroon/40 transform hover:-translate-y-1"
-                                        >
-                                            <h3 className="text-lg font-semibold text-gray-900 mb-3 line-clamp-2">
-                                                {event.name}
-                                            </h3>
-                                            <p className="text-sm text-gray-600 mb-3">
-                                                📅 {formatEventDate(event.event_date)}
-                                            </p>
-                                            <div className="flex items-center justify-center">
-                                                <span className="text-normal-maroon text-sm font-medium hover:text-dark-maroon">
-                                                    View Details →
-                                                </span>
-                                            </div>
-                                        </div>
-                                    ))}
-                                </div>
-                                
+                                <div className="mt-4 h-1 w-16 bg-normal-maroon" />
+                            </ScrollReveal>
+                            <div className={`grid gap-6 ${latestEvents.length === 1 ? 'max-w-md mx-auto' : latestEvents.length === 2 ? 'md:grid-cols-2 max-w-3xl mx-auto' : 'md:grid-cols-2 lg:grid-cols-3'}`}>
+                                {latestEvents.map((event, index) => (
+                                    <ScrollReveal key={event.id} delay={Math.min(index * 0.1, 0.3)}>
+                                        <EventCard
+                                            id={event.id}
+                                            name={event.name}
+                                            eventDate={event.event_date}
+                                            description={event.description}
+                                        />
+                                    </ScrollReveal>
+                                ))}
                             </div>
                         </div>
                     </section>

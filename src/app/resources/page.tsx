@@ -8,6 +8,7 @@ import { DisplayBebasNeue, MainInter } from "@/lib/font";
 import {
     ArrowUpRight,
     Check,
+    ChevronDown,
     GraduationCap,
     PlaneLanding,
     PlaneTakeoff,
@@ -114,16 +115,17 @@ export default function ResourcesPage() {
             <div className="relative min-h-screen overflow-hidden">
                 <section className="py-8 sm:py-12 md:py-16 lg:py-20">
                     <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8 w-full">
-                        {/* Page header */}
-                        <div className="text-center mb-14 sm:mb-20">
+                        {/* Page header — full-screen intro part */}
+                        <div className="min-h-[88vh] flex flex-col items-center justify-center text-center mb-4 sm:mb-8">
                             <ScrollReveal>
                                 <h1
-                                    className={`${DisplayBebasNeue.className} text-5xl sm:text-7xl md:text-8xl lg:text-9xl font-bold text-normal-maroon tracking-wide leading-none`}
+                                    className={`${DisplayBebasNeue.className} text-6xl sm:text-8xl md:text-9xl font-bold text-normal-maroon tracking-wide leading-none`}
                                 >
                                     Resources
                                 </h1>
+                                <div className="mx-auto mt-6 h-1 w-16 bg-normal-maroon" />
                                 <p
-                                    className={`${MainInter.className} mt-4 text-sm sm:text-base md:text-lg text-gray-600 max-w-3xl mx-auto`}
+                                    className={`${MainInter.className} mt-4 text-sm sm:text-base md:text-lg text-gray-600 max-w-2xl mx-auto`}
                                 >
                                     Planning your journey to Hong Kong?
                                     Here&apos;s everything you need to prepare
@@ -132,6 +134,9 @@ export default function ResourcesPage() {
                                     and what to expect during your stay.
                                 </p>
                             </ScrollReveal>
+                            <div aria-hidden className="mt-12 animate-bounce text-normal-maroon/50">
+                                <ChevronDown className="h-7 w-7" />
+                            </div>
                         </div>
 
                         {/* ============ PHASE 01 — PRE-ARRIVAL ============ */}
