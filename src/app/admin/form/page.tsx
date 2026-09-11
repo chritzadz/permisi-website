@@ -33,6 +33,7 @@ const AdminFormPage = () => {
     const [editFormName, setEditFormName] = useState("");
     const [editGoogleSheetsId, setEditGoogleSheetsId] = useState("");
     const [editDescription, setEditDescription] = useState("");
+    const [editStatus, setEditStatus] = useState("OPEN");
     const [editFormLoading, setEditFormLoading] = useState(false);
     const [refreshTrigger, setRefreshTrigger] = useState(0);
     const [infoModalIsOpen, setInfoModalIsOpen] = useState(false);
@@ -103,7 +104,7 @@ const AdminFormPage = () => {
     const handleEditClick = async (name: string) => {
         setEditFormPanelIsLoading(true);
         setEditFormPanelIsOpen(true);
-        const response = await apiFetch(`/api/forms?name=${name}`, {
+        const response = await apiFetch(`/api/forms?name=${encodeURIComponent(name)}`, {
             method: 'GET',
         });
         const data = await response.json();
@@ -111,6 +112,7 @@ const AdminFormPage = () => {
         setEditFormName(form.name);
         setEditGoogleSheetsId(form.google_sheet_id || "");
         setEditDescription(form.description || "");
+        setEditStatus(form.status || "OPEN");
         setEditFormPanelIsLoading(false);
     }
 
@@ -119,6 +121,7 @@ const AdminFormPage = () => {
         setEditFormName("");
         setEditGoogleSheetsId("");
         setEditDescription("");
+        setEditStatus("OPEN");
     }
 
     const handleUpdateForm = async () => {
@@ -128,7 +131,8 @@ const AdminFormPage = () => {
             body: JSON.stringify({
                 name: editFormName,
                 google_sheet_id: editGoogleSheetsId,
-                description: editDescription
+                description: editDescription,
+                status: editStatus
             }),
         });
         setEditFormLoading(false);
@@ -247,6 +251,8 @@ const AdminFormPage = () => {
                                                             description={form.description}
                                                             hasSheet={form.has_sheet}
                                                             questionCount={form.question_count}
+                                                            status={form.status}
+                                                            linkedEvent={form.linked_event}
                                                             onFormClick={handleFormClick}
                                                             onDeleteClick={handleDeleteClick}
                                                             onEditClick={handleEditClick}
@@ -348,6 +354,8 @@ const AdminFormPage = () => {
                     onGoogleSheetsIdChange={setEditGoogleSheetsId}
                     description={editDescription}
                     onDescriptionChange={setEditDescription}
+                    status={editStatus}
+                    onStatusChange={setEditStatus}
                     isLoadingLoad={editFormPanelIsLoading}
                 />
 

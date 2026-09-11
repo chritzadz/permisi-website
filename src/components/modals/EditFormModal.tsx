@@ -13,6 +13,8 @@ interface EditFormModalProps {
     onGoogleSheetsIdChange: (value: string) => void;
     description: string;
     onDescriptionChange: (value: string) => void;
+    status: string;
+    onStatusChange: (value: string) => void;
     isLoadingLoad: boolean;
 }
 
@@ -26,6 +28,8 @@ export default function EditFormModal({
     onGoogleSheetsIdChange,
     description,
     onDescriptionChange,
+    status,
+    onStatusChange,
     isLoadingLoad
 }: EditFormModalProps) {
     if (!isOpen) return null;
@@ -113,6 +117,20 @@ export default function EditFormModal({
                                         className={`${modalFieldClass} resize-none h-24`}
                                         placeholder="What is this form for?"
                                     />
+                                </div>
+                                <div className="flex flex-col gap-1.5">
+                                    <label htmlFor="edit-form-status" className="text-sm font-semibold text-gray-700">
+                                        Status
+                                    </label>
+                                    <select
+                                        id="edit-form-status"
+                                        value={status}
+                                        onChange={e => onStatusChange(e.target.value)}
+                                        className={`${modalFieldClass} bg-white`}
+                                    >
+                                        <option value="OPEN">OPEN — accepting responses</option>
+                                        <option value="CLOSED">CLOSED — closed for submissions</option>
+                                    </select>
                                 </div>
                                 <div className="flex justify-end gap-3 mt-2">
                                     <button

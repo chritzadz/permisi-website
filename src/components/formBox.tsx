@@ -1,10 +1,10 @@
 import { FormBoxProp } from "./properties/FormBoxProp";
 import { useState } from "react";
-import { AlertTriangle, Eye, Pencil, Trash2 } from "lucide-react";
+import { AlertTriangle, CalendarDays, Eye, Pencil, Trash2 } from "lucide-react";
 import LoadingSpinner from "@/components/loadingSpinner";
 import { DisplayBebasNeue } from "@/lib/font";
 
-export default function FormBox({ name, createdAt, description, hasSheet, questionCount, onFormClick, onDeleteClick, onEditClick }: FormBoxProp) {
+export default function FormBox({ name, createdAt, description, hasSheet, questionCount, status, linkedEvent, onFormClick, onDeleteClick, onEditClick }: FormBoxProp) {
     const [deleteLoading, setDeleteLoading] = useState(false);
     const [showDeleteModal, setShowDeleteModal] = useState(false);
     const [confirmName, setConfirmName] = useState("");
@@ -61,6 +61,17 @@ export default function FormBox({ name, createdAt, description, hasSheet, questi
                         <p className="text-sm text-gray-500 truncate mt-0.5">{description}</p>
                     )}
                     <div className="mt-1.5 flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-gray-500">
+                        {status && (
+                            <span
+                                className={`text-[10px] font-bold uppercase tracking-widest rounded-full px-2 py-0.5 border ${
+                                    status === "OPEN"
+                                        ? "text-normal-creme bg-normal-maroon border-normal-maroon"
+                                        : "text-gray-500 bg-gray-100 border-gray-300"
+                                }`}
+                            >
+                                {status}
+                            </span>
+                        )}
                         <span className={`${DisplayBebasNeue.className} text-sm tracking-widest text-normal-maroon`}>
                             {questionCount ?? 0} QUESTION{(questionCount ?? 0) === 1 ? "" : "S"}
                         </span>
@@ -74,6 +85,15 @@ export default function FormBox({ name, createdAt, description, hasSheet, questi
                             />
                             {hasSheet ? "Sheet linked" : "No sheet linked"}
                         </span>
+                        {linkedEvent && (
+                            <>
+                                <span aria-hidden>&middot;</span>
+                                <span className="inline-flex items-center gap-1.5 text-normal-maroon">
+                                    <CalendarDays size={13} />
+                                    {linkedEvent}
+                                </span>
+                            </>
+                        )}
                     </div>
                 </div>
                 {deleteLoading ? (
