@@ -50,7 +50,8 @@ The brand palette is **maroon + creme**. Blue is forbidden on public pages — n
 or the shared components they use (navbar, footer, hero, aboutUs, eventCard, ui/*).
 Use the `normal-maroon`/`dark-maroon` tokens instead (the footer's `bg-red-900` is legacy —
 don't add new raw `red-*`; migrate it if you touch the footer).
-Only the admin/form area may keep its current classes. JS-side colors (e.g. `react-spinners`
+Admin pages follow the same palette: maroon/creme tokens throughout, with `dark-maroon`
+for destructive actions (no red/blue semantics). JS-side colors (e.g. `react-spinners`
 `color` props) must use the hex values below.
 
 | Token              | Hex       | Usage                                              |

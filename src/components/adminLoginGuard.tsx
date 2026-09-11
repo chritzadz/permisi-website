@@ -3,6 +3,7 @@
 import { useEffect } from "react";
 import { useRouter, usePathname } from "next/navigation";
 import { useAdminLogin } from "@/hooks/useAdminLogin";
+import LoadingSpinner from "@/components/loadingSpinner";
 
 interface AdminLoginGuardProps {
   children: React.ReactNode;
@@ -21,8 +22,9 @@ const AdminLoginGuard = ({ children }: AdminLoginGuardProps) => {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-normal-creme flex items-center justify-center">
-        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-gray-700"></div>
+      <div className="min-h-screen bg-normal-creme flex flex-col items-center justify-center gap-4">
+        <LoadingSpinner size={36} />
+        <p className="text-sm text-dark-maroon">Checking session...</p>
       </div>
     );
   }
