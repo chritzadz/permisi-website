@@ -117,7 +117,7 @@ export default function FormPage({ params }: FormPageProp) {
   return(
     <>
       <div className="relative min-h-screen">
-        <section className="py-8 sm:py-12 md:py-16 lg:py-20">
+        <section className="pt-28 pb-8 sm:pt-32 sm:pb-12 md:pb-16 lg:pb-20">
           <div className="max-w-3xl mx-auto px-4 sm:px-6 md:px-8 w-full">
             {/* Form header */}
             <ScrollReveal>
