@@ -12,6 +12,7 @@ import ScrollReveal from "@/components/scrollReveal";
 import LoadingSpinner from "@/components/loadingSpinner";
 import Button from "@/components/ui/button";
 import { DisplayBebasNeue, MainInter } from "@/lib/font";
+import { Check } from "lucide-react";
 
 export default function FormPage({ params }: FormPageProp) {
   const router = useRouter();
@@ -23,6 +24,8 @@ export default function FormPage({ params }: FormPageProp) {
   const [form, setForm] = useState<Form | null>(null);
   const [isPageLoading, setIsPageLoading] = useState(true);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isSubmitted, setIsSubmitted] = useState(false);
+  const [submitError, setSubmitError] = useState("");
   
   const handleAnswerChange = (id: number, value: string) => {
     setAnswers(prev => ({ ...prev, [id]: value }));
@@ -65,7 +68,9 @@ export default function FormPage({ params }: FormPageProp) {
   }, [formName, formNameParse, router]);
 
   const processAnswer = () => {
+    if (isSubmitting || isSubmitted) return;
     setIsSubmitting(true);
+    setSubmitError("");
 
     fetch('/api/sheets', {
       method: 'POST',
@@ -82,13 +87,19 @@ export default function FormPage({ params }: FormPageProp) {
       return data;
     })
     .then(() => {
-      setIsSubmitting(false);
-      router.push(`/formThankyou/${formNameParse}`);
-      setAnswers({});
+      // Keep the button area in its "done" state (no re-render of the form,
+      // no cleared inputs) and glide to the thank-you page.
+      setIsSubmitted(true);
+      setTimeout(() => {
+        router.push(`/formThankyou/${encodeURIComponent(formNameParse)}`);
+      }, 900);
     })
     .catch(err => {
-      setIsSubmitting(false);
       console.error('Sheet error:', err);
+      setIsSubmitting(false);
+      setSubmitError(err instanceof Error && err.message && err.message !== 'Unknown error'
+        ? err.message
+        : "Something went wrong sending your response. Please try again.");
     });
   }
 
@@ -153,9 +164,14 @@ export default function FormPage({ params }: FormPageProp) {
                 </div>
 
                 {/* Submit */}
-                <div className="flex justify-center items-center mt-8 sm:mt-10">
+                <div className="flex flex-col items-center justify-center gap-3 mt-8 sm:mt-10">
                   {
-                    isSubmitting ? (
+                    isSubmitted ? (
+                      <p className="inline-flex items-center gap-2 text-normal-maroon font-bold">
+                        <Check className="h-5 w-5" />
+                        Response received — taking you there…
+                      </p>
+                    ) : isSubmitting ? (
                       <LoadingSpinner size={28} label="Submitting..." />
                     ) : (
                       <Button size="lg" onClick={processAnswer} className="px-8">
@@ -163,6 +179,11 @@ export default function FormPage({ params }: FormPageProp) {
                       </Button>
                     )
                   }
+                  {submitError && !isSubmitting && !isSubmitted && (
+                    <p className="text-sm text-dark-maroon bg-normal-creme border border-normal-maroon/30 rounded-sm px-4 py-2">
+                      {submitError}
+                    </p>
+                  )}
                 </div>
               </>
             )}
